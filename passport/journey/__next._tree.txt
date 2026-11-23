@@ -4,4 +4,4 @@
 :HL["/_next/static/css/a95fd178c5b1675b.css","style"]
 :HL["/_next/static/css/84240cebda4ebff3.css","style"]
 :HL["/_next/static/css/c877b873a545026b.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"passport","param":null,"prefetchHints":4192,"slots":{"children":{"name":"journey","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"2EmC4LumLizjukSLvx9FB"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"passport","param":null,"prefetchHints":4192,"slots":{"children":{"name":"journey","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"MEhNe5MxSWLaG6qhu90Ih"}
