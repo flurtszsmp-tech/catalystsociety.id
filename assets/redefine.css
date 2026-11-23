@@ -8,10 +8,8 @@
 .rd-st:first-child{border-left:0;padding-left:0}
 .rd-l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1.5;min-height:3em}
 .rd-st b{font-family:var(--display);font-weight:300;font-size:clamp(38px,5vw,76px);line-height:1;letter-spacing:-.04em;color:var(--ink);font-variant-numeric:tabular-nums}
-.rd-c{font-size:12.5px;letter-spacing:.02em;color:var(--d-gray);margin-top:-2px}
 html.dark-theme .rd-stats,html.dark-theme .rd-st{border-color:rgba(255,255,255,.16)}
 html.dark-theme .rd-teks,html.dark-theme .rd-st b{color:#fff}
-html.dark-theme .rd-c{color:#b5b5b5}
 @media (max-width:760px){
   .rd-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rd-st:nth-child(3){border-left:0;padding-left:0}

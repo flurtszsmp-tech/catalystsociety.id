@@ -5,12 +5,16 @@ import { AboutCard, CommunitiesCard, JourneyPositionCard, ProjectsCard } from '@
 import { HeroCard } from '@/components/passport/cards/HeroCard';
 import { CertificatesCard, PointsCard } from '@/components/passport/cards/RailCards';
 import { ToastProvider } from '@/components/ui/Toast';
+import { dmSans } from '@/lib/fonts';
 import { getRepo } from '@/lib/repo';
 import type { PassportBundle } from '@/lib/types';
+import { Fx } from '@/components/passport/shell/Fx';
 import { PublicBadge, PublicCta, PublicHeader } from './PublicChrome';
 import { PublicCv, ViewRecorder } from './PublicClient';
 import '@/styles/ui.css';
 import '@/styles/passport.css';
+import '@/styles/passport-halo.css';
+import '@/styles/passport-launch.css';
 
 /**
  * Profil publik untuk ekspor statis. Alamat rapinya /pass/<slug>; karena GitHub
@@ -37,8 +41,9 @@ export default function PublicProfile() {
   const p = b?.profile;
 
   return (
-    <div className="pass">
+    <div className={`pass pass-halo ${dmSans.variable}`}>
       <ToastProvider>
+        <Fx />
         {p && <ViewRecorder slug={p.slug} />}
         <div className="pass-public">
           <PublicHeader slug={p?.slug} name={p?.fullName} />
@@ -67,7 +72,7 @@ export default function PublicProfile() {
           )}
 
           {b && p && (
-            <main className="pass-board">
+            <main className="pass-board pass-home">
               <div className="pass-col">
                 <HeroCard profile={p} communities={b.communities.length} badges={b.badges.length} />
                 <ProjectsCard projects={b.projects} />

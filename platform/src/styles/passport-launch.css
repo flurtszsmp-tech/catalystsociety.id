@@ -1,0 +1,360 @@
+/* ===========================================================
+   Catalyst Launch untuk Passport: rombakan susunan.
+
+   Konsepnya sama dengan landing: anggota harus tahu mesti mulai dari mana,
+   lalu naik tahap sampai panggung Summit. Karena itu Passport disusun
+   seperti ruang kerja aplikasi kreatif: dok ramping di kiri yang melebar
+   saat disentuh, bilah perintah melayang di tengah atas, dan Home berupa
+   bento dengan Journey sebagai jalur utama yang memuat percikan di tahap
+   sekarang. Isi dan fitur tidak diubah.
+   Dimuat sesudah passport-halo.css.
+   =========================================================== */
+
+@property --gl{syntax:"<number>";inherits:true;initial-value:0}
+
+.pass-halo{--akselerasi:cubic-bezier(.16,1,.3,1);--dok:76px;--dok-x:14px}
+
+/* ---------- irama masuk ---------- */
+@keyframes naik{from{opacity:0;transform:translate3d(0,26px,0) scale(.975)}to{opacity:1;transform:none}}
+.pass-halo .pass-main>*{animation:naik .9s var(--akselerasi) both}
+.pass-halo .pass-home>.pass-col>*{animation:naik 1s var(--akselerasi) both}
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(1){animation-delay:.02s}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(1){animation-delay:.08s}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(2){animation-delay:.14s}
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(2){animation-delay:.2s}
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(3){animation-delay:.26s}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3){animation-delay:.32s}
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(4){animation-delay:.38s}
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(5){animation-delay:.44s}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(4){animation-delay:.5s}
+@media (prefers-reduced-motion:reduce){.pass-halo .pass-main>*,.pass-halo .pass-home>.pass-col>*{animation:none}}
+
+/* ---------- ubin menyala mengikuti penunjuk ---------- */
+.pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card,.cx-hero,.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.pass-step,.pass-com){
+  --gl:0;
+  transition:--gl .5s var(--akselerasi),transform .6s var(--akselerasi),box-shadow .6s var(--akselerasi),border-color .3s;
+  background:
+    radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(112,120,148,calc(.2 * var(--gl))),transparent 62%),
+    var(--h-kaca);
+}
+.pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card,.cx-hero):hover{--gl:1}
+.pass-halo :is(.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.pass-com):hover{--gl:1;transform:translateY(-3px)}
+html.dark-theme .pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card,.cx-hero,.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.pass-step,.pass-com){
+  background:
+    radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,calc(.13 * var(--gl))),transparent 62%),
+    var(--h-kaca);
+}
+.pass-halo .pass-hero{
+  --gl:0;transition:--gl .5s var(--akselerasi);
+  background:
+    radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,calc(.14 * var(--gl))),transparent 62%),
+    var(--h-hitam)!important;
+}
+.pass-halo .pass-hero:hover{--gl:1}
+
+/* ===========================================================
+   Rangka: dok kiri dan bilah perintah
+   =========================================================== */
+@media (min-width:1041px){
+  .pass-halo .pass-shell{display:block}
+  .pass-halo .pass-side{
+    position:fixed;left:var(--dok-x);top:14px;bottom:14px;height:auto;width:var(--dok);z-index:60;
+    padding:2px 6px 10px 2px;gap:10px;overflow-x:hidden;overflow-y:auto;
+    transition:width .6s var(--akselerasi);
+  }
+  .pass-halo .pass-side:hover,.pass-halo .pass-side:focus-within{width:272px}
+  .pass-halo .pass-work{margin-left:calc(var(--dok) + var(--dok-x) + 16px)}
+
+  /* merek: hanya lambang saat dok ramping */
+  .pass-halo .pass-brand-pill{padding:8px 0 8px 12px;gap:0;justify-content:flex-start;height:56px;align-items:center}
+  .pass-halo .pass-brand-pill .word{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;margin-left:0;
+    transition:max-width .6s var(--akselerasi),opacity .35s .1s,margin .6s var(--akselerasi)}
+  .pass-halo .pass-side:hover .pass-brand-pill .word,.pass-halo .pass-side:focus-within .pass-brand-pill .word{max-width:170px;opacity:1;margin-left:12px}
+
+  /* panel: kapsul penuh saat ramping, kaca besar saat melebar */
+  .pass-halo .pass-panel,html.dark-theme .pass-halo .pass-panel{
+    padding:6px;border-radius:38px;transition:border-radius .6s var(--akselerasi);
+    background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(236,239,247,.92));
+  }
+  html.dark-theme .pass-halo .pass-panel{background:linear-gradient(135deg,rgba(32,33,40,.97),rgba(18,19,23,.96))}
+  .pass-halo .pass-side:hover .pass-panel,.pass-halo .pass-side:focus-within .pass-panel{border-radius:30px}
+  .pass-halo .pass-panel a,.pass-halo .pass-panel button{height:42px;padding:0 0 0 22px;gap:0;width:100%}
+  .pass-halo .pass-panel a svg,.pass-halo .pass-panel button svg{width:20px;height:20px}
+  .pass-halo .pass-panel .lbl{max-width:0;opacity:0;overflow:hidden;white-space:nowrap;margin-left:0;
+    transition:max-width .6s var(--akselerasi),opacity .35s .08s,margin .6s var(--akselerasi)}
+  .pass-halo .pass-side:hover .pass-panel .lbl,.pass-halo .pass-side:focus-within .pass-panel .lbl{max-width:190px;opacity:1;margin-left:14px}
+  .pass-halo .pass-grp{height:0;padding:0 14px;opacity:0;overflow:hidden;transition:height .5s var(--akselerasi),opacity .3s}
+  .pass-halo .pass-side:hover .pass-grp,.pass-halo .pass-side:focus-within .pass-grp{height:26px;padding:6px 14px 2px;opacity:1}
+  .pass-halo .pass-panel ul{gap:2px}
+}
+@media (min-width:1041px) and (min-height:900px){
+  .pass-halo .pass-panel a,.pass-halo .pass-panel button{height:46px}
+}
+
+/* bilah perintah: pencarian di tengah, melayang */
+.pass-halo .pass-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,600px) minmax(max-content,1fr);align-items:center;gap:14px;padding:18px var(--pass-pad) 14px}
+.pass-halo .pass-burger{grid-column:1;grid-row:1;justify-self:start}
+.pass-halo .pass-search{grid-column:2;grid-row:1;max-width:none;width:100%;height:54px;padding:0 24px;box-shadow:var(--h-bayang),0 24px 40px -28px rgba(30,36,60,.55)}
+.pass-halo .pass-top-right{grid-column:3;grid-row:1;justify-self:end;margin-left:0}
+@media (max-width:1040px){
+  .pass-halo .pass-top{grid-template-columns:auto minmax(0,1fr) auto}
+  .pass-halo .pass-burger{grid-column:1}
+  .pass-halo .pass-search{grid-column:2;height:50px}
+  .pass-halo .pass-top-right{grid-column:3}
+  .pass-halo .pass-side{width:272px}
+  .pass-halo .pass-panel .lbl{margin-left:14px}
+  .pass-halo .pass-panel a,.pass-halo .pass-panel button{gap:0}
+}
+@media (max-width:560px){
+  .pass-halo .pass-top{gap:8px}
+  .pass-halo .pass-top-right .pass-icobtn{display:none}
+}
+
+/* isi halaman: lega dan terpusat */
+.pass-halo .pass-main{max-width:1380px;width:100%;margin-inline:auto;padding-top:8px}
+.pass-halo .pass-strip{margin-inline:var(--pass-pad)}
+
+/* judul halaman lebih berani */
+.pass-halo :is(.ps2-head h1,.pf-head h1){font-size:clamp(40px,4.8vw,72px);letter-spacing:-.055em;line-height:.95}
+.pass-halo .ps2-head,.pass-halo .pf-head{padding:6px 0 10px}
+
+/* ===========================================================
+   Home: bento
+   =========================================================== */
+.pass-halo .pass-board.pass-home{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;align-items:stretch;grid-auto-flow:row dense;
+}
+.pass-halo .pass-home>.pass-col{display:contents}
+.pass-halo .pass-home .pass-card{border-radius:36px;padding:30px 32px}
+.pass-halo .pass-home .pass-hero{border-radius:40px;display:flex;flex-direction:column;justify-content:space-between;padding:34px 36px 32px}
+
+/* penempatan: hero besar, angka dan lencana di sisi, jalur melintang */
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(1){grid-column:1/9;grid-row:1/3}            /* hero */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(2){grid-column:9/13;grid-row:1}              /* poin */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3){grid-column:9/13;grid-row:2}              /* lencana */
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(3){grid-column:1/13;grid-row:3}             /* journey */
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(2){grid-column:1/6;grid-row:4}              /* tentang */
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(4){grid-column:6/10;grid-row:4}             /* komunitas */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(1){grid-column:10/13;grid-row:4}             /* bagikan */
+.pass-halo .pass-home>.pass-col:first-child>:nth-child(5){grid-column:1/8;grid-row:5}              /* projek */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(4){grid-column:8/13;grid-row:5}              /* sertifikat */
+
+/* poin: angka besar */
+.pass-halo .pass-home .pass-pts-num{font-size:clamp(64px,6.4vw,104px)}
+.pass-halo .pass-home .pass-pts-num svg{width:clamp(30px,3vw,44px);height:clamp(30px,3vw,44px)}
+.pass-halo .pass-home .pass-pts{margin-top:10px}
+
+/* lencana: ubin hitam mengilap */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3){
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,calc(.14 * var(--gl))),transparent 62%),var(--h-hitam);
+  box-shadow:var(--h-bayang-hitam);border-color:rgba(255,255,255,.12);color:#fff;
+}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) :is(h2,.pass-badge span,.pass-all){color:#fff}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-all{border-bottom-color:rgba(255,255,255,.4)}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-hex svg.frame{stroke:rgba(255,255,255,.7)}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-hex svg.ico{stroke:#fff}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-badge.solid .pass-hex svg.frame{fill:#fff;stroke:#fff}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-badge.solid .pass-hex svg.ico{stroke:#05070a}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .pass-badges-foot{border-top-color:rgba(255,255,255,.16)}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb:not(.cvb-empty){background:#fff;color:#05070a}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb:not(.cvb-empty) .cvb-ico{background:#05070a;color:#fff}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb:not(.cvb-empty) .cvb-txt small{color:#555}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb.cvb-empty{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.3)}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb.cvb-empty .cvb-ico{background:rgba(255,255,255,.14);color:#fff}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3) .cvb.cvb-empty .cvb-txt small{color:rgba(255,255,255,.6)}
+.pass-halo .pass-home .pass-badges{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+
+/* bagikan: perak lembut */
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(1){
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,calc(.9 * var(--gl))),transparent 62%),
+    linear-gradient(160deg,#fff,#dfe3ee 70%,#c9cfdf);
+}
+html.dark-theme .pass-halo .pass-home>.pass-col:last-child>:nth-child(1){
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,calc(.13 * var(--gl))),transparent 62%),var(--h-kaca);
+}
+
+/* komunitas dalam satu lajur */
+.pass-halo .pass-home .pass-coms{grid-template-columns:minmax(0,1fr)}
+
+/* ---------- Journey di Home: jalur melintang dengan percikan ---------- */
+.pass-halo .pass-home .pass-journey{gap:0;padding:10px 0 4px;overflow:visible;align-items:stretch}
+.pass-halo .pass-home .pass-step-wrap{flex:1 1 0;min-width:0}
+.pass-halo .pass-home .pass-step-wrap:first-child{flex:1 1 0}
+.pass-halo .pass-home .pass-step{min-width:0;min-height:196px;padding:20px 16px 18px;border-radius:26px;position:relative}
+.pass-halo .pass-home .pass-step b{font-size:clamp(15px,1.3vw,19px);letter-spacing:-.03em}
+.pass-halo .pass-home .pass-join{flex:0 0 18px}
+.pass-halo .pass-home .pass-join::before{height:2px;background:var(--h-garis)}
+.pass-halo .pass-home .pass-join:not(.off)::before{background:var(--h-ink)}
+.pass-halo .pass-home .pass-join svg{display:none}
+/* percikan: di tahap yang sedang ditempati (tepat sebelum tujuan berikutnya) */
+.pass-halo .pass-home .pass-step-wrap:has(+ .pass-step-wrap .pass-step.next)>.pass-step{
+  border-color:var(--h-ink);box-shadow:0 0 0 1px var(--h-ink),0 24px 40px -26px rgba(10,11,15,.6);
+}
+.pass-halo .pass-home .pass-step-wrap:has(+ .pass-step-wrap .pass-step.next)>.pass-step::after{
+  content:"";position:absolute;top:14px;right:14px;width:22px;height:22px;background:var(--h-ink);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  filter:drop-shadow(0 0 8px rgba(112,120,148,.8));animation:percik 2.6s ease-in-out infinite;
+}
+@keyframes percik{0%,100%{transform:scale(.85) rotate(0);opacity:.7}50%{transform:scale(1.15) rotate(45deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.pass-halo .pass-home .pass-step-wrap:has(+ .pass-step-wrap .pass-step.next)>.pass-step::after{animation:none}}
+.pass-halo .pass-home .pass-step.next::after{content:none}
+
+/* ---------- layar sedang: dua lajur ---------- */
+@media (max-width:1240px){
+  .pass-halo .pass-board.pass-home{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .pass-halo .pass-home>.pass-col:first-child>:nth-child(1){grid-column:1/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:last-child>:nth-child(2){grid-column:1/4;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:last-child>:nth-child(3){grid-column:4/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:first-child>:nth-child(3){grid-column:1/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:first-child>:nth-child(2){grid-column:1/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:first-child>:nth-child(4){grid-column:1/4;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:last-child>:nth-child(1){grid-column:4/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:first-child>:nth-child(5){grid-column:1/7;grid-row:auto}
+  .pass-halo .pass-home>.pass-col:last-child>:nth-child(4){grid-column:1/7;grid-row:auto}
+  .pass-halo .pass-home .pass-journey{overflow-x:auto}
+  .pass-halo .pass-home .pass-step-wrap{flex:1 0 132px}
+}
+@media (max-width:760px){
+  .pass-halo .pass-board.pass-home{grid-template-columns:minmax(0,1fr);gap:14px}
+  .pass-halo .pass-home>.pass-col>*{grid-column:1/-1!important}
+  .pass-halo .pass-home .pass-card{padding:24px 22px;border-radius:30px}
+}
+
+/* ===========================================================
+   Journey: jalur menanjak
+   =========================================================== */
+.pass-halo .jr-stages,.pass-halo .ps2-stages{gap:clamp(14px,1.6vw,24px)}
+.pass-halo .ps2-stage{position:relative;overflow:visible}
+.pass-halo .ps2-stage:not(:last-child)::after{
+  content:"";position:absolute;top:34px;left:100%;width:clamp(14px,1.6vw,24px);height:2px;background:var(--h-garis);
+}
+.pass-halo .ps2-stage.is-done:not(:last-child)::after,.pass-halo .ps2-stage.is-current:not(:last-child)::after{background:var(--h-ink)}
+.pass-halo .ps2-stage.is-current::before{
+  content:"";position:absolute;top:12px;right:12px;width:20px;height:20px;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  color:var(--h-balik);animation:percik 2.6s ease-in-out infinite;
+}
+@media (max-width:1100px){.pass-halo .ps2-stage::after{display:none}}
+
+.pass-halo .pass-me-txt b,.pass-halo .pass-me-txt span,.pass-halo .pass-demo{white-space:nowrap}
+/* label prototype: terselip di celah atas, tidak menimpa isi */
+.pass-halo .pass-proto{top:4px;bottom:auto;right:auto;left:50%;transform:translateX(-50%);padding:5px 10px;font-size:9px}
+
+/* ===========================================================
+   Satu papan: dok, bilah atas, dan isi menyatu dalam satu permukaan.
+   Pencahayaan: bayangan berlapis, tepi terang, kilau, dan cahaya penunjuk.
+   Tanpa backdrop-filter (terukur penyebab patah-patah).
+   =========================================================== */
+.pass-halo{
+  --b-ubin:0 1px 1px rgba(28,34,56,.045),0 2px 2px rgba(28,34,56,.045),0 4px 4px rgba(28,34,56,.045),0 8px 8px rgba(28,34,56,.045),0 16px 16px rgba(28,34,56,.04),0 32px 44px -10px rgba(28,34,56,.10),0 60px 90px -34px rgba(28,34,56,.30);
+  --t-ubin:inset 0 1px 0 rgba(255,255,255,1),inset 1px 0 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(150,158,190,.32),inset 0 -26px 34px -26px rgba(112,120,148,.16);
+  --b-hitam:inset 0 1px 0 rgba(255,255,255,.34),inset 1px 0 0 rgba(255,255,255,.10),inset 0 0 0 1px rgba(255,255,255,.05),inset 0 -46px 64px -42px rgba(0,0,0,.65),0 2px 2px rgba(10,12,20,.10),0 8px 16px rgba(10,12,20,.12),0 30px 52px -12px rgba(10,12,20,.36),0 64px 96px -38px rgba(10,12,20,.62);
+}
+html.dark-theme .pass-halo{
+  --b-ubin:0 1px 1px rgba(0,0,0,.4),0 4px 8px rgba(0,0,0,.35),0 18px 30px -8px rgba(0,0,0,.55),0 50px 80px -30px rgba(0,0,0,.8);
+  --t-ubin:inset 0 1px 0 rgba(255,255,255,.26),inset 1px 0 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(255,255,255,.04),inset 0 -30px 40px -30px rgba(0,0,0,.5);
+  --b-hitam:inset 0 1px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(255,255,255,.12),inset 0 -46px 64px -42px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.05),0 30px 60px -16px rgba(0,0,0,.9),0 0 80px -20px rgba(150,160,230,.18);
+}
+
+/* performa */
+.pass-halo *,.pass-halo *::before,.pass-halo *::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.pass-halo .ui-modal{backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+
+/* bingkai dan papan */
+@media (min-width:1041px){
+  .pass-halo:has(.pass-shell){padding:14px;background:#e3e6ee}
+  html.dark-theme .pass-halo:has(.pass-shell){background:#050608}
+  .pass-halo:has(.pass-shell)::before,.pass-halo:has(.pass-shell)::after{content:none!important}
+  .pass-halo .pass-shell{
+    position:relative;isolation:isolate;overflow:clip;border-radius:40px;min-height:calc(100vh - 28px);
+    background:linear-gradient(180deg,#fcfcfe,#f3f5f9);
+    box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(28,34,56,.07),0 2px 4px rgba(28,34,56,.05),0 24px 60px -20px rgba(28,34,56,.3),0 90px 130px -50px rgba(28,34,56,.34);
+  }
+  html.dark-theme .pass-halo .pass-shell{
+    background:linear-gradient(180deg,#0b0c10,#050608);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 0 1px rgba(255,255,255,.08),0 40px 100px -30px rgba(0,0,0,.95),0 0 120px -40px rgba(150,160,230,.2);
+  }
+  /* dekor pindah ke dalam papan */
+  .pass-halo .pass-shell::before{
+    content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(closest-side,#fff,rgba(255,255,255,0)) left -300px top -260px / 960px 740px no-repeat,
+      radial-gradient(circle closest-side at 50% 50%,#fcfcfe 0,#fcfcfe 52%,#eceef3 57%,#d3d7e2 62%,#aeb4c6 66%,#8b92aa 68.5%,#c9cedd 72%,rgba(214,218,230,.8) 78%,rgba(235,237,243,.5) 87%,rgba(247,247,248,0) 96%) 50% -560px / 2000px 2000px no-repeat,
+      radial-gradient(closest-side,rgba(112,120,148,.34),rgba(112,120,148,0)) right -240px top 520px / 700px 600px no-repeat,
+      radial-gradient(closest-side,rgba(112,120,148,.3),rgba(112,120,148,0)) left -260px top 1500px / 720px 640px no-repeat;
+  }
+  html.dark-theme .pass-halo .pass-shell::before{
+    background:
+      radial-gradient(closest-side,rgba(238,241,252,.8),rgba(190,196,222,.4) 42%,rgba(120,128,160,0)) left -300px top -260px / 960px 740px no-repeat,
+      radial-gradient(circle closest-side at 50% 50%,#05060a 0,#05060a 52%,#07080c 55%,#12141d 60%,#2a2e3e 64%,#555b72 67.5%,#7d849c 69.5%,#454b62 73%,rgba(48,54,78,.5) 79%,rgba(26,30,46,.22) 86%,rgba(0,0,0,0) 94%) 50% -560px / 2000px 2000px no-repeat,
+      radial-gradient(closest-side,rgba(150,158,190,.36),rgba(90,98,130,0)) right -240px top 380px / 700px 600px no-repeat;
+  }
+  .pass-halo .pass-shell::after{
+    content:"Passport";content:"Passport" / "";position:absolute;left:0;right:0;bottom:calc(var(--h-kata) * -.375);z-index:-1;pointer-events:none;
+    text-align:center;font-size:var(--h-kata);line-height:1;font-weight:800;letter-spacing:-.055em;color:var(--h-ink);white-space:nowrap;
+  }
+  html.dark-theme .pass-halo .pass-shell::after{text-shadow:0 0 100px rgba(190,200,255,.28)}
+
+  /* dok menyatu: tanpa kapsul sendiri, melebar menjadi panel melayang saat disentuh */
+  .pass-halo .pass-side{left:calc(var(--dok-x) + 14px);top:30px;bottom:30px;isolation:isolate}
+  .pass-halo .pass-side::before{
+    content:"";position:absolute;inset:0 0 0 -2px;border-radius:34px;z-index:-1;opacity:0;pointer-events:none;
+    background:linear-gradient(135deg,rgba(255,255,255,.99),rgba(239,241,248,.99));
+    box-shadow:var(--t-ubin),0 36px 70px -24px rgba(28,34,56,.45);transition:opacity .5s var(--akselerasi);
+  }
+  html.dark-theme .pass-halo .pass-side::before{background:linear-gradient(135deg,rgba(26,27,33,.99),rgba(12,13,17,.99))}
+  .pass-halo .pass-side:hover::before,.pass-halo .pass-side:focus-within::before{opacity:1}
+  .pass-halo .pass-panel,html.dark-theme .pass-halo .pass-panel{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:4px 6px}
+  .pass-halo .pass-panel+.pass-panel{border-top:1px solid var(--h-garis)!important;margin-top:2px;padding-top:12px}
+  .pass-halo .pass-panels{gap:0}
+  .pass-halo .pass-work{margin-left:calc(var(--dok) + var(--dok-x) + 22px)}
+  .pass-halo .pass-top{top:0}
+}
+@media (max-width:1040px){
+  .pass-halo:has(.pass-shell){padding:8px;background:#e3e6ee}
+  html.dark-theme .pass-halo:has(.pass-shell){background:#050608}
+  .pass-halo .pass-shell{border-radius:30px;overflow:clip;background:linear-gradient(180deg,#fcfcfe,#f3f5f9);min-height:calc(100vh - 16px)}
+  html.dark-theme .pass-halo .pass-shell{background:linear-gradient(180deg,#0b0c10,#050608)}
+}
+@media (max-width:760px){
+  .pass-halo:has(.pass-shell){padding:0}
+  .pass-halo .pass-shell{border-radius:0;min-height:100vh}
+}
+
+/* kabut bilah atas tanpa blur */
+.pass-halo .pass-top::before{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+/* ---------- material ubin ---------- */
+.pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card,.cx-hero){box-shadow:var(--t-ubin),var(--b-ubin)}
+.pass-halo :is(.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.pass-step,.pass-com){box-shadow:var(--t-ubin),0 1px 2px rgba(28,34,56,.05),0 8px 16px -6px rgba(28,34,56,.1)}
+.pass-halo .pass-hero{box-shadow:var(--b-hitam)}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3){box-shadow:var(--b-hitam)}
+html.dark-theme .pass-halo :is(.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.pass-step,.pass-com){box-shadow:var(--t-ubin),0 8px 16px -6px rgba(0,0,0,.6)}
+.pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card):hover{
+  box-shadow:var(--t-ubin),0 2px 2px rgba(28,34,56,.05),0 8px 10px rgba(28,34,56,.06),0 24px 34px -6px rgba(28,34,56,.14),0 70px 100px -30px rgba(28,34,56,.38)}
+html.dark-theme .pass-halo :is(.pass-card,.ps2-card,.pf-card,.jg-card):hover{box-shadow:var(--t-ubin),0 24px 44px -8px rgba(0,0,0,.7),0 0 60px -20px rgba(150,160,230,.25)}
+
+/* kilau yang lewat di kartu hitam */
+.pass-halo .pass-home .pass-hero::after,.pass-halo .pass-home>.pass-col:last-child>:nth-child(3)::after{
+  content:""!important;display:block!important;position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.14) 50%,transparent 62%);
+  transform:translate3d(-130%,0,0);animation:lewat 8s ease-in-out 2.5s infinite;width:auto;height:auto;right:auto;top:0;border:0}
+.pass-halo .pass-home>.pass-col:last-child>:nth-child(3){position:relative;overflow:hidden}
+@keyframes lewat{0%,60%{transform:translate3d(-130%,0,0)}100%{transform:translate3d(130%,0,0)}}
+@media (prefers-reduced-motion:reduce){.pass-halo .pass-home .pass-hero::after,.pass-halo .pass-home>.pass-col:last-child>:nth-child(3)::after{animation:none}}
+
+/* vinyet dan cahaya penunjuk */
+.vinyet{position:fixed;inset:0;pointer-events:none;z-index:54;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(30,36,60,.05) 100%)}
+html.dark-theme .vinyet{background:radial-gradient(120% 90% at 50% 40%,transparent 50%,rgba(0,0,0,.4) 100%)}
+.cahaya-p{position:fixed;left:0;top:0;width:820px;height:820px;margin:-410px 0 0 -410px;pointer-events:none;z-index:55;opacity:0;transition:opacity .8s;will-change:transform;
+  background:radial-gradient(closest-side,rgba(255,255,255,.3),rgba(255,255,255,.09) 46%,transparent 74%)}
+.cahaya-p.hidup{opacity:1}
+html.dark-theme .cahaya-p{background:radial-gradient(closest-side,rgba(170,184,255,.2),rgba(130,146,230,.07) 48%,transparent 74%)}
+@media (max-width:760px),(prefers-reduced-motion:reduce){.cahaya-p{display:none}}
+
+/* bilah atas: tanpa kabut (kabut menutupi dekor), tombolnya pekat supaya isi yang lewat di bawah tidak menembus */
+.pass-halo .pass-top::before{display:none!important}
+.pass-halo :is(.pass-search,.pass-icobtn,.pass-me,.pass-burger){background:linear-gradient(135deg,#fff,#f0f2f8)}
+html.dark-theme .pass-halo :is(.pass-search,.pass-icobtn,.pass-me,.pass-burger){background:linear-gradient(135deg,#17181e,#0d0e12)}

@@ -59,7 +59,19 @@ function dropKey(errs: LinkErrors, k: LinkKey): LinkErrors {
   return n;
 }
 
-export function ProfileForm({ profile }: { profile: Profile }) {
+/** Bagian formulir yang tampil di tab Profil; null berarti tab lain (CV) sedang terbuka. */
+export type BagianProfil = 'identitas' | 'tautan';
+
+export function ProfileForm({
+  profile,
+  bagian,
+  onGalat,
+}: {
+  profile: Profile;
+  bagian?: BagianProfil | null;
+  /** Dipanggil saat isian yang salah ada di tab lain, supaya tab itu dibuka dan galatnya terlihat. */
+  onGalat?: (b: BagianProfil) => void;
+}) {
   const { repo, setProfile } = usePassport();
   const toast = useToast();
   const reward = useCompletionReward();
@@ -120,6 +132,9 @@ export function ProfileForm({ profile }: { profile: Profile }) {
     setNameErr(name ? null : 'Nama wajib diisi.');
     if (!name || Object.keys(errs).length) {
       setErr('Periksa isian yang ditandai merah, lalu simpan lagi.');
+      // Isian yang salah bisa berada di tab yang sedang tertutup: buka tabnya.
+      const tujuan: BagianProfil = name ? 'tautan' : 'identitas';
+      if (bagian !== undefined && bagian !== tujuan) onGalat?.(tujuan);
       return;
     }
 
@@ -157,7 +172,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
       {/* fieldset disabled mengunci semua isian selama penyimpanan, supaya
           ketikan baru tidak tertimpa hasil dari server. */}
       <fieldset className="pf-fieldset" disabled={busy}>
-        <section className="pf-card" aria-labelledby="pf-info-h">
+        <section className="pf-card" aria-labelledby="pf-info-h" hidden={bagian !== undefined && bagian !== 'identitas'}>
           <div className="pf-card-head">
             <div>
               <h2 id="pf-info-h">Tentang Anda</h2>
@@ -216,7 +231,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
           </div>
         </section>
 
-        <section className="pf-card" id="tautan" tabIndex={-1} aria-labelledby="pf-link-h">
+        <section className="pf-card" id="tautan" tabIndex={-1} aria-labelledby="pf-link-h" hidden={bagian !== undefined && bagian !== 'tautan'}>
           <div className="pf-card-head">
             <div>
               <h2 id="pf-link-h">Tautan sosial</h2>

@@ -6,7 +6,8 @@ import type { DailyCount } from '@/lib/types';
 import { DataTable } from './DataTable';
 import { niceTicks, useWidth } from './scale';
 
-const H = 200;
+// Tinggi grafik dikecilkan supaya halaman Analitik muat satu layar laptop.
+const H = 150;
 const M = { top: 12, right: 8, bottom: 26, left: 34 };
 
 /** Kolom kunjungan profil per hari. data diurutkan dari hari terlama. */

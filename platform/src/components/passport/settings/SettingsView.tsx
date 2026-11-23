@@ -12,12 +12,13 @@ export function SettingsView() {
       <PageHead title="Pengaturan" lead="Akun, tampilan, privasi, dan penghapusan akun." />
       <WithProfile>
         {(p) => (
-          <>
+          // Kisi dua kolom di laptop supaya Pengaturan muat satu layar.
+          <div className="pf-kisi pf-kisi-atur">
             <AccountCard profile={p} />
             <AppearanceCard />
             <PrivacyCard profile={p} />
             <DangerCard profile={p} />
-          </>
+          </div>
         )}
       </WithProfile>
     </>

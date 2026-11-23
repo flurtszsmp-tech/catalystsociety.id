@@ -12,6 +12,7 @@ import { CLAIM_INFO, STAGE_RULES, requirementStates, type RequirementState } fro
 import { STAGES, type ClaimKind, type JourneyClaim, type JourneyEvent, type JourneyProgress, type Stage } from '@/lib/types';
 import { Card, EmptyState, ErrorState, PageHead, SessionGate, Skeleton, errMsg, fmtDate, fmtNumber, fmtPoints, useLoad } from './common';
 import { reasonLabel } from './labels';
+import { Tabs } from './Tabs';
 
 type StageState = 'done' | 'current' | 'goal' | 'locked';
 
@@ -131,140 +132,182 @@ export function JourneySection() {
     <div className="ps2">
       <PageHead
         title="Journey"
-        lead="Tujuh tahap perjalanan Anda di Catalyst Society, dari Explorer sampai Founder. Ikuti panduan di bawah untuk naik ke tahap berikutnya."
+        lead="Tujuh tahap perjalanan Anda di Catalyst Society, dari Explorer sampai Founder. Buka tab Panduan untuk tahu cara naik ke tahap berikutnya."
       />
       <SessionGate loading={loading} error={error} onRetry={() => void reload()}>
         {profile && (
           <>
-            <Card id="ps2-stages-title" title="Tahap perjalanan">
-              {journey.error ? (
-                <ErrorState message={journey.error} onRetry={journey.retry} />
-              ) : !journey.data ? (
-                <Skeleton rows={2} height={110} label="Memuat tahap Journey…" />
-              ) : (
-                <StageTrack current={profile.journeyStage} data={journey.data} onOpen={openStage} onClaim={setAjukan} />
-              )}
-            </Card>
-
-            <Card id="ps2-guide-title" title="Panduan tahap Journey">
-              <ul className="jg-prinsip">
-                {PRINSIP.map((p) => (
-                  <li key={p.title}>
-                    <span className="jg-prinsip-ico" aria-hidden>
-                      <Icon name={p.icon} />
-                    </span>
-                    <b>{p.title}</b>
-                    <small>{p.text}</small>
-                  </li>
-                ))}
-              </ul>
-              <ol className="jg-line">
-                {STAGES.map((s, i) => (
-                  <GuideStage
-                    key={s}
-                    stage={s}
-                    index={i}
-                    current={STAGES.indexOf(profile.journeyStage)}
-                    progress={journey.data?.progress ?? null}
-                    onClaim={setAjukan}
-                  />
-                ))}
-              </ol>
-            </Card>
-
-            {journey.data && journey.data.progress.claims.length > 0 && (
-              <Card id="ps2-claims-title" title="Pengajuan saya">
-                <ul className="ps2-list jr-claims">
-                  {journey.data.progress.claims.map((c) => (
-                    <li key={c.id}>
-                      <span>
-                        <b>{CLAIM_INFO[c.kind].title}</b>
-                        <small>{c.detail}</small>
-                        {c.valuation ? <small>Valuasi {rp(c.valuation)}</small> : null}
-                        <small>Diajukan {fmtDate(c.createdAt)}</small>
-                        {c.reviewNote && <small className="jr-note">Catatan tim: {c.reviewNote}</small>}
-                      </span>
-                      <span className="jr-claim-side">
-                        <span className={`ps2-pill jr-st is-${c.status}`}>{CLAIM_STATUS[c.status]}</span>
-                        {c.status === 'pending' && (
-                          <button type="button" className="ui-btn ui-btn-ghost ps2-btn-sm" onClick={() => setBatal(c)}>
-                            Batalkan
-                          </button>
+            <Tabs
+              label="Bagian Journey"
+              items={[
+                {
+                  id: 'tahap',
+                  label: 'Tahap',
+                  content: (
+                    <Card id="ps2-stages-title" title="Tahap perjalanan">
+                      {journey.error ? (
+                        <ErrorState message={journey.error} onRetry={journey.retry} />
+                      ) : !journey.data ? (
+                        <Skeleton rows={2} height={110} label="Memuat tahap Journey…" />
+                      ) : (
+                        <StageTrack current={profile.journeyStage} data={journey.data} onOpen={openStage} onClaim={setAjukan} />
+                      )}
+                    </Card>
+                  ),
+                },
+                {
+                  id: 'panduan',
+                  label: 'Panduan',
+                  content: (
+                    <Card id="ps2-guide-title" title="Panduan tahap Journey">
+                      <ul className="jg-prinsip">
+                        {PRINSIP.map((p) => (
+                          <li key={p.title}>
+                            <span className="jg-prinsip-ico" aria-hidden>
+                              <Icon name={p.icon} />
+                            </span>
+                            <b>{p.title}</b>
+                            <small>{p.text}</small>
+                          </li>
+                        ))}
+                      </ul>
+                      {/* Tujuh tahap dipilih satu per satu supaya panduan muat satu layar; tahap tujuan terbuka lebih dulu. */}
+                      <Tabs
+                        label="Pilih tahap"
+                        className="jg-pilih"
+                        initial={STAGES[Math.min(STAGES.indexOf(profile.journeyStage) + 1, STAGES.length - 1)]}
+                        items={STAGES.map((s, i) => ({
+                          id: s,
+                          label: STAGE_RULES[s].name,
+                          content: (
+                            <ol className="jg-line jg-satu">
+                              <GuideStage
+                                stage={s}
+                                index={i}
+                                current={STAGES.indexOf(profile.journeyStage)}
+                                progress={journey.data?.progress ?? null}
+                                onClaim={setAjukan}
+                              />
+                            </ol>
+                          ),
+                        }))}
+                      />
+                    </Card>
+                  ),
+                },
+                ...(journey.data && journey.data.progress.claims.length > 0
+                  ? [
+                      {
+                        id: 'pengajuan',
+                        label: 'Pengajuan saya',
+                        content: (
+                            <Card id="ps2-claims-title" title="Pengajuan saya">
+                              <ul className="ps2-list jr-claims">
+                                {journey.data.progress.claims.map((c) => (
+                                  <li key={c.id}>
+                                    <span>
+                                      <b>{CLAIM_INFO[c.kind].title}</b>
+                                      <small>{c.detail}</small>
+                                      {c.valuation ? <small>Valuasi {rp(c.valuation)}</small> : null}
+                                      <small>Diajukan {fmtDate(c.createdAt)}</small>
+                                      {c.reviewNote && <small className="jr-note">Catatan tim: {c.reviewNote}</small>}
+                                    </span>
+                                    <span className="jr-claim-side">
+                                      <span className={`ps2-pill jr-st is-${c.status}`}>{CLAIM_STATUS[c.status]}</span>
+                                      {c.status === 'pending' && (
+                                        <button type="button" className="ui-btn ui-btn-ghost ps2-btn-sm" onClick={() => setBatal(c)}>
+                                          Batalkan
+                                        </button>
+                                      )}
+                                      {c.status === 'rejected' && (
+                                        <button type="button" className="ui-btn ui-btn-ghost ps2-btn-sm" onClick={() => setAjukan(c.kind)}>
+                                          Ajukan ulang
+                                        </button>
+                                      )}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </Card>
+                        ),
+                      },
+                    ]
+                  : []),
+                {
+                  id: 'poin',
+                  label: 'Poin CATA',
+                  content: (
+                    <div className="ps2-grid-2">
+                      <Card
+                        id="ps2-points-title"
+                        title="Riwayat poin CATA"
+                        aside={
+                          <p className="ps2-total">
+                            Saldo <b>{fmtNumber(profile.cataPoints)} poin</b>
+                          </p>
+                        }
+                      >
+                        {points.error ? (
+                          <ErrorState message={points.error} onRetry={points.retry} />
+                        ) : !points.data ? (
+                          <Skeleton rows={4} height={40} label="Memuat riwayat poin…" />
+                        ) : history.length === 0 ? (
+                          <EmptyState icon="spark" title="Belum ada poin">
+                            Poin CATA muncul di sini saat profil Anda lengkap atau Anda naik tahap.
+                          </EmptyState>
+                        ) : (
+                          <ol className="ps2-list ps2-points">
+                            {history.map((p, i) => (
+                              <li key={`${p.reason}-${p.createdAt}-${i}`}>
+                                <span>
+                                  {reasonLabel(p.reason)}
+                                  <time dateTime={p.createdAt}>{fmtDate(p.createdAt)}</time>
+                                </span>
+                                <b aria-label={`${fmtPoints(p.delta)} poin`}>{fmtPoints(p.delta)}</b>
+                              </li>
+                            ))}
+                          </ol>
                         )}
-                        {c.status === 'rejected' && (
-                          <button type="button" className="ui-btn ui-btn-ghost ps2-btn-sm" onClick={() => setAjukan(c.kind)}>
-                            Ajukan ulang
-                          </button>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            )}
+                      </Card>
 
-            <div className="ps2-grid-2">
-              <Card
-                id="ps2-points-title"
-                title="Riwayat poin CATA"
-                aside={
-                  <p className="ps2-total">
-                    Saldo <b>{fmtNumber(profile.cataPoints)} poin</b>
-                  </p>
-                }
-              >
-                {points.error ? (
-                  <ErrorState message={points.error} onRetry={points.retry} />
-                ) : !points.data ? (
-                  <Skeleton rows={4} height={40} label="Memuat riwayat poin…" />
-                ) : history.length === 0 ? (
-                  <EmptyState icon="spark" title="Belum ada poin">
-                    Poin CATA muncul di sini saat profil Anda lengkap atau Anda naik tahap.
-                  </EmptyState>
-                ) : (
-                  <ol className="ps2-list ps2-points">
-                    {history.map((p, i) => (
-                      <li key={`${p.reason}-${p.createdAt}-${i}`}>
-                        <span>
-                          {reasonLabel(p.reason)}
-                          <time dateTime={p.createdAt}>{fmtDate(p.createdAt)}</time>
-                        </span>
-                        <b aria-label={`${fmtPoints(p.delta)} poin`}>{fmtPoints(p.delta)}</b>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </Card>
-
-              <Card id="ps2-earn-title" title="Cara mendapat poin CATA">
-                <ul className="ps2-list jr-earn">
-                  {CARA_POIN.map((c) => (
-                    <li key={c.label}>
-                      <span>{c.label}</span>
-                      <b>{c.poin}</b>
-                    </li>
-                  ))}
-                </ul>
-                <p className="ps2-sub" style={{ marginTop: 12 }}>
-                  Setiap alasan hanya dihadiahkan sekali. Bergabung ke komunitas, mengikuti orang, dan menambah sertifikat tidak memberi
-                  poin, supaya poin tetap bernilai saat ditukar.
-                </p>
-              </Card>
-            </div>
-
-            <Card id="ps2-faq-title" title="Pertanyaan umum">
-              <div className="jg-faq">
-                {FAQ.map((f) => (
-                  <details key={f.q}>
-                    <summary>
-                      {f.q}
-                      <Icon name="chevron" />
-                    </summary>
-                    <p>{f.a}</p>
-                  </details>
-                ))}
-              </div>
-            </Card>
+                      <Card id="ps2-earn-title" title="Cara mendapat poin CATA">
+                        <ul className="ps2-list jr-earn">
+                          {CARA_POIN.map((c) => (
+                            <li key={c.label}>
+                              <span>{c.label}</span>
+                              <b>{c.poin}</b>
+                            </li>
+                          ))}
+                        </ul>
+                        <p className="ps2-sub" style={{ marginTop: 12 }}>
+                          Setiap alasan hanya dihadiahkan sekali. Bergabung ke komunitas, mengikuti orang, dan menambah sertifikat tidak memberi
+                          poin, supaya poin tetap bernilai saat ditukar.
+                        </p>
+                      </Card>
+                    </div>
+                  ),
+                },
+                {
+                  id: 'faq',
+                  label: 'Pertanyaan umum',
+                  content: (
+                    <Card id="ps2-faq-title" title="Pertanyaan umum">
+                      <div className="jg-faq">
+                        {FAQ.map((f) => (
+                          <details key={f.q}>
+                            <summary>
+                              {f.q}
+                              <Icon name="chevron" />
+                            </summary>
+                            <p>{f.a}</p>
+                          </details>
+                        ))}
+                      </div>
+                    </Card>
+                  ),
+                },
+              ]}
+            />
 
             {ajukan && (
               <ClaimDialog

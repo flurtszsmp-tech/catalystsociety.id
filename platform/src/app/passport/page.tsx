@@ -82,10 +82,10 @@ export default function PassportHome() {
   }
 
   return (
-    <div className="pass-board">
+    <div className="pass-board pass-home">
       <div className="pass-col">
         <HeroCard profile={profile} communities={data.communities.length} badges={data.badges.length} owner shareUrl={shareUrl} />
-        <AboutCard profile={profile} owner />
+        <AboutCard profile={profile} owner ringkas />
         <JourneyCard profile={profile} journey={data.journey} owner onOpenStage={openStage} />
         <CommunitiesCard slugs={data.communities} owner />
         <ProjectsCard projects={data.projects} owner />

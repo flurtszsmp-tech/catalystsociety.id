@@ -6,6 +6,7 @@ import { usePassport } from '@/components/passport/PassportProvider';
 import { ValueStrip } from '../cards/RailCards';
 import { CelebrationProvider } from '../journey/Celebration';
 import { FeedbackDialog } from './FeedbackDialog';
+import { Fx } from './Fx';
 import { ADMIN_EMAIL } from '@/lib/env';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
@@ -122,6 +123,7 @@ export function PassportShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="pass-shell">
+      <Fx />
       <Sidebar
         ref={side}
         open={open}

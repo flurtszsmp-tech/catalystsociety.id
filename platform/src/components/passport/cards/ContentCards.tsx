@@ -12,6 +12,7 @@ import { STAGE_RULES } from '@/lib/repo/journey-rules';
 import { STAGES, type JourneyEvent, type LinkKey, type Profile, type Project, type Stage } from '@/lib/types';
 import { safeHref } from '@/lib/url';
 import { STAGE_DETAIL, bulanTahun, localAsset, stageIndex, stageName } from './format';
+import { TeksRingkas } from './TeksRingkas';
 
 /* ---------- About ---------- */
 
@@ -53,7 +54,7 @@ function alamatSingkat(href: string, key: LinkKey): string {
  * Tentang dan tautan sosial. Kanal yang belum diisi tidak ditampilkan sama
  * sekali, juga di dasbor pemilik; kartunya hilang bila keduanya kosong.
  */
-export function AboutCard({ profile: p }: { profile: Profile; owner?: boolean }) {
+export function AboutCard({ profile: p, ringkas = false }: { profile: Profile; owner?: boolean; /** Dipotong tiga baris dengan Selengkapnya (Home). */ ringkas?: boolean }) {
   const tautan = SOSIAL.flatMap((s) => {
     const href = safeHref(p.links[s.key]);
     return href ? [{ ...s, href, sub: alamatSingkat(href, s.key) }] : [];
@@ -64,7 +65,7 @@ export function AboutCard({ profile: p }: { profile: Profile; owner?: boolean })
   return (
     <section className="pass-card pass-about" aria-labelledby="pass-about-h">
       <h2 id="pass-about-h">About Me</h2>
-      {p.about?.trim() && <p>{p.about}</p>}
+      {p.about?.trim() && (ringkas ? <TeksRingkas>{p.about}</TeksRingkas> : <p>{p.about}</p>)}
       {tautan.length > 0 && (
         <ul className="pass-links">
           {tautan.map((t) => (

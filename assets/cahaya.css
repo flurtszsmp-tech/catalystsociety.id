@@ -1,0 +1,156 @@
+/* Catalyst Cahaya: pencahayaan seperti grafis game, tanpa membebani GPU.
+   Aturan dasarnya: tidak ada backdrop-filter pada ubin (itu penyebab patah-patah,
+   terukur 34 ms turun ke 20 ms per frame), dan semua yang bergerak hanya
+   memakai transform dan opacity. Cahaya dibangun dari bayangan berlapis,
+   tepi terang, bayangan sudut, sinar, percikan, dan satu cahaya yang mengikuti
+   penunjuk. Dimuat sesudah launch.css. */
+
+:root{
+  --b-ubin:
+    0 1px 1px rgba(28,34,56,.045),
+    0 2px 2px rgba(28,34,56,.045),
+    0 4px 4px rgba(28,34,56,.045),
+    0 8px 8px rgba(28,34,56,.045),
+    0 16px 16px rgba(28,34,56,.04),
+    0 32px 44px -10px rgba(28,34,56,.10),
+    0 60px 90px -34px rgba(28,34,56,.30);
+  --t-ubin:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 1px 0 0 rgba(255,255,255,.75),
+    inset 0 -1px 0 rgba(150,158,190,.32),
+    inset 0 -26px 34px -26px rgba(112,120,148,.16);
+  --b-hitam:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 1px 0 0 rgba(255,255,255,.10),
+    inset 0 0 0 1px rgba(255,255,255,.05),
+    inset 0 -46px 64px -42px rgba(0,0,0,.65),
+    0 2px 2px rgba(10,12,20,.10),
+    0 8px 16px rgba(10,12,20,.12),
+    0 30px 52px -12px rgba(10,12,20,.36),
+    0 64px 96px -38px rgba(10,12,20,.62);
+}
+html.dark-theme{
+  --b-ubin:
+    0 1px 1px rgba(0,0,0,.4),
+    0 4px 8px rgba(0,0,0,.35),
+    0 18px 30px -8px rgba(0,0,0,.55),
+    0 50px 80px -30px rgba(0,0,0,.8);
+  --t-ubin:
+    inset 0 1px 0 rgba(255,255,255,.26),
+    inset 1px 0 0 rgba(255,255,255,.08),
+    inset 0 -1px 0 rgba(255,255,255,.04),
+    inset 0 -30px 40px -30px rgba(0,0,0,.5);
+  --b-hitam:
+    inset 0 1px 0 rgba(255,255,255,.3),
+    inset 0 0 0 1px rgba(255,255,255,.12),
+    inset 0 -46px 64px -42px rgba(0,0,0,.7),
+    0 0 0 1px rgba(255,255,255,.05),
+    0 30px 60px -16px rgba(0,0,0,.9),
+    0 0 80px -20px rgba(150,160,230,.18);
+}
+
+/* ---------- performa: tanpa backdrop-filter di isi halaman ---------- */
+html main#top *,html main#top *::before,html main#top *::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html main#top .h5-kaca,html main#top .h5-aksi .h5-b{backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}
+html .nav,html .nav.scrolled{backdrop-filter:blur(10px) saturate(1.3)!important;-webkit-backdrop-filter:blur(10px) saturate(1.3)!important}
+.h5-halo,.h5-sorot,.h5-g1,.h5-g2{filter:none!important}
+.cta::before{filter:none!important}
+
+/* ---------- ubin: material dengan bayangan berlapis dan tepi terang ---------- */
+html main#top :is(.ab-sub li,.ab-utama,.val-cell,.pg-card:not(.pg-summit),.pl-steps li:not(.on) button){
+  box-shadow:var(--t-ubin),var(--b-ubin)!important;
+  will-change:transform;contain:layout paint;
+}
+html main#top :is(.ab-sub li,.val-cell,.pg-card:not(.pg-summit),.pl-steps li:not(.on) button):hover{
+  box-shadow:var(--t-ubin),
+    0 2px 2px rgba(28,34,56,.05),0 8px 10px rgba(28,34,56,.06),0 24px 34px -6px rgba(28,34,56,.14),0 70px 100px -30px rgba(28,34,56,.38)!important;
+}
+html main#top :is(.pg-summit,.pl-steps li.on button,.pl-out){
+  box-shadow:var(--b-hitam)!important;overflow:hidden;position:relative;
+}
+html main#top :is(.about-quote,.fd-banner,.vid-frame,.kl-form){box-shadow:var(--b-hitam)!important}
+
+/* kilau memantul menyapu ubin hitam saat disentuh */
+html main#top :is(.pg-summit,.pl-steps li.on button,.about-quote,.vid-frame)::after{
+  content:""!important;display:block!important;position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.2) 50%,transparent 62%);
+  transform:translate3d(-130%,0,0);transition:transform 1.2s var(--akselerasi);opacity:1!important;
+}
+html main#top :is(.pg-summit,.pl-steps li.on button,.about-quote,.vid-frame):hover::after{transform:translate3d(130%,0,0)}
+
+/* ---------- vinyet: tepi layar sedikit lebih gelap, seperti cahaya ruangan ---------- */
+.vinyet{position:fixed;inset:0;pointer-events:none;z-index:54;
+  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(30,36,60,.06) 100%)}
+html.dark-theme .vinyet{background:radial-gradient(120% 90% at 50% 40%,transparent 50%,rgba(0,0,0,.45) 100%)}
+
+/* ---------- cahaya yang mengikuti penunjuk ---------- */
+.cahaya-p{position:fixed;left:0;top:0;width:820px;height:820px;margin:-410px 0 0 -410px;pointer-events:none;z-index:55;opacity:0;
+  transition:opacity .8s;will-change:transform;
+  background:radial-gradient(closest-side,rgba(255,255,255,.34),rgba(255,255,255,.1) 46%,transparent 74%)}
+.cahaya-p.hidup{opacity:1}
+html.dark-theme .cahaya-p{background:radial-gradient(closest-side,rgba(170,184,255,.22),rgba(130,146,230,.08) 48%,transparent 74%)}
+
+/* ---------- sinar: berkas cahaya dari atas hero, CTA, dan Summit ---------- */
+.sinar{position:absolute;left:50%;top:-34%;width:1700px;height:1700px;margin-left:-850px;pointer-events:none;z-index:0;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(112,120,148,0) 0deg,rgba(112,120,148,.13) 3.5deg,rgba(112,120,148,0) 8deg,
+    rgba(112,120,148,0) 17deg,rgba(112,120,148,.08) 20deg,rgba(112,120,148,0) 25deg);
+  -webkit-mask-image:radial-gradient(closest-side,#000 8%,transparent 74%);mask-image:radial-gradient(closest-side,#000 8%,transparent 74%);
+  animation:putar 160s linear infinite;will-change:transform}
+html.dark-theme .sinar{background:repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(190,200,255,0) 0deg,rgba(190,200,255,.2) 3.5deg,rgba(190,200,255,0) 8deg,
+    rgba(190,200,255,0) 17deg,rgba(190,200,255,.12) 20deg,rgba(190,200,255,0) 25deg)}
+@keyframes putar{to{transform:rotate(360deg)}}
+.cta .sinar{top:50%;margin-top:-850px;opacity:.8}
+
+
+/* ---------- percikan melayang ---------- */
+.perc{position:absolute;pointer-events:none;z-index:1;width:var(--u,16px);height:var(--u,16px);left:var(--x);top:var(--y);
+  background:var(--h-ink);opacity:.5;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='82 -112 46 48'><path d='M126.5 -87.7 Q108.05 -84.22 104.8 -64.5 Q101.55 -84.22 83.1 -87.7 Q101.55 -91.18 104.8 -110.9 Q108.05 -91.18 126.5 -87.7 Z'/></svg>") center/contain no-repeat;
+  animation:melayang var(--d,9s) ease-in-out var(--t,0s) infinite alternate;will-change:transform,opacity}
+html.dark-theme .perc{background:#fff;opacity:.7}
+@keyframes melayang{
+  0%{transform:translate3d(0,0,0) rotate(0) scale(.7);opacity:.15}
+  50%{opacity:.75}
+  100%{transform:translate3d(var(--dx,20px),var(--dy,-46px),0) rotate(90deg) scale(1.1);opacity:.35}
+}
+.hero.h5 .perc,.cta .perc{z-index:3}
+
+/* kartu Passport di hero: kilau yang lewat pelan */
+.h5-kartu::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.16) 50%,transparent 60%);
+  transform:translate3d(-130%,0,0);animation:lewat 7s ease-in-out 2s infinite}
+@keyframes lewat{0%,62%{transform:translate3d(-130%,0,0)}100%{transform:translate3d(130%,0,0)}}
+.h5-kartu{overflow:hidden}
+
+@media (prefers-reduced-motion:reduce){
+  .sinar,.perc,.h5-kartu::after{animation:none}
+  .cahaya-p{display:none}
+}
+@media (max-width:760px){
+  .cahaya-p,.sinar{display:none}
+  .vinyet{display:none}
+}
+
+/* sinar lebih tegas dan lebih hemat */
+.sinar{width:1400px;height:1400px;margin-left:-700px;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(112,120,148,0) 0deg,rgba(112,120,148,.2) 3.5deg,rgba(112,120,148,0) 8deg,
+    rgba(112,120,148,0) 17deg,rgba(112,120,148,.12) 20deg,rgba(112,120,148,0) 25deg)}
+html.dark-theme .sinar{background:repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(190,200,255,0) 0deg,rgba(190,200,255,.3) 3.5deg,rgba(190,200,255,0) 8deg,
+    rgba(190,200,255,0) 17deg,rgba(190,200,255,.18) 20deg,rgba(190,200,255,0) 25deg)}
+.cta .sinar{margin-top:-700px}
+.sinar.jeda,.perc.jeda{animation-play-state:paused}
+
+/* cahaya yang memancar dari tombol utama dan dari kata merek */
+.h5-aksi .h5-a{box-shadow:0 14px 28px -14px rgba(10,12,20,.7),0 0 0 1px rgba(255,255,255,.06),0 0 44px -8px rgba(112,120,148,.55)}
+html.dark-theme .h5-aksi .h5-a{box-shadow:0 0 0 1px rgba(255,255,255,.4),0 0 60px -6px rgba(190,200,255,.55)}
+html.dark-theme .h5-merek{text-shadow:0 0 90px rgba(190,200,255,.28)}
+html.dark-theme .h5-judul{text-shadow:0 0 60px rgba(190,200,255,.22)}
+
+/* grain hero tanpa mode campur: lebih ringan di GPU lemah, tampilannya nyaris sama */
+.h5-grain{mix-blend-mode:normal!important;opacity:.075!important}
+html.dark-theme .h5-grain{opacity:.1!important}

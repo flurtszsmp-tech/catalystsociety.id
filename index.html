@@ -15,7 +15,7 @@
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
 <script>
 !function(){try{if(localStorage.getItem('catalyst-theme')==='dark') document.documentElement.classList.add('dark-theme');}catch(e){}}();
 </script>
@@ -295,7 +295,7 @@
   .shead .snum{transform:translate3d(0,calc((var(--maju,.5) - .5) * -46px),0)}
   /* Foto industri dan foto Summit menepi pelan mengikuti gulir, memberi
      kesan lapisan, bukan gambar diam yang menempel di belakang teks. */
-  .ind .ind-card img{transform:translate3d(-50%,calc((var(--maju,.5) - .5) * 34px),0) scale(1.08)}
+  
   /* gambar dibuka seperti tirai, bukan sekadar meredup */
   /* sudut membulat ikut dibawa di dalam clip-path, kalau tidak sudutnya
      berubah tajam selama tirai gambar masih bergerak */
@@ -864,43 +864,28 @@
      Lima panel berjajar. Panel aktif (disentuh kursor, difokus keyboard, atau diketuk)
      melebar dan memperlihatkan deskripsi; panel lain tetap terbaca dari judulnya.
      Panel yang terakhir aktif tetap terbuka saat kursor keluar, jadi tidak memantul. */
-  .ind-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:52px;flex-wrap:wrap}
-  .ind-head h2{margin-top:20px;max-width:14ch}
-  .ind-rail{display:flex;gap:10px;container-type:inline-size}
-  .ind-card{position:relative;flex:1 1 0;min-width:0;height:clamp(400px,56vh,500px);border-radius:16px;overflow:hidden;
-    background:var(--black);color:#fff;isolation:isolate;cursor:pointer;outline:none;
-    transition:opacity .8s var(--ease),transform .8s var(--ease),flex-grow .7s cubic-bezier(.25,.8,.25,1);
-    transition-delay:calc(var(--i,0)*70ms),calc(var(--i,0)*70ms),0s}
-  .ind-card.aktif{flex-grow:3}
-  .ind-card:focus-visible{box-shadow:0 0 0 2px var(--bg,#fff),0 0 0 4px currentColor}
+  
+  
+  
+  
+  
+  
   /* Foto selalu selebar panel aktif dan ditaruh di tengah; panel hanya memotongnya.
      Kalau foto ikut melebar, browser menggambar ulang foto di tiap frame animasi
      dan geraknya patah. transform foto digerakkan oleh --maju (parallax); zoom aktif
      memakai properti scale terpisah supaya tidak bertabrakan. */
-  .ind-card img{position:absolute;top:0;left:50%;width:calc((100cqw - 40px) * 3 / 7);max-width:none;height:100%;object-fit:cover;
-    opacity:.55;transition:opacity .7s var(--ease),scale 1.4s var(--ease);will-change:transform}
-  .ind-card.aktif img{opacity:.82;scale:1.04}
-  .ind-card::after{content:"";position:absolute;inset:0;z-index:1;
-    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.86))}
-  .ind-card>*{position:relative;z-index:2}
-  .ind-inner{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column}
-  .ind-inner .num{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.12em;opacity:.7}
+  
+  
+  
+  
+  
+  
   /* lebar judul = lebar isi panel sempit (rail dibagi 7 bagian: 4 sempit + 1 aktif x3),
      jadi judul tidak berganti baris di tengah animasi melebar */
-  .ind-inner h3{margin-top:auto;width:calc((100cqw - 40px) / 7 - 40px);font-family:var(--display);font-weight:400;
-    font-size:clamp(17px,1.3vw,19px);line-height:1.2;letter-spacing:-.01em}
-  .ind-inner p{width:min(32ch,100%);font-size:13px;color:#cfcfcf;line-height:1.55;
-    max-height:0;opacity:0;overflow:hidden;transition:opacity .35s var(--ease),max-height .6s var(--ease),margin .6s var(--ease)}
-  .ind-card.aktif p{max-height:6em;opacity:1;margin-top:10px;transition-delay:.22s,0s,0s}
-  @media (max-width:860px){
-    .ind-rail{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
-    .ind-rail::-webkit-scrollbar{display:none}
-    .ind-card,.ind-card.aktif{flex:0 0 72vw;scroll-snap-align:start;cursor:auto}
-    .ind-card img,.ind-card.aktif img{opacity:.72;scale:1;left:0;width:100%}
-    .ind .ind-card img{transform:translate3d(0,calc((var(--maju,.5) - .5) * 34px),0) scale(1.08)}
-    .ind-inner h3{width:auto}
-    .ind-inner p,.ind-card.aktif p{max-height:none;opacity:1;margin-top:10px}
-  }
+  
+  
+  
+
 
   /* Pita hitam "100+ COMMUNITY PARTNERS" persis slide 03 */
   .partners{margin-top:52px;position:relative;padding-top:34px}
@@ -947,30 +932,26 @@
   .flip-back .more{margin-top:auto;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:.6}
 
   /* ---------- summit ---------- */
-  .summit{overflow:hidden}
-  .summit-media{position:absolute;inset:0;z-index:0}
-  .summit-media img{width:100%;height:100%;object-fit:cover;opacity:.32}
-  .summit-media::after{content:"";position:absolute;inset:0;
-    background:radial-gradient(120% 90% at 50% 0%,rgba(0,0,0,.4),rgba(0,0,0,.9))}
-  .summit .wrap{position:relative;z-index:1}
-  .summit .kicker{color:#9a9a9a}
-  .summit h2{margin:20px 0 18px;max-width:16ch}
-  .summit .lead{color:#b7b7b7;margin-bottom:60px}
-  .summit-stat{display:flex;flex-wrap:wrap;gap:clamp(30px,6vw,90px);align-items:flex-end}
+  
+  
+  
+  
+  
+  
+  
+  
+  
   /* Teks bayangan menahan lebar sebesar angka akhir, angka berjalan ditumpuk di atasnya.
      Tanpa itu, angka yang tumbuh dari Rp0 mendorong keterangan di sebelahnya tiap bingkai. */
-  .summit-stat .big{position:relative;font-variant-numeric:tabular-nums;
-    font-family:var(--display);font-weight:400;line-height:.9;letter-spacing:-.03em;
-    font-size:clamp(52px,10vw,150px);color:#fff}
+  
   .big-tahan{visibility:hidden}
   .big-n{position:absolute;left:0;top:0;white-space:nowrap}
-  .summit-stat .sm{max-width:240px}
-  .summit-stat .sm b{display:block;font-family:var(--display);font-size:16px;color:#fff;margin-bottom:6px}
-  .summit-stat .sm span{font-size:12.5px;color:#9a9a9a}
-  .summit-tags{display:flex;gap:26px;flex-wrap:wrap;margin-top:56px;padding-top:26px;
-    border-top:1px solid rgba(255,255,255,.14)}
-  .summit-tags div{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8a8a8a}
-  .summit-tags b{color:#fff;font-family:var(--display);font-size:15px;display:block;margin-bottom:3px;letter-spacing:.02em}
+  
+  
+  
+  
+  
+  
 
   /* ---------- values ---------- */
   .val-head{max-width:560px;margin-bottom:56px}
@@ -997,7 +978,7 @@
   .cta .lead{margin:0 auto 34px;text-align:center}
   .cta .hero-cta{justify-content:center}
 
-  footer{border-top:1px solid var(--line);padding-block:56px}
+  
   .foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start}
   .foot-brand .lockup{margin-bottom:14px}
   .foot-brand p{font-size:12px;color:var(--muted);letter-spacing:.1em}
@@ -1325,7 +1306,7 @@
   html.dark-theme .flip-back .pico{stroke:#000}
   /* .eco-note / .flow-step kini .glass; .get span pakai token kaca -> varian gelap otomatis */
   html.dark-theme .get span{color:#d4d4d4}
-  html.dark-theme .ind-card{border:1px solid rgba(255,255,255,.14)}
+  
   html.dark-theme .partners .pl{background:#fff;color:#000}
   html.dark-theme .node .nh svg{stroke:#fff}
   html.dark-theme .node.anda .node-in{background:#fff;color:#000;border-color:#fff}
@@ -1385,7 +1366,7 @@
     .node.ditekan p,.node:hover p{max-height:120px;opacity:1;margin-top:4px}
     .eco-hub .mark{font-size:min(18vw,64px)}
     .eco-hub span{font-size:7px;letter-spacing:.24em}
-    .summit-stat{flex-direction:column;align-items:flex-start;gap:24px}
+    
     .foot-grid{flex-direction:column}
   }
   /* ---------- hemat gerak ----------
@@ -1420,10 +1401,15 @@
 <link rel="stylesheet" href="assets/redefine.css">
 <link rel="stylesheet" href="assets/video.css">
 <link rel="stylesheet" href="assets/polish.css">
-<link rel="stylesheet" href="assets/hero-ring.css">
-<link rel="stylesheet" href="assets/eco4.css">
+<link rel="stylesheet" href="assets/hero5.css">
+<link rel="stylesheet" href="assets/roket.css">
 <link rel="stylesheet" href="assets/stages.css">
 <link rel="stylesheet" href="assets/landing-plus.css">
+<link rel="stylesheet" href="assets/halo.css">
+<link rel="stylesheet" href="assets/launch.css">
+<link rel="stylesheet" href="assets/cahaya.css">
+<link rel="stylesheet" href="assets/rapi.css">
+<link rel="stylesheet" href="assets/v2-bagian.css">
 </head>
 <body class="locked">
 
@@ -1499,7 +1485,7 @@
     <div class="nav-dd">
       <a href="#programs" class="nav-dd-t" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.program">Program</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
       <div class="dd-panel" role="menu">
-        <a href="https://passport.catalystsociety.id/" role="menuitem"><span class="dd-ic"><svg viewBox="0 0 24 24"><use href="#i-passport"/></svg></span><span class="dd-tx"><b translate="no">Catalyst Passport</b><span data-i18n="p1.d"></span></span><span class="dd-no">01</span></a>
+        <a href="/catalyst-passport/" role="menuitem"><span class="dd-ic"><svg viewBox="0 0 24 24"><use href="#i-passport"/></svg></span><span class="dd-tx"><b translate="no">Catalyst Passport</b><span data-i18n="p1.d"></span></span><span class="dd-no">01</span></a>
         <a href="#prog-2" role="menuitem"><span class="dd-ic"><svg viewBox="0 0 24 24"><use href="#i-search"/></svg></span><span class="dd-tx"><b translate="no">Catalyst Finder</b><span data-i18n="p2.d"></span></span><span class="dd-no">02</span></a>
         <a href="#prog-3" role="menuitem"><span class="dd-ic"><svg viewBox="0 0 24 24"><use href="#i-cap"/></svg></span><span class="dd-tx"><b translate="no">Catalyst Academy</b><span data-i18n="p3.d"></span></span><span class="dd-no">03</span></a>
         <a href="#prog-4" role="menuitem"><span class="dd-ic"><svg viewBox="0 0 24 24"><use href="#i-flask"/></svg></span><span class="dd-tx"><b translate="no">Catalyst Labs</b><span data-i18n="p4.d"></span></span><span class="dd-no">04</span></a>
@@ -1578,50 +1564,32 @@
 <main id="top">
 
 <!-- hero -->
-<section class="hero" id="hero">
-  <div class="blobs"><div class="blob a"></div><div class="blob b"></div></div>
-  <div class="hero-ring" id="heroRing">
-    <div class="ring-halo" id="ringHalo" aria-hidden="true"></div>
-    <div class="ring-center" id="ringCenter" aria-hidden="true">
-      <span class="rc-no"></span>
-      <div class="rc-baris"><span class="rc-garis"></span><span class="rc-nama" translate="no"></span></div>
-    </div>
-    <div class="ring-tip" id="ringTip" aria-hidden="true" translate="no"></div>
+<section class="hero h5" id="hero">
+  <div class="h5-dekor" aria-hidden="true"><i class="h5-halo"></i><i class="h5-sorot"></i><i class="h5-g1"></i><i class="h5-g2"></i></div>
+
+  <div class="h5-isi">
+    <h1 class="h5-judul">Accelerating Future <br>Builders.</h1>
+    <p class="h5-desc" data-i18n="hero.desc">Kami membangun program inklusif untuk memberdayakan generasi muda di seluruh Indonesia, dengan akses ke mentor, modal, jaringan yang luas, dan berbagai sumber daya.</p>
+    <div class="h5-aksi" role="group" aria-label="Aksi utama"><div class="kap"><span class="kap-pil" aria-hidden="true"></span><a href="/login?mode=daftar" class="kap-a on"><span data-i18n="hero.buat">Create your Passport</span></a><a href="#community" class="kap-b"><span data-i18n="hero.jelajah">Browse 19 communities</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></div></div>
   </div>
-  <div class="ring-a11y" id="ringA11y" role="group" aria-label="Program Catalyst"></div>
-  <aside class="ring-info" id="ringInfo" aria-live="polite">
-    <div class="ri-atas"><span class="ri-no"></span><span class="ri-akses"></span></div>
-    <h3 class="ri-judul" translate="no"></h3>
-    <p class="ri-desc"></p>
-    <button class="ri-lengkap" id="ringLengkap" type="button" aria-expanded="false"><span>Selengkapnya</span><i aria-hidden="true"></i></button>
-    <p class="ri-isi"></p>
-    <div class="ri-aksi">
-      <a class="ri-buka" href="/login?mode=daftar"><span>Buka Platform</span><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></a>
-      <button class="ri-next" id="ringNext" type="button" aria-label="Next" title="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
-  </aside>
-  <div class="wrap hero-inner">
-    <div class="hero-top">
-      <h1 class="h-xl">
-        <span class="ln"><span>Accelerating</span></span>
-        <span class="ln"><span>Future</span></span>
-        <span class="ln"><span>Builders.</span></span>
-      </h1>
-      <a href="#programs" class="hero-explore">
-        <span data-i18n="hero.jelajahi">Jelajahi Ekosistem</span>
-        <span class="circle"><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg></span>
-      </a>
+
+  <div class="h5-scena" aria-hidden="true">
+    <div class="h5-merek" translate="no">Catalyst</div>
+
+    <div class="h5-kartu" translate="no">
+      <div class="a"><span>CATALYST PASSPORT</span><svg viewBox="-108 -118 244 236"><path d="M 79.86 -60.18 A 100 100 0 1 0 79.86 60.18 L 49.52 37.31 A 62 62 0 1 1 49.52 -37.31 Z"/><path d="M 126.5 -87.7 Q 108.05 -84.22 104.8 -64.5 Q 101.55 -84.22 83.1 -87.7 Q 101.55 -91.18 104.8 -110.9 Q 108.05 -91.18 126.5 -87.7 Z"/></svg></div>
+      <div class="no">CP · 0 0 0 0 1</div>
+      <div class="b"><span>Holder<b>Your Name</b></span><span>Stage<b>Connector</b></span></div>
     </div>
 
-    <div class="hero-bottom">
-      <p class="desc" data-i18n="hero.desc">Kami membangun program inklusif untuk memberdayakan generasi muda di seluruh Indonesia, dengan akses ke mentor, modal, jaringan yang luas, dan berbagai sumber daya.</p>
-      <div class="hero-duo" role="group" aria-label="Aksi utama">
-        <a href="/login?mode=daftar" class="hd-a"><span data-i18n="hero.akses">Get Access</span></a>
-        <span class="hd-gr" aria-hidden="true"></span>
-        <a href="#community" class="hd-b"><span data-i18n="hero.komunitas">Explore Community</span></a>
-      </div>
+    <div class="h5-kaca h5-k1"><span class="h5-ikon"><svg viewBox="-108 -118 244 236" aria-hidden="true"><path d="M 79.86 -60.18 A 100 100 0 1 0 79.86 60.18 L 49.52 37.31 A 62 62 0 1 1 49.52 -37.31 Z"/><path d="M 126.5 -87.7 Q 108.05 -84.22 104.8 -64.5 Q 101.55 -84.22 83.1 -87.7 Q 101.55 -91.18 104.8 -110.9 Q 108.05 -91.18 126.5 -87.7 Z"/></svg></span><div><b translate="no">Catalyst Academy</b><small data-i18n="hero.sert">Certificate added to your Passport</small></div></div>
+    <div class="h5-kaca h5-k2" translate="no">
+      <svg viewBox="0 0 58 58"><g transform="rotate(-90 29 29)"><circle class="h5-ring-b" cx="29" cy="29" r="22"/><circle class="h5-ring-a" cx="29" cy="29" r="22"/></g><text class="h5-ring-t" x="29" y="34" text-anchor="middle">2</text></svg>
+      <div><b>Journey</b><small>Connector, stage 2 of 7</small></div>
     </div>
   </div>
+
+  <div class="h5-grain" aria-hidden="true"></div>
 </section>
 
 <!-- about us -->
@@ -1633,7 +1601,7 @@
         <h2 data-i18n="ab1.j">Produk &amp; Layanan</h2>
         <p data-i18n="ab1.d"></p>
       </div>
-      <ul class="ab-sub">
+      <ul class="ab-sub stagger">
         <li><b data-i18n="ab4.j"></b><p data-i18n="ab4.d"></p></li>
         <li><b data-i18n="ab5.j"></b><p data-i18n="ab5.d"></p></li>
         <li><b data-i18n="ab2.j"></b><p data-i18n="ab2.d"></p></li>
@@ -1652,11 +1620,11 @@
 <section class="band redef" id="redefine">
   <div class="wrap">
     <p class="rd-teks rv" data-i18n="rd.teks">Dari ide menjadi <em>perusahaan</em>. Dari anak muda menjadi <em>pemimpin</em>. Catalyst Society adalah <em>mitra bertumbuh</em> bagi generasi muda.</p>
-    <div class="rd-stats" role="list">
+    <div class="rd-stats stagger" role="list">
       <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.akses">Access People</span><b data-n="10000">10.000+</b></div>
       <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.komunitas">Community Partners</span><b data-n="300">300+</b></div>
-      <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.ekosistem">Ecosystem &amp; Industry Partners</span><b data-n="100">100+</b><span class="rd-c" data-i18n="rd.brands">Partnership Brands</span></div>
-      <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.proyek">Projects / Startup Reached</span><b data-n="100">100+</b></div>
+      <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.ekosistem">Ecosystem Partners</span><b data-n="100">100+</b></div>
+      <div class="rd-st" role="listitem"><span class="rd-l" data-i18n="rd.proyek">Startup Reached</span><b data-n="100">100+</b></div>
     </div>
   </div>
 </section>
@@ -1665,15 +1633,9 @@
 <section class="eco band" id="ecosystem">
   <div class="blobs"><div class="blob a"></div><div class="blob b"></div></div>
   <div class="wrap" style="position:relative;z-index:1">
-    <div class="shead shead--split rv">
-      <div class="shs-main">
-        <span class="snum">02</span>
-        <h2 class="h-lg" data-i18n="s2.judul">Introducing<br>Catalyst<br>Society.</h2>
-      </div>
-      <div class="eco-side">
-        <p class="eco-sub" data-i18n="s2.sub">An ecosystem for the next generation of builders.</p>
-        <p class="lead" data-i18n="s2.desc">Catalyst Society adalah platform terintegrasi yang menghubungkan generasi muda dengan profesional, mentor, komunitas, perusahaan, investor, dan berbagai peluang.</p>
-      </div>
+    <div class="eco-kepala rv">
+      <span class="snum">02</span>
+      <h2 class="h-lg" data-i18n="s2.judul">Introducing Catalyst Society.</h2>
     </div>
 
     <div class="vid-frame rv" role="img" aria-label="Video coming soon">
@@ -1683,44 +1645,98 @@
       <div class="vid-teks"><span class="vid-k" data-i18n="vid.kicker">Video</span><b data-i18n="vid.soon">Video coming soon</b></div>
     </div>
 
-    <div class="eco4" id="eco4">
-      <div class="eco4-pin" id="e8Pin">
-        <div class="e8-ruang">
-          <canvas class="e8-lubang" id="e8Lubang" aria-hidden="true"></canvas>
-          <div class="e8-tanya" id="e8Tanya" aria-hidden="true">
-            <h3 data-i18n="eco.tanya">Apa yang Anda dapatkan?</h3>
-            <span class="e8-garis"></span>
+    <div class="eco-sesudah rv">
+      <div class="eco-baris">
+        <p class="eco-sub" data-i18n="s2.sub">An ecosystem for the next generation of builders.</p>
+        <button type="button" class="eco-lebih" id="ecoLebih" aria-expanded="false" aria-controls="ecoDesc">
+          <span data-i18n="eco.lebih">Read more</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+        </button>
+      </div>
+      <div class="eco-desc" id="ecoDesc"><div><p class="lead" data-i18n="s2.desc">Catalyst Society is an integrated platform connecting the young generation with professionals, mentors, communities, companies, investors, and a wide range of opportunities.</p></div></div>
+    </div>
+
+    <div class="rk" id="roket">
+      <button type="button" class="rk-jeda" aria-pressed="false"><span class="sr-only" data-i18n="rk.jeda">Jeda animasi</span><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-jeda" d="M5.5 3.5v9M10.5 3.5v9"/><path class="i-putar" d="M5 3.5v9l7.5-4.5z"/></svg></button>
+      <div class="rk-langit" aria-hidden="true"><i class="rk-bintang"></i><i class="rk-bintang b2"></i><i class="rk-garis g1"></i><i class="rk-garis g2"></i><i class="rk-garis g3"></i></div>
+      <div class="rk-isi">
+        <div class="rk-kiri">
+          <div class="rk-kepala">
+            <h3 class="rk-judul" id="rkJudul" data-i18n="eco.tanya">Apa yang Anda dapatkan?</h3>
+            <p class="rk-petunjuk" data-i18n="rk.petunjuk">Pilih satu titik di orbit untuk melihat isinya.</p>
           </div>
-          <div class="e8-lt" aria-hidden="true"><div class="e8-kata" id="e8Kata"></div></div>
-          <div class="e8-panggung" id="e5Fig">
-            <div class="e8-anda" id="e5Anda" aria-hidden="true"><span data-i18n="node.anda">Anda</span></div>
-            <div class="e8-kol e8-ki">
-          <button type="button" class="e8-el e8-lg" data-n="opportunity" data-i="0" data-sisi="-1"><span class="e8-no">01</span><b translate="no">Opportunity</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="networks" data-i="2" data-sisi="-1"><span class="e8-no">03</span><b translate="no">Networks</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="partners" data-i="4" data-sisi="-1"><span class="e8-no">05</span><b translate="no">Partners</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="career" data-i="6" data-sisi="-1"><span class="e8-no">07</span><b translate="no">Career</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
+
+          <div class="rk-ruang" id="rkRuang">
+            <svg class="rk-lintasan" aria-hidden="true"><ellipse class="l1"/><ellipse class="l2"/></svg>
+            <div class="rk-roket" aria-hidden="true">
+              <div class="rk-badan">
+                <span class="rk-api"><i class="rk-api-luar"></i><i class="rk-api-inti"></i><i class="rk-api-kilat"></i><i class="rk-percik p1"></i><i class="rk-percik p2"></i><i class="rk-percik p3"></i><i class="rk-percik p4"></i></span>
+                <img src="assets/img/roket-badan.webp" alt="" width="540" height="819" decoding="async" loading="lazy">
+                <div class="rk-pintu"><i class="rk-lubang"></i><i class="rk-daun"></i></div>
+              </div>
             </div>
-            <div class="e8-kol e8-ka">
-          <button type="button" class="e8-el e8-lg" data-n="business" data-i="1" data-sisi="1"><span class="e8-no">02</span><b translate="no">Business</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="capital" data-i="3" data-sisi="1"><span class="e8-no">04</span><b translate="no">Capital</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="mentors" data-i="5" data-sisi="1"><span class="e8-no">06</span><b translate="no">Mentors</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
-          <button type="button" class="e8-el e8-lg" data-n="community" data-i="7" data-sisi="1"><span class="e8-no">08</span><b translate="no">Community</b><span class="e8-pn" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></span></button>
+            <svg class="rk-astro" viewBox="0 0 120 150" aria-hidden="true">
+              <defs>
+                <linearGradient id="rkBaju" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e8eaf0"/><stop offset="1" stop-color="#b4b9c6"/></linearGradient>
+                <radialGradient id="rkHelm" cx=".36" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#eceef3"/><stop offset="1" stop-color="#aab0bf"/></radialGradient>
+                <linearGradient id="rkVisor" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46506a"/><stop offset=".45" stop-color="#141821"/><stop offset="1" stop-color="#040506"/></linearGradient>
+              </defs>
+              <g class="a-tubuh">
+                <rect x="30" y="76" width="60" height="56" rx="14" fill="#c4c8d3"/>
+                <g class="a-kiri">
+                  <rect x="26" y="86" width="16" height="38" rx="8" fill="url(#rkBaju)" stroke="#adb2bf"/>
+                  <circle cx="34" cy="125" r="8.5" fill="#e6e8ee" stroke="#a3a9b7"/>
+                </g>
+                <g class="a-kaki">
+                  <rect x="42" y="128" width="15" height="20" rx="7" fill="url(#rkBaju)" stroke="#adb2bf"/>
+                  <rect x="63" y="128" width="15" height="20" rx="7" fill="url(#rkBaju)" stroke="#adb2bf"/>
+                </g>
+                <rect x="34" y="78" width="52" height="60" rx="20" fill="url(#rkBaju)" stroke="#b1b6c3"/>
+                <rect x="47" y="96" width="26" height="16" rx="4" fill="#22252e"/>
+                <circle cx="54" cy="104" r="2.6" fill="#9fb2dc"/>
+                <circle cx="62" cy="104" r="2.6" fill="#fff"/>
+                <rect x="67" y="102.5" width="3" height="3" rx="1" fill="#6b7287"/>
+                <rect x="38" y="119" width="44" height="5" rx="2.5" fill="#cfd3dc"/>
+                <ellipse cx="60" cy="80" rx="23" ry="7" fill="#dde0e8" stroke="#b1b6c3"/>
+                <g class="a-lambai">
+                  <rect x="78" y="50" width="16" height="44" rx="8" fill="url(#rkBaju)" stroke="#adb2bf"/>
+                  <circle cx="86" cy="47" r="9.5" fill="#eef0f4" stroke="#a3a9b7"/>
+                  <circle cx="78.5" cy="50" r="4" fill="#eef0f4" stroke="#a3a9b7"/>
+                </g>
+                <g class="a-kepala">
+                  <rect x="23" y="38" width="9" height="18" rx="3.5" fill="#c3c7d2"/>
+                  <rect x="88" y="38" width="9" height="18" rx="3.5" fill="#c3c7d2"/>
+                  <circle cx="60" cy="46" r="32" fill="url(#rkHelm)" stroke="#a9aebc" stroke-width="1.2"/>
+                  <path d="M37 45c0-13 11-21 24-21s24 8 24 21-10 20-24 20-24-7-24-20z" fill="url(#rkVisor)"/>
+                  <path d="M44 39c3-7 9-10 17-10" fill="none" stroke="#fff" stroke-opacity=".78" stroke-width="3.4" stroke-linecap="round"/>
+                  <circle cx="76" cy="53" r="2.3" fill="#fff" opacity=".5"/>
+                </g>
+              </g>
+            </svg>
+            <div class="rk-orbit" id="rkOrbit" role="group" aria-labelledby="rkJudul">
+              <button type="button" class="rk-titik" data-n="opportunity"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Opportunity</b><small data-i18n="eco.opp.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="business"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Business</b><small data-i18n="eco.biz.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="networks"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Networks</b><small data-i18n="eco.net.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="capital"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Capital</b><small data-i18n="eco.cap.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="partners"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Partners</b><small data-i18n="eco.par.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="mentors"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Mentors</b><small data-i18n="eco.mentor.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="career"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Career</b><small data-i18n="eco.career.s"></small></span></button>
+              <button type="button" class="rk-titik" data-n="community"><i class="rk-planet" aria-hidden="true"></i><span class="rk-label"><b translate="no">Community</b><small data-i18n="eco.comm.s"></small></span></button>
             </div>
           </div>
         </div>
-        <div class="e4-hint" aria-hidden="true"><i></i><span data-i18n="eco.scroll">Scroll</span></div>
-        <aside class="e8-papan" id="ecoDetail" role="dialog" aria-labelledby="edJudul" aria-hidden="true">
-          <div class="e8-inti e8-lg" data-lenis-prevent>
-            <button type="button" class="ed-tutup" aria-label="Tutup"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
-            <div class="e8-isi">
-              <h3 class="ed-judul" id="edJudul" translate="no"></h3>
-              <p class="ed-lead"></p>
-              <h4 class="ed-sub" data-i18n="eco.dapat">Yang Anda dapatkan</h4>
-              <ol class="ed-list"></ol>
-              <a class="e8-cta" href="/login"><span data-i18n="show.buka">Buka Platform</span><i aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5"/></svg></i></a>
-            </div>
-          </div>
-        </aside>
+
+        <div class="rk-papan-wadah">
+          <aside class="rk-papan" id="ecoDetail" aria-labelledby="edJudul" data-lenis-prevent inert>
+            <button type="button" class="rk-tutup"><span class="sr-only" data-i18n="eco.tutup">Tutup</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+            <span class="rk-p-no" id="rkPapanNo">01 / 08</span>
+            <h4 id="edJudul" translate="no">Opportunity</h4>
+            <p class="ed-lead"></p>
+            <h5 data-i18n="eco.dapat">Yang Anda dapatkan</h5>
+            <ol class="ed-list"></ol>
+            <a class="rk-cta" href="/login?mode=daftar"><span data-i18n="pd.mulai">Mulai dari Passport</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+          </aside>
+        </div>
       </div>
     </div>
   </div>
@@ -1732,77 +1748,127 @@
 
 
 <!-- industries -->
-<section class="ind band dark on-dark" id="industries">
-  <div class="wrap">
-    <div class="shead shead--split rv">
-      <div class="shs-main">
-        <span class="snum">03</span>
-        <h2 class="h-lg" data-i18n="s3.judul">One Ecosystem.<br>Five Industries.</h2>
-      </div>
-      <p class="lead" data-i18n="s3.desc">Terhubung ke <strong>Industri</strong> melalui berbagai<br><strong>Komunitas</strong> di Sektor berikut.</p>
-    </div>
+<section class="ind v2-band" id="industries">
+  <div class="v2-wrap">
+    <div class="ind-bingkai v2-frame">
+      <div class="v2-halo" aria-hidden="true"></div>
+      <header class="ind-kepala">
+        <div class="ind-kepala-utama v2-reveal">
+          <span class="v2-label ind-no">03</span>
+          <h2 class="ind-judul" data-i18n="s3.judul">One Ecosystem.<br>Five Industries.</h2>
+        </div>
+        <p class="ind-lead v2-reveal" data-v2-delay="120" data-i18n="s3.desc">Terhubung ke <strong>Industri</strong> melalui berbagai<br><strong>Komunitas</strong> di Sektor berikut.</p>
+      </header>
 
-    <div class="ind-rail stagger" id="indRail">
-      <article class="ind-card">
-        <img src="assets/industri/ai.webp" alt="" loading="lazy" decoding="async">
-        <div class="ind-inner">
-          <span class="num">01</span>
-          <h3 translate="no">AI &amp; Technology</h3>
-          <p data-i18n="ind.ai.d">Artificial Intelligence, Software, Data, dan Emerging Technology.</p>
-        </div>
-      </article>
-      <article class="ind-card">
-        <img src="assets/industri/business.webp" alt="" loading="lazy" decoding="async">
-        <div class="ind-inner">
-          <span class="num">02</span>
-          <h3 translate="no">Business</h3>
-          <p data-i18n="ind.biz.d">Startup, Entrepreneurship, dan Business Development.</p>
-        </div>
-      </article>
-      <article class="ind-card">
-        <img src="assets/industri/investments.webp" alt="" loading="lazy" decoding="async">
-        <div class="ind-inner">
-          <span class="num">03</span>
-          <h3 translate="no">Investments</h3>
-          <p data-i18n="ind.inv.d">Finance, Investment, Capital Market, dan Wealth Building.</p>
-        </div>
-      </article>
-      <article class="ind-card">
-        <img src="assets/industri/dev.webp" alt="" loading="lazy" decoding="async">
-        <div class="ind-inner">
-          <span class="num">04</span>
-          <h3 translate="no">Dev &amp; Builder</h3>
-          <p data-i18n="ind.dev.d">Development, Product, Design, Leadership, dan Career.</p>
-        </div>
-      </article>
-      <article class="ind-card">
-        <img src="assets/industri/social.webp" alt="" loading="lazy" decoding="async">
-        <div class="ind-inner">
-          <span class="num">05</span>
-          <h3 translate="no">Social Impact</h3>
-          <p data-i18n="ind.soc.d">Education, Environment, Community, dan Sustainable Impact.</p>
-        </div>
-      </article>
-    </div>
+      <div class="ind-rail v2-reveal" id="indRail" data-v2-delay="180">
+        <article class="ind-card aktif">
+          <h3 class="ind-h">
+            <button type="button" class="ind-tombol" id="indTb0" aria-expanded="true" aria-controls="indDt0">
+              <span class="ind-thumb"><img src="assets/industri/ai.webp" alt="" loading="lazy" decoding="async" width="96" height="96"></span>
+              <span class="num">01</span>
+              <span class="ind-nama" translate="no">AI &amp; Technology</span>
+              <span class="ind-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+            </button>
+          </h3>
+          <div class="ind-detail" id="indDt0" role="region" aria-labelledby="indTb0" aria-hidden="false">
+            <div class="ind-foto"><img src="assets/industri/ai.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="ind-teks">
+              <p data-i18n="ind.ai.d">Artificial Intelligence, Software, Data, dan Emerging Technology.</p>
+              <div class="ind-kom" hidden>
+                <div class="ind-kom-atas"><b class="ind-kom-n">0</b><span class="ind-kom-l" data-i18n="v2.ekosistem.komunitas">komunitas di sektor ini</span></div>
+                <div class="ind-kom-logo"></div>
+              </div>
+              <a class="ind-semua" href="#community"><span class="ind-semua-l" data-i18n="v2.ekosistem.semua">Lihat semua komunitas</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="ind-card">
+          <h3 class="ind-h">
+            <button type="button" class="ind-tombol" id="indTb1" aria-expanded="false" aria-controls="indDt1">
+              <span class="ind-thumb"><img src="assets/industri/business.webp" alt="" loading="lazy" decoding="async" width="96" height="96"></span>
+              <span class="num">02</span>
+              <span class="ind-nama" translate="no">Business</span>
+              <span class="ind-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+            </button>
+          </h3>
+          <div class="ind-detail" id="indDt1" role="region" aria-labelledby="indTb1" aria-hidden="true">
+            <div class="ind-foto"><img src="assets/industri/business.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="ind-teks">
+              <p data-i18n="ind.biz.d">Startup, Entrepreneurship, dan Business Development.</p>
+              <div class="ind-kom" hidden>
+                <div class="ind-kom-atas"><b class="ind-kom-n">0</b><span class="ind-kom-l" data-i18n="v2.ekosistem.komunitas">komunitas di sektor ini</span></div>
+                <div class="ind-kom-logo"></div>
+              </div>
+              <a class="ind-semua" href="#community"><span class="ind-semua-l" data-i18n="v2.ekosistem.semua">Lihat semua komunitas</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="ind-card">
+          <h3 class="ind-h">
+            <button type="button" class="ind-tombol" id="indTb2" aria-expanded="false" aria-controls="indDt2">
+              <span class="ind-thumb"><img src="assets/industri/investments.webp" alt="" loading="lazy" decoding="async" width="96" height="96"></span>
+              <span class="num">03</span>
+              <span class="ind-nama" translate="no">Investments</span>
+              <span class="ind-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+            </button>
+          </h3>
+          <div class="ind-detail" id="indDt2" role="region" aria-labelledby="indTb2" aria-hidden="true">
+            <div class="ind-foto"><img src="assets/industri/investments.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="ind-teks">
+              <p data-i18n="ind.inv.d">Finance, Investment, Capital Market, dan Wealth Building.</p>
+              <div class="ind-kom" hidden>
+                <div class="ind-kom-atas"><b class="ind-kom-n">0</b><span class="ind-kom-l" data-i18n="v2.ekosistem.komunitas">komunitas di sektor ini</span></div>
+                <div class="ind-kom-logo"></div>
+              </div>
+              <a class="ind-semua" href="#community"><span class="ind-semua-l" data-i18n="v2.ekosistem.semua">Lihat semua komunitas</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="ind-card">
+          <h3 class="ind-h">
+            <button type="button" class="ind-tombol" id="indTb3" aria-expanded="false" aria-controls="indDt3">
+              <span class="ind-thumb"><img src="assets/industri/dev.webp" alt="" loading="lazy" decoding="async" width="96" height="96"></span>
+              <span class="num">04</span>
+              <span class="ind-nama" translate="no">Dev &amp; Builder</span>
+              <span class="ind-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+            </button>
+          </h3>
+          <div class="ind-detail" id="indDt3" role="region" aria-labelledby="indTb3" aria-hidden="true">
+            <div class="ind-foto"><img src="assets/industri/dev.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="ind-teks">
+              <p data-i18n="ind.dev.d">Development, Product, Design, Leadership, dan Career.</p>
+              <div class="ind-kom" hidden>
+                <div class="ind-kom-atas"><b class="ind-kom-n">0</b><span class="ind-kom-l" data-i18n="v2.ekosistem.komunitas">komunitas di sektor ini</span></div>
+                <div class="ind-kom-logo"></div>
+              </div>
+              <a class="ind-semua" href="#community"><span class="ind-semua-l" data-i18n="v2.ekosistem.semua">Lihat semua komunitas</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="ind-card">
+          <h3 class="ind-h">
+            <button type="button" class="ind-tombol" id="indTb4" aria-expanded="false" aria-controls="indDt4">
+              <span class="ind-thumb"><img src="assets/industri/social.webp" alt="" loading="lazy" decoding="async" width="96" height="96"></span>
+              <span class="num">05</span>
+              <span class="ind-nama" translate="no">Social Impact</span>
+              <span class="ind-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>
+            </button>
+          </h3>
+          <div class="ind-detail" id="indDt4" role="region" aria-labelledby="indTb4" aria-hidden="true">
+            <div class="ind-foto"><img src="assets/industri/social.webp" alt="" loading="lazy" decoding="async"></div>
+            <div class="ind-teks">
+              <p data-i18n="ind.soc.d">Education, Environment, Community, dan Sustainable Impact.</p>
+              <div class="ind-kom" hidden>
+                <div class="ind-kom-atas"><b class="ind-kom-n">0</b><span class="ind-kom-l" data-i18n="v2.ekosistem.komunitas">komunitas di sektor ini</span></div>
+                <div class="ind-kom-logo"></div>
+              </div>
+              <a class="ind-semua" href="#community"><span class="ind-semua-l" data-i18n="v2.ekosistem.semua">Lihat semua komunitas</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
-<script>
-/* panel industri aktif: kursor (dengan jeda kecil supaya sapuan cepat tidak membuka semua),
-   fokus keyboard, atau ketukan */
-(function(){
-  var rail=document.getElementById('indRail');if(!rail)return;
-  var kartu=[].slice.call(rail.children),t=0;
-  function pilih(k){kartu.forEach(function(x){x.classList.toggle('aktif',x===k)})}
-  kartu.forEach(function(k){
-    k.tabIndex=0;
-    k.addEventListener('pointerenter',function(e){if(e.pointerType!=='mouse')return;clearTimeout(t);t=setTimeout(function(){pilih(k)},90)});
-    k.addEventListener('pointerleave',function(){clearTimeout(t)});
-    k.addEventListener('focus',function(){pilih(k)});
-    k.addEventListener('click',function(){pilih(k)});
-  });
-  pilih(kartu[0]);
-})();
-</script>
 </section>
 
 <!-- community partners: marquee logo -->
@@ -1823,7 +1889,7 @@
       <h2 class="h-md" data-i18n="cp.judul">Didukung mitra korporat dan industri.</h2>
     </div>
   </div>
-  <div class="pm"><div class="pm-row pm-a"><ul><li><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="Coinvestasi" decoding="async" height="52"></span></li><li><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="Indonesia Blockchain Week" decoding="async" height="52"></span></li><li><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="Web3 Week Asia" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate/w3wasia.webp" alt="" decoding="async" height="52"></span></li></ul></div></div>
+  <div class="pm"><div class="pm-row pm-a"><ul><li><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="Coinvestasi" decoding="async" height="52"></span></li><li><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="Indonesia Blockchain Week" decoding="async" height="52"></span></li><li><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="Web3 Week Asia" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo"><img src="assets/corporate-polos/coinvestasi.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/ibw.webp" alt="" decoding="async" height="52"></span></li><li aria-hidden="true"><span class="pm-logo pm-putih"><img src="assets/corporate-polos/w3wasia.webp" alt="" decoding="async" height="52"></span></li></ul></div></div>
 </section>
 
 
@@ -1900,12 +1966,11 @@
     <div class="rule-spark rv"><svg viewBox="0 0 24 24"><use href="#i-spark4"/></svg></div>
 
     <div class="pg-bento">
-      <article class="pg-card pg-passport rv" id="prog-1">
+      <article class="pg-card pg-passport rv" id="prog-1" data-prog="passport">
         <div class="pg-txt">
           <span class="pg-no">01</span><span class="pg-tag" data-i18n="pc.1">Digital Identity</span>
           <h3 translate="no">Catalyst Passport</h3>
           <p data-i18n="p1.b">Satu profil untuk semua pencapaian, skill, badge, dan journey. Bagikan sekali, terhubung ke mana saja.</p>
-          <a class="pg-go" href="https://passport.catalystsociety.id/"><span data-i18n="pg.pelajari">Pelajari Passport</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
         </div>
         <div class="pg-vis" aria-hidden="true">
           <div class="pgv-card">
@@ -1917,7 +1982,7 @@
         </div>
       </article>
 
-      <article class="pg-card pg-finder rv" id="prog-2">
+      <article class="pg-card pg-finder rv" id="prog-2" data-prog="finder">
         <div class="pg-txt">
           <span class="pg-no">02</span><span class="pg-tag" data-i18n="pc.2">Opportunity Hub</span>
           <h3 translate="no">Catalyst Finder</h3>
@@ -1929,7 +1994,7 @@
         </div>
       </article>
 
-      <article class="pg-card pg-academy rv" id="prog-3">
+      <article class="pg-card pg-academy rv" id="prog-3" data-prog="academy">
         <div class="pg-txt">
           <span class="pg-no">03</span><span class="pg-tag" data-i18n="pg.learn">Learn from Practitioners</span>
           <h3 translate="no">Catalyst Academy</h3>
@@ -1940,7 +2005,7 @@
         </div>
       </article>
 
-      <article class="pg-card pg-labs rv" id="prog-4">
+      <article class="pg-card pg-labs rv" id="prog-4" data-prog="labs">
         <div class="pg-txt">
           <span class="pg-no">04</span><span class="pg-tag" data-i18n="pc.4">Incubation</span>
           <h3 translate="no">Catalyst Labs</h3>
@@ -1951,7 +2016,7 @@
         </div>
       </article>
 
-      <article class="pg-card pg-ventures rv" id="prog-5">
+      <article class="pg-card pg-ventures rv" id="prog-5" data-prog="ventures">
         <div class="pg-txt">
           <span class="pg-no">05</span><span class="pg-tag" data-i18n="pc.5">Funding</span>
           <h3 translate="no">Catalyst Ventures</h3>
@@ -1962,17 +2027,17 @@
         </div>
       </article>
 
-      <article class="pg-card pg-summit rv" id="prog-6">
-        <div class="pg-spot" aria-hidden="true"></div>
-        <div class="pg-txt">
-          <span class="pg-no">06</span><span class="pg-tag" data-i18n="pc.6">The Stage</span>
-          <h3 translate="no">Catalyst Summit</h3>
-          <p data-i18n="p6.b">Pertemuan tahunan builders, mentor, dan investor. Tempat pendanaan dimulai.</p>
-          <a class="pg-go" href="#summit"><span data-i18n="pg.summit">Lihat Summit 2027</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
-        </div>
-        <div class="pg-prize" aria-hidden="true"><span>Best Project Innovation</span><b>Rp100.000.000</b><em data-i18n="pg.prize">Pendanaan tahap awal</em></div>
-      </article>
     </div>
+    <dialog class="pg-dialog" id="pgDialog" aria-labelledby="pgdJudul" data-lenis-prevent>
+      <button type="button" class="pgd-tutup"><span class="sr-only" data-i18n="eco.tutup">Tutup</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+      <span class="pgd-no"></span>
+      <h3 id="pgdJudul" translate="no"></h3>
+      <p class="pgd-isi"></p>
+      <dl class="pgd-akses"><dt data-i18n="pd.akses">Akses</dt><dd></dd></dl>
+      <h4 data-i18n="pd.dapat">Yang Anda dapatkan</h4>
+      <ul class="pgd-list"></ul>
+      <a class="pgd-cta" href="/login?mode=daftar"><span></span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </dialog>
   </div>
 </section>
 
@@ -2062,11 +2127,23 @@
 </section>
 
 <!-- values -->
-<section class="val band">
+<section class="val band" id="prinsip">
   <div class="wrap">
     <div class="shead shead--center rv">
       <div class="kicker" data-i18n="val.kicker">Visual &amp; Value Principles</div>
       <h2 class="h-lg" data-i18n="val.judul">Prinsip yang menjaga arah.</h2>
+    </div>
+    <div class="fd fd-v-b" id="founders">
+      <div class="fd-banner rv">
+        <img class="fd-bg" src="assets/img/founders-banner.webp" alt="Madani Al Fairuz, Co-Founder dan CTO, bersama Bagas Dwi Putra, Founder dan CEO Catalyst Society" loading="lazy" decoding="async" width="980" height="612">
+        <div class="fd-isi">
+          <div class="ab-label"><span class="rd-l" data-i18n="fd.label">Founders</span></div>
+          <ul class="fd-nama">
+            <li><div class="fd-t"><b translate="no">Madani Al Fairuz</b><span data-i18n="fd.cto">Co-Founder &amp; CTO</span></div></li>
+            <li><div class="fd-t"><b translate="no">Bagas Dwi Putra</b><span data-i18n="fd.ceo">Founder &amp; CEO</span></div></li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="val-grid stagger">
       <div class="val-cell"><svg viewBox="0 0 24 24"><use href="#i-chart"/></svg><b data-i18n="v1">Growth</b><p data-i18n="v1.d">Bertumbuh, berdampak, dan berkelanjutan.</p></div>
@@ -2078,22 +2155,6 @@
   </div>
 </section>
 
-<!-- founders: banner panjang seperti kotak kutipan, nama di kiri, foto memudar di kanan -->
-<section class="band fd fd-v-b" id="founders">
-<script>(function(){var v=new URLSearchParams(location.search).get("fd");if(/^[abcd]$/.test(v)){var e=document.currentScript.parentNode;e.classList.remove("fd-v-b");e.classList.add("fd-v-"+v)}})();</script>
-  <div class="wrap">
-    <div class="fd-banner rv">
-      <img class="fd-bg" src="assets/img/founders-banner.webp" alt="Madani Al Fairuz, Co-Founder dan CTO, bersama Bagas Dwi Putra, Founder dan CEO Catalyst Society" loading="lazy" decoding="async" width="980" height="612">
-      <div class="fd-isi">
-        <div class="ab-label"><span class="snum">07</span><span class="rd-l" data-i18n="fd.label">Founders</span></div>
-        <ul class="fd-nama">
-          <li><img class="fd-ava" src="assets/img/fd-bagas.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="fd-t"><b translate="no">Bagas Dwi Putra</b><span data-i18n="fd.ceo">Founder &amp; CEO</span></div></li>
-          <li><img class="fd-ava" src="assets/img/fd-madani.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="fd-t"><b translate="no">Madani Al Fairuz</b><span data-i18n="fd.cto">Co-Founder &amp; CTO</span></div></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- cta -->
 <section class="cta band" id="join">
@@ -2116,7 +2177,8 @@
       <div class="kl-kiri rv">
         <div class="ab-label"><span class="snum">09</span><span class="rd-l" data-i18n="kl.label">Open Collaboration</span></div>
         <h2 class="kl-judul" data-i18n="kf.judul">Bangun dampak bersama Catalyst Society.</h2>
-        <p class="kl-lead" data-i18n="kf.lead">Kami bermitra dengan perusahaan, komunitas, kampus, investor, dan pemerintah untuk membuka akses bagi generasi muda Indonesia. Pilih model kemitraan, ceritakan rencana Anda, dan tim kemitraan kami akan menindaklanjuti.</p>
+        <p class="kl-lead ringkas" id="klLead" data-i18n="kf.lead">Kami bermitra dengan perusahaan, komunitas, kampus, investor, dan pemerintah untuk membuka akses bagi generasi muda Indonesia. Pilih model kemitraan, ceritakan rencana Anda, dan tim kemitraan kami akan menindaklanjuti.</p>
+        <button type="button" class="eco-lebih kl-lebih" id="klLebih" aria-expanded="false" aria-controls="klLead"><span data-i18n="eco.lebih">Read more</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></button>
         <p class="kl-sub" data-i18n="kf.model">Model kemitraan</p>
         <ul class="kl-models"><li><button type="button" class="kl-model" data-kind="Corporate Partnership"><svg viewBox="0 0 24 24"><use href="#i-briefcase"/></svg><b data-i18n="kf.m1">Corporate Partnership</b><span data-i18n="kf.m1d">Program bersama, employer branding, dan akses talenta muda.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li><li><button type="button" class="kl-model" data-kind="Sponsorship Event &amp; Summit"><svg viewBox="0 0 24 24"><use href="#i-spark"/></svg><b data-i18n="kf.m2">Sponsorship</b><span data-i18n="kf.m2d">Hadir di Catalyst Summit, workshop, dan event komunitas.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li><li><button type="button" class="kl-model" data-kind="Community Partner"><svg viewBox="0 0 24 24"><use href="#i-users"/></svg><b data-i18n="kf.m3">Community Partner</b><span data-i18n="kf.m3d">Kolaborasi program dan event antarkomunitas.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li><li><button type="button" class="kl-model" data-kind="Mentor / Speaker"><svg viewBox="0 0 24 24"><use href="#i-cap"/></svg><b data-i18n="kf.m4">Mentor &amp; Speaker</b><span data-i18n="kf.m4d">Berbagi pengalaman di Academy, Labs, dan Summit.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li><li><button type="button" class="kl-model" data-kind="Investor / Venture Partner"><svg viewBox="0 0 24 24"><use href="#i-chart"/></svg><b data-i18n="kf.m5">Investor &amp; Venture</b><span data-i18n="kf.m5d">Akses deal flow startup yang sudah tervalidasi.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li><li><button type="button" class="kl-model" data-kind="Talent &amp; Hiring"><svg viewBox="0 0 24 24"><use href="#i-search"/></svg><b data-i18n="kf.m6">Talent &amp; Hiring</b><span data-i18n="kf.m6d">Rekrut talenta muda terkurasi lewat Catalyst Finder.</span><i class="kl-model-ok" aria-hidden="true"></i></button></li></ul>
         <p class="kl-sub" data-i18n="kf.proses">Bagaimana prosesnya</p>
@@ -2126,11 +2188,6 @@
           <li><b>03</b><span data-i18n="kf.pr3">Diskusi kebutuhan dan penyusunan proposal kerja sama.</span></li>
           <li><b>04</b><span data-i18n="kf.pr4">Kesepakatan, lalu program berjalan bersama.</span></li>
         </ol>
-        <ul class="kl-kontak">
-          <li><span class="rd-l" data-i18n="kl.email">Email</span><a href="mailto:info@catalystsociety.id">info@catalystsociety.id</a></li>
-          <li><span class="rd-l">WhatsApp</span><a href="https://wa.me/6285123350235" target="_blank" rel="noopener">+62 851-2335-0235</a></li>
-          <li><span class="rd-l">Instagram</span><a href="https://www.instagram.com/catalystsociety.id/" target="_blank" rel="noopener">@catalystsociety.id</a></li>
-        </ul>
       </div>
 
       <div class="kl-form kf" id="klForm2">
@@ -2152,13 +2209,13 @@
               <label class="kf-f"><span data-i18n="kf.org">Organisasi / perusahaan</span><input name="organization" type="text" autocomplete="organization" maxlength="160"></label>
               <label class="kf-f"><span data-i18n="kf.web">Situs / LinkedIn</span><input name="website" type="text" inputmode="url" maxlength="300" placeholder="https://"></label>
             </div>
-            <div class="kf-g"><p class="kf-l" data-i18n="kf.jenisorg">Jenis organisasi</p><div class="kf-chips"><label><input type="radio" name="org_type" value="Korporasi"><span data-i18n="kf.o1">Korporasi</span></label><label><input type="radio" name="org_type" value="Startup"><span data-i18n="kf.o2">Startup</span></label><label><input type="radio" name="org_type" value="UMKM"><span data-i18n="kf.o3">UMKM</span></label><label><input type="radio" name="org_type" value="BUMN / Pemerintah"><span data-i18n="kf.o4">BUMN / Pemerintah</span></label><label><input type="radio" name="org_type" value="Kampus / Sekolah"><span data-i18n="kf.o5">Kampus / Sekolah</span></label><label><input type="radio" name="org_type" value="Komunitas"><span data-i18n="kf.o6">Komunitas</span></label><label><input type="radio" name="org_type" value="NGO / Yayasan"><span data-i18n="kf.o7">NGO / Yayasan</span></label><label><input type="radio" name="org_type" value="Media"><span data-i18n="kf.o8">Media</span></label><label><input type="radio" name="org_type" value="Investor / VC"><span data-i18n="kf.o9">Investor / VC</span></label><label><input type="radio" name="org_type" value="Individu"><span data-i18n="kf.o10">Individu</span></label></div></div>
+            <div class="kf-g"><p class="kf-l" data-i18n="kf.jenisorg">Jenis organisasi</p><div class="kf-chips"><label><input type="radio" name="org_type" value="Korporasi"><span data-i18n="kf.o1">Korporasi</span></label><label><input type="radio" name="org_type" value="Startup"><span data-i18n="kf.o2">Startup</span></label><label><input type="radio" name="org_type" value="UMKM"><span data-i18n="kf.o3">UMKM</span></label><label><input type="radio" name="org_type" value="BUMN / Pemerintah"><span data-i18n="kf.o4">BUMN / Pemerintah</span></label><label><input type="radio" name="org_type" value="Kampus / Sekolah"><span data-i18n="kf.o5">Kampus / Sekolah</span></label><label><input type="radio" name="org_type" value="Komunitas"><span data-i18n="kf.o6">Komunitas</span></label><label><input type="radio" name="org_type" value="NGO / Yayasan"><span data-i18n="kf.o7">NGO / Yayasan</span></label><label><input type="radio" name="org_type" value="Media"><span data-i18n="kf.o8">Media</span></label><label><input type="radio" name="org_type" value="Investor / VC"><span data-i18n="kf.o9">Investor / VC</span></label><label><input type="radio" name="org_type" value="Individu"><span data-i18n="kf.o10">Individu</span></label><label><input type="radio" name="org_type" value="Lainnya"><span data-i18n="kf.o11">Lainnya</span></label></div></div>
           </fieldset>
 
           <fieldset class="kf-page" data-page="1">
             <legend class="sr-only" data-i18n="kf.t2">Kolaborasi</legend>
             <div class="kf-g"><p class="kf-l"><span data-i18n="kf.jenis">Jenis kolaborasi *</span> <em data-i18n="kf.boleh">boleh lebih dari satu</em></p><div class="kf-chips"><label><input type="checkbox" name="kinds" value="Corporate Partnership"><span>Corporate Partnership</span></label><label><input type="checkbox" name="kinds" value="Sponsorship Event & Summit"><span>Sponsorship Event &amp; Summit</span></label><label><input type="checkbox" name="kinds" value="Community Partner"><span>Community Partner</span></label><label><input type="checkbox" name="kinds" value="Mentor / Speaker"><span>Mentor / Speaker</span></label><label><input type="checkbox" name="kinds" value="Investor / Venture Partner"><span>Investor / Venture Partner</span></label><label><input type="checkbox" name="kinds" value="Talent & Hiring"><span>Talent &amp; Hiring</span></label><label><input type="checkbox" name="kinds" value="Program Kampus"><span data-i18n="kf.k7">Program Kampus</span></label><label><input type="checkbox" name="kinds" value="CSR & Social Impact"><span>CSR &amp; Social Impact</span></label><label><input type="checkbox" name="kinds" value="Media Partner"><span>Media Partner</span></label><label><input type="checkbox" name="kinds" value="Co-host Workshop / Event"><span>Co-host Workshop / Event</span></label><label><input type="checkbox" name="kinds" value="Lainnya"><span data-i18n="kl.lain">Lainnya</span></label></div></div>
-            <div class="kf-g"><p class="kf-l" data-i18n="kf.industri">Fokus industri</p><div class="kf-chips"><label><input type="checkbox" name="industries" value="business"><span>Business</span></label><label><input type="checkbox" name="industries" value="investments"><span>Investments</span></label><label><input type="checkbox" name="industries" value="ai"><span>AI &amp; Technology</span></label><label><input type="checkbox" name="industries" value="builder"><span>Builders</span></label><label><input type="checkbox" name="industries" value="impact"><span>Social Impact</span></label></div></div>
+            <div class="kf-g"><p class="kf-l" data-i18n="kf.industri">Fokus industri</p><div class="kf-chips"><label><input type="checkbox" name="industries" value="business"><span>Business</span></label><label><input type="checkbox" name="industries" value="investments"><span>Investments</span></label><label><input type="checkbox" name="industries" value="ai"><span>AI &amp; Technology</span></label><label><input type="checkbox" name="industries" value="builder"><span>Builders</span></label><label><input type="checkbox" name="industries" value="impact"><span>Social Impact</span></label><label><input type="checkbox" name="industries" value="Lainnya"><span data-i18n="kf.o11">Lainnya</span></label></div></div>
             <div class="kf-grid"><label class="kf-f"><span data-i18n="kf.nilai">Perkiraan nilai</span><select name="budget"><option value="" data-i18n="kf.pnilai">Pilih perkiraan nilai</option><option value="Belum ditentukan" data-i18n="kf.b1">Belum ditentukan</option><option value="Non-finansial / in-kind" data-i18n="kf.b2">Non-finansial (barang atau jasa)</option><option value="< Rp10 juta" data-i18n="kf.b3">Di bawah Rp10 juta</option><option value="Rp10-50 juta" data-i18n="kf.b4">Rp10–50 juta</option><option value="Rp50-200 juta" data-i18n="kf.b5">Rp50–200 juta</option><option value="> Rp200 juta" data-i18n="kf.b6">Di atas Rp200 juta</option></select></label><label class="kf-f"><span data-i18n="kf.waktu">Target waktu mulai</span><select name="timeline"><option value="" data-i18n="kf.pwaktu">Pilih waktu mulai</option><option value="Secepatnya (< 1 bulan)" data-i18n="kf.w1">Dalam 1 bulan</option><option value="1-3 bulan" data-i18n="kf.w2">1–3 bulan</option><option value="3-6 bulan" data-i18n="kf.w3">3–6 bulan</option><option value="Fleksibel" data-i18n="kf.w4">Fleksibel</option></select></label></div>
           </fieldset>
 
@@ -2168,7 +2225,7 @@
               <textarea name="message" rows="5" maxlength="4000" required data-i18n-ph="kf.pesanph" placeholder="Tujuan kolaborasi, sasaran peserta, bentuk dukungan yang Anda bayangkan, dan hasil yang diharapkan."></textarea>
               <small class="kf-count"><b>0</b>/4000</small>
             </label>
-            <div class="kf-g"><p class="kf-l" data-i18n="kf.pref">Lebih nyaman dihubungi lewat</p><div class="kf-chips"><label><input type="radio" name="contact_pref" value="Email"><span>Email</span></label><label><input type="radio" name="contact_pref" value="WhatsApp"><span>WhatsApp</span></label><label><input type="radio" name="contact_pref" value="Telepon"><span data-i18n="kf.p3">Telepon</span></label><label><input type="radio" name="contact_pref" value="Meeting online"><span data-i18n="kf.p4">Meeting online</span></label></div></div>
+            <div class="kf-g"><p class="kf-l" data-i18n="kf.pref">Lebih nyaman dihubungi lewat</p><div class="kf-chips"><label><input type="radio" name="contact_pref" value="Email"><span>Email</span></label><label><input type="radio" name="contact_pref" value="WhatsApp"><span>WhatsApp</span></label><label><input type="radio" name="contact_pref" value="Telepon"><span data-i18n="kf.p3">Telepon</span></label><label><input type="radio" name="contact_pref" value="Meeting online"><span data-i18n="kf.p4">Meeting online</span></label><label><input type="radio" name="contact_pref" value="Lainnya"><span data-i18n="kf.o11">Lainnya</span></label></div></div>
             <div class="kf-grid"><label class="kf-f"><span data-i18n="kf.sumber">Mengetahui kami dari</span><select name="source"><option value="" data-i18n="kf.psumber">Pilih salah satu</option><option value="Instagram">Instagram</option><option value="LinkedIn">LinkedIn</option><option value="Teman / rekan" data-i18n="kf.s3">Teman / rekan</option><option value="Event Catalyst" data-i18n="kf.s4">Event Catalyst</option><option value="Mesin pencari" data-i18n="kf.s5">Mesin pencari</option><option value="Lainnya" data-i18n="kl.lain">Lainnya</option></select></label></div>
             <label class="kf-setuju"><input type="checkbox" name="setuju" required><span data-i18n="kf.setuju">Saya setuju data ini dipakai tim Catalyst Society untuk menindaklanjuti permintaan kolaborasi.</span></label>
             <label class="kf-jebak" aria-hidden="true">Situs web<input name="situs_web" type="text" tabindex="-1" autocomplete="off"></label>
@@ -2225,7 +2282,7 @@
 
     <div class="ft-grid">
       <div class="ft-brand">
-        <a href="#top" class="lockup" aria-label="Catalyst Society"><svg class="mark" viewBox="-108 -118 244 236"><path d="M 79.86 -60.18 A 100 100 0 1 0 79.86 60.18 L 49.52 37.31 A 62 62 0 1 1 49.52 -37.31 Z"/><path class="spark" d="M 126.5 -87.7 Q 108.05 -84.22 104.8 -64.5 Q 101.55 -84.22 83.1 -87.7 Q 101.55 -91.18 104.8 -110.9 Q 108.05 -91.18 126.5 -87.7 Z"/></svg><span class="word" translate="no"><b>CATALYST</b><span>SOCIETY</span></span></a>
+        <a href="#top" class="ft-logo" aria-label="Catalyst Society"><svg viewBox="0 0 560 128" role="img" aria-hidden="true"><g transform="translate(58 66) scale(.5)"><path d="M 79.86 -60.18 A 100 100 0 1 0 79.86 60.18 L 49.52 37.31 A 62 62 0 1 1 49.52 -37.31 Z"/><path d="M 126.5 -87.7 Q 108.05 -84.22 104.8 -64.5 Q 101.55 -84.22 83.1 -87.7 Q 101.55 -91.18 104.8 -110.9 Q 108.05 -91.18 126.5 -87.7 Z"/></g><rect class="ft-logo-garis" x="146" y="14" width="2.5" height="100"/><text x="182" y="66" textLength="350" lengthAdjust="spacing" class="ft-logo-a">CATALYST</text><text x="184" y="106" textLength="346" lengthAdjust="spacing" class="ft-logo-b">SOCIETY</text></svg></a>
         <p class="ft-tag" translate="no">Learn. Earn. Impact.</p>
         <p class="ft-desc" data-i18n="ft.desc">Ekosistem yang menghubungkan generasi muda Indonesia dengan mentor, komunitas, perusahaan, dan investor, dari belajar sampai membangun bisnis.</p>
         <div class="ft-sosial">
@@ -2264,7 +2321,7 @@
 
       <div class="ft-col">
         <b class="ft-h" data-i18n="foot.prog">Program</b>
-        <a href="https://passport.catalystsociety.id/" translate="no">Catalyst Passport</a>
+        <a href="/catalyst-passport/" translate="no">Catalyst Passport</a>
         <a href="#prog-2" translate="no">Catalyst Finder</a>
         <a href="#prog-3" translate="no">Catalyst Academy</a>
         <a href="#prog-4" translate="no">Catalyst Labs</a>
@@ -2430,11 +2487,24 @@
   var nav = document.querySelector('.nav');
   /* Bagian berlatar gelap. Saat bilah melintas di atasnya, kacanya dibalik
      jadi terang supaya tulisannya tetap terbaca. */
+  /* bilah atas: hilang ke atas saat halaman digulir turun, turun kembali saat digulir naik.
+     Tetap tampil di puncak halaman, saat menu terbuka, atau saat ada isi bilah yang difokus. */
+  var gulirLalu = scrollY;
+  function navTerbuka(){
+    return document.body.classList.contains('locked') || nav.contains(document.activeElement) ||
+      !!nav.querySelector('.nav-dd.buka,.lang-menu.buka,.buka[role="menu"]') || !!document.querySelector('.akun-menu.buka,.nav-menu.buka,.mobile-menu.open');
+  }
   window.perbaruiGulir = function(){
+    var y = scrollY, beda = y - gulirLalu;
+    if (y < 80 || navTerbuka()) nav.classList.remove('sembunyi');
+    else if (beda > 6) nav.classList.add('sembunyi');
+    else if (beda < -6) nav.classList.remove('sembunyi');
+    if (Math.abs(beda) > 6 || y < 80) gulirLalu = y;
     nav.classList.toggle('scrolled', scrollY > 40);
     nav.classList.remove('di-gelap');
     perbaruiMaju();
   };
+  nav.addEventListener('focusin', function(){ nav.classList.remove('sembunyi'); });
 
   /* Sentuhan pada simpul ekosistem: membesar dan putaran berhenti selama
      ditekan, lalu kembali berputar begitu jari atau tombol dilepas. */
@@ -2748,9 +2818,6 @@
 })();
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="assets/hero-ring.js"></script>
-<script src="assets/eco4.js"></script>
 <script>
 (function(){
   var dd=document.querySelector('.nav-dd');if(!dd)return;
@@ -2890,5 +2957,8 @@ addEventListener('DOMContentLoaded', function(){
 <!-- Tanya Catalyst (CS AI). Isi alamat Cloudflare Worker di sini; kosong = tombol tidak tampil. -->
 <script>window.CATALYST_CS_URL = 'https://catalyst-cs.catalystsociety.workers.dev/';</script>
 <script src="assets/cs/cs.js" defer></script>
+<script src="assets/roket.js" defer></script>
+<script src="assets/launch.js" defer></script>
+<script src="assets/cahaya.js" defer></script>
 </body>
 </html>

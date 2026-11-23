@@ -1,0 +1,89 @@
+/* Halaman program Catalyst Passport dalam nada Halo Putih (prototype).
+   Dimuat sesudah passport-page.css. Susunan dan isi halaman tidak diubah:
+   yang berganti huruf (DM Sans), latar halo perak, kaca putih, kartu hitam
+   mengilap, dan sudut membulat, sama seperti landing. */
+
+:root{
+  --display:"DM Sans","Geist","Inter",system-ui,sans-serif;
+  --h-ink:#0a0b0f;--h-balik:#fff;--h-redam:rgba(10,11,15,.64);--h-samar:rgba(10,11,15,.44);--h-garis:rgba(10,11,15,.1);
+  --h-kaca:linear-gradient(135deg,rgba(255,255,255,.82),rgba(228,232,242,.52));
+  --h-tepi:rgba(255,255,255,.95);
+  --h-bayang:inset 0 1px 0 #fff,0 2px 2px rgba(28,34,56,.04),0 8px 12px rgba(28,34,56,.05),0 34px 50px -32px rgba(30,36,60,.5);
+  --h-isi:rgba(255,255,255,.7);--h-isi-tepi:rgba(10,11,15,.08);
+  --h-hitam:radial-gradient(130% 130% at 82% -12%,rgba(255,255,255,.26),transparent 46%),linear-gradient(156deg,#373a45,#14151a 52%,#05060a);
+  --h-bayang-hitam:inset 0 1px 0 rgba(255,255,255,.22),0 60px 80px -40px rgba(10,12,20,.75),0 18px 28px -14px rgba(10,12,20,.5);
+  --h-mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+/* ---------- latar: halo perak, memudar di tepi bawah ---------- */
+body{
+  position:relative;font-family:var(--display);overflow-x:hidden;
+  background:
+    radial-gradient(760px 520px at 100% 10%,rgba(112,120,148,.3),transparent 70%),
+    radial-gradient(720px 520px at 0% 38%,rgba(112,120,148,.24),transparent 70%),
+    radial-gradient(760px 540px at 100% 68%,rgba(112,120,148,.26),transparent 70%),
+    radial-gradient(640px 420px at 12% 6%,#fff,transparent 70%),
+    #fbfbfd;
+  background-repeat:no-repeat;
+}
+
+/* ---------- huruf: tebal dan rapat seperti landing ---------- */
+.pp-hero h1,.pp-sec-head h2,.pp-akhir h2{font-weight:700;letter-spacing:-.05em}
+.pp-hero h1{line-height:.94}
+.pp-hero h1 span{color:rgba(10,11,15,.4)}
+.pp-sec-head h2{font-size:clamp(36px,4.8vw,72px);line-height:.98}
+.pp-fakta b{font-weight:700;letter-spacing:-.06em}
+.pp-siapa h3,.pp-cara h3{font-weight:700;letter-spacing:-.04em}
+.pp-tur-list button b,.pp-logo b{font-weight:600}
+.pp-kicker,.pp-kicker-l{font-family:var(--h-mono)}
+.pp-sec-head p,.pp-lead{color:var(--h-redam)}
+
+/* ---------- bilah atas dan tombol ---------- */
+.pp-nav{background:var(--h-kaca);border:1px solid var(--h-tepi);box-shadow:var(--h-bayang);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.pp-menu a{color:var(--h-redam);font-weight:500}
+.pp-btn{font-weight:600}
+.pp-btn-hitam{background:var(--h-ink)}
+.pp-coba input{border-color:var(--h-isi-tepi);background:var(--h-isi);box-shadow:var(--h-bayang);border-radius:100px;padding:0 28px}
+.pp-chips button,.pp-chips span{border-color:var(--h-isi-tepi);background:var(--h-isi)}
+
+/* ---------- angka: ubin kaca, bukan garis ---------- */
+.pp-fakta{gap:16px;border:0;margin-top:clamp(36px,5vw,64px)}
+.pp-fakta div,.pp-fakta div:first-child{padding:clamp(22px,2.2vw,32px);border:1px solid var(--h-tepi);border-radius:32px;background:var(--h-kaca);box-shadow:var(--h-bayang)}
+.pp-fakta div:first-child{background:var(--h-hitam);box-shadow:var(--h-bayang-hitam);border-color:rgba(255,255,255,.12);color:#fff}
+.pp-fakta div:first-child span{color:rgba(255,255,255,.62)}
+.pp-fakta span{color:var(--h-redam)}
+
+/* ---------- panel besar: kaca putih bersudut besar ---------- */
+.pp-tur-panel,.jv{border:1px solid var(--h-tepi);border-radius:36px;background:var(--h-kaca);box-shadow:var(--h-bayang)}
+.pp-tur-list button{border-radius:22px}
+.pp-tur-list button:hover{background:var(--h-isi)}
+.pp-tur-list button[aria-selected="true"]{background:var(--h-hitam);box-shadow:var(--h-bayang-hitam)}
+.jv-kotak{border:1px solid var(--h-isi-tepi);border-radius:26px;background:var(--h-isi);box-shadow:var(--h-bayang)}
+.jv-gelap{background:var(--h-hitam);box-shadow:var(--h-bayang-hitam);border-color:rgba(255,255,255,.12)}
+.pp-mock,.mk-hero,.mk-kom,.mk-sert{border-radius:24px}
+
+/* ---------- untuk siapa dan cara kerja ---------- */
+.pp-siapa{gap:16px}
+.pp-siapa article{border:1px solid var(--h-tepi);border-radius:32px;background:var(--h-kaca);box-shadow:var(--h-bayang)}
+.pp-siapa .gelap{background:var(--h-hitam);box-shadow:var(--h-bayang-hitam);border-color:rgba(255,255,255,.12)}
+.pp-cara{gap:16px;border:0}
+.pp-cara li,.pp-cara li+li{padding:28px;border:1px solid var(--h-tepi);border-radius:32px;background:var(--h-kaca);box-shadow:var(--h-bayang)}
+.pp-cara p{color:var(--h-redam)}
+.pp-faq{border-top-color:var(--h-garis)}
+.pp-faq details{border-bottom-color:var(--h-garis)}
+
+/* ---------- penutup ---------- */
+.pp-akhir-in{border-radius:44px;background:var(--h-hitam);box-shadow:var(--h-bayang-hitam)}
+.pp-akhir h2{font-weight:700}
+
+/* ---------- kartu Passport di hero ---------- */
+.pp-kartu{box-shadow:var(--h-bayang-hitam)}
+.pp-float{border:1px solid var(--h-tepi);background:var(--h-kaca);box-shadow:var(--h-bayang)}
+
+/* ---------- kaki halaman ---------- */
+.pp-foot{color:var(--h-samar)}
+
+@media (max-width:860px){
+  .pp-fakta{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pp-cara li,.pp-cara li+li{padding:24px}
+}

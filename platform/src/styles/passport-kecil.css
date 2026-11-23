@@ -1,0 +1,360 @@
+/* ===========================================================
+   Passport ringkas: semua halaman muat satu layar laptop 1440x900
+   (area isi sekitar 1440x790). Dimuat paling akhir.
+
+   Gaya sama dengan Passport awal (sidebar, Home bento, pita nilai).
+   Yang berubah: ukuran lebih kecil, lebar isi dibatasi, kartu Home
+   disusun empat baris yang sama tinggi, halaman panjang dipecah jadi
+   tab (Journey, Komunitas) atau kisi dua kolom (Profil, Pengaturan,
+   Skills). Alasan tiap keputusan ditulis di blok masing masing.
+   =========================================================== */
+
+.pass-halo{--h-kata:clamp(90px,13vw,240px);--pass-gap:12px;--ps-isi:1180px}
+.pass-halo .pass-shell{font-size:13.5px}
+
+/* lebar isi: bilah atas, isi, dan pita nilai sejajar satu garis */
+.pass-halo .pass-top,.pass-halo .pass-main{max-width:var(--ps-isi);width:100%;margin-inline:auto}
+.pass-halo .pass-main{padding-top:2px}
+.pass-halo .pass-strip{width:calc(100% - 2 * var(--pass-pad));max-width:calc(var(--ps-isi) - 2 * var(--pass-pad));margin-inline:auto}
+
+/* ---------- bilah atas: lebih tipis supaya ruang isi bertambah ---------- */
+.pass-halo .pass-top{padding:10px var(--pass-pad) 8px}
+.pass-halo .pass-search{height:38px;padding:0 16px}
+.pass-halo .pass-search svg{width:16px;height:16px}
+.pass-halo .pass-search input{font-size:13px}
+.pass-halo .pass-icobtn,.pass-halo .pass-burger{width:38px;height:38px}
+.pass-halo .pass-icobtn svg{width:16px;height:16px}
+.pass-halo .pass-me{height:38px;gap:8px;padding:4px 14px 4px 4px}
+.pass-halo .pass-me img,.pass-halo .pass-me .pass-ini{width:30px;height:30px;font-size:11px}
+.pass-halo .pass-me-txt b{font-size:12.5px}
+.pass-halo .pass-me-txt span{font-size:10px}
+.pass-halo .pass-demo{font-size:9.5px}
+
+/* ---------- sidebar ---------- */
+@media (min-width:1041px){
+  .pass-halo .pass-panel a,.pass-halo .pass-panel button{height:36px}
+  .pass-halo .pass-panel a svg,.pass-halo .pass-panel button svg{width:18px;height:18px}
+  .pass-halo .pass-side:hover,.pass-halo .pass-side:focus-within{width:240px}
+}
+.pass-halo .pass-panel a,.pass-halo .pass-panel button{font-size:13px}
+
+/* ===========================================================
+   Home: dua kolom seperti Passport awal (permintaan 18 Nov):
+   kolom utama (kartu Passport, About, Journey, Communities, Projects)
+   dan kolom kanan (Share, CATA Points, Badges, Certificates).
+   Tiap kolom menumpuk sendiri, jadi tidak ada kartu yang ditarik
+   setinggi kartu sebelahnya.
+   =========================================================== */
+.pass-halo .pass-board.pass-home{display:flex;flex-direction:column;gap:12px}
+.pass-halo .pass-home>.pass-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (min-width:1101px){
+  .pass-halo .pass-board.pass-home{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,340px);align-items:start}
+}
+
+/* ---------- kartu ---------- */
+.pass-halo .pass-home .pass-card{border-radius:18px;padding:14px 16px}
+.pass-home .pass-card h2{font-size:14px}
+.pass-home .pass-head{margin-bottom:10px}
+.pass-home .pass-all{font-size:11.5px}
+.pass-home .pass-muted{font-size:12.5px}
+
+/* kartu Passport hitam */
+.pass-halo .pass-home .pass-hero{border-radius:20px;padding:14px 18px}
+.pass-home .pass-hero-cap{font-size:9px}
+.pass-home .pass-hero-mark{font-size:130px;right:-18px;bottom:-24px}
+.pass-home .pass-hero-act{right:14px;top:10px;gap:6px}
+.pass-home .pass-edit{padding:6px 12px;font-size:11.5px;gap:5px}
+.pass-home .pass-edit svg{width:12px;height:12px}
+.pass-home .pass-share{width:30px;height:30px}
+.pass-home .pass-share svg{width:13px;height:13px}
+.pass-home .pass-idbox{right:150px;top:9px;gap:8px;border-radius:10px;padding:3px 4px 3px 10px}
+.pass-home .pass-idbox .cap{font-size:7.5px}
+.pass-home .pass-idbox b{font-size:12px}
+.pass-home .pass-idbox button{width:22px;height:22px}
+.pass-home .pass-idbox svg{width:11px;height:11px}
+.pass-home .pass-hero-top{margin-top:16px;gap:14px}
+.pass-home .pass-photo{width:64px;height:64px;border-radius:16px}
+.pass-home .pass-photo.pass-ini{font-size:24px}
+.pass-home .pass-photo-seal{transform:scale(.8);transform-origin:100% 100%}
+.pass-home .pass-hero-body h1{font-size:clamp(19px,3.6cqw,24px);gap:7px;line-height:1.05}
+.pass-home .pass-verified{width:18px;height:18px}
+.pass-home .pass-role{margin-top:3px;font-size:12.5px;line-height:1.3}
+.pass-home .pass-loc{margin-top:1px;gap:5px;font-size:11px;line-height:1.3}
+.pass-home .pass-loc svg{width:12px;height:12px}
+.pass-home .pass-skills{margin-top:5px;gap:4px}
+.pass-home .pass-skill{padding:2px 8px;font-size:10px}
+.pass-home .pass-stats{gap:6px;margin-top:10px}
+.pass-home .pass-stat,.pass-home .pass-stat:last-child{padding:6px 10px;border-radius:11px}
+.pass-home .pass-stat dt{font-size:8px}
+.pass-home .pass-stat dd{margin-top:3px;font-size:clamp(14px,1.9cqw,17px);gap:5px}
+.pass-home .pass-stat dd svg{width:13px;height:13px}
+/* bilah kemajuan disembunyikan di Home: kemajuan yang sama sudah tampil di kartu Journey tepat di bawahnya */
+.pass-home .pass-prog{margin-top:10px}
+.pass-home .pass-prog-lbl{font-size:10.5px}
+.pass-home .pass-prog-bar{height:4px}
+
+/* tentang: tiga baris, Selengkapnya membuka sisanya */
+.pass-home .pass-about p{font-size:13px;line-height:1.5;margin-top:0}
+.ps-ringkas{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.ps-lebih{margin-top:4px;padding:2px 0;border:0;background:none;font:inherit;font-size:12px;font-weight:600;color:var(--h-ink);cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--h-ink) 40%,transparent)}
+.ps-lebih:hover{text-decoration-color:var(--h-ink)}
+.ps-lebih:focus-visible{outline:2px solid var(--h-ink);outline-offset:2px;border-radius:4px}
+.pass-halo .pass-home .pass-about .pass-links{grid-template-columns:repeat(auto-fit,minmax(min(100%,128px),1fr));margin-top:10px;gap:6px}
+.pass-halo .pass-home .pass-about .pass-link{padding:4px 10px 4px 4px;gap:7px}
+.pass-home .pass-link-ico{width:26px;height:26px}
+.pass-home .pass-link-ico svg{width:13px;height:13px}
+.pass-home .pass-link-txt b{font-size:12px}
+.pass-home .pass-link-txt small{font-size:10.5px}
+
+/* journey: akordeon seperti Five Industries di landing. Tahap tujuan terbuka lebar, tahap lain
+   menyempit dengan nama tegak dan terbuka saat disorot atau difokus. Tidak pernah berdesakan:
+   lebar kartu berapa pun, teks tahap yang menyempit tetap utuh karena ditulis tegak. */
+.pass-halo .pass-home .pass-journey{display:flex;gap:6px;height:128px;padding:0;overflow:hidden;align-items:stretch}
+.pass-halo .pass-home .pass-join{display:none}
+.pass-halo .pass-home .pass-step-wrap,.pass-halo .pass-home .pass-step-wrap:first-child{
+  flex:1 1 0;min-width:0;display:flex;transition:flex-grow .5s var(--akselerasi);
+}
+.pass-halo .pass-home .pass-step{
+  flex:1;width:100%;min-width:0;height:100%;min-height:0;padding:10px;border-radius:14px;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;overflow:hidden;text-align:left;font:inherit;
+}
+.pass-home .pass-step svg.ico{width:16px;height:16px;margin:0 0 6px;flex:none}
+/* menyempit: nama tegak, keterangan disembunyikan */
+.pass-halo .pass-home .pass-step b{font-size:12.5px;line-height:1.15;white-space:nowrap;writing-mode:vertical-rl;rotate:180deg;margin-top:auto}
+.pass-halo .pass-home .pass-step>span,.pass-halo .pass-home .pass-step>em{display:none}
+/* terbuka: tahap tujuan (atau tahap sekarang bila sudah Founder) selama baris tidak disorot, atau tahap yang disorot dan difokus */
+.pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within) .pass-step-wrap:has(.pass-step.next),
+.pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within):not(:has(.pass-step.next)) .pass-step-wrap:has(.pass-step.now),
+.pass-halo .pass-home .pass-journey .pass-step-wrap:hover,
+.pass-halo .pass-home .pass-journey .pass-step-wrap:focus-within{flex-grow:4.5}
+@supports (selector(:has(*))){
+  .pass-halo .pass-home .pass-journey :is(.pass-step-wrap:hover,.pass-step-wrap:focus-within) .pass-step b,
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within) .pass-step-wrap:has(.pass-step.next) .pass-step b,
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within):not(:has(.pass-step.next)) .pass-step-wrap:has(.pass-step.now) .pass-step b{
+    writing-mode:horizontal-tb;rotate:0deg;margin-top:0;white-space:normal;font-size:13.5px;
+  }
+  .pass-halo .pass-home .pass-journey :is(.pass-step-wrap:hover,.pass-step-wrap:focus-within) .pass-step>span:not(.goal),
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within) .pass-step-wrap:has(.pass-step.next) .pass-step>span:not(.goal),
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within):not(:has(.pass-step.next)) .pass-step-wrap:has(.pass-step.now) .pass-step>span:not(.goal){
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin-top:4px;font-size:11px;line-height:1.35;
+    animation:jrMuncul .45s var(--akselerasi) both;
+  }
+  .pass-halo .pass-home .pass-journey :is(.pass-step-wrap:hover,.pass-step-wrap:focus-within) .pass-step>:is(em,.goal),
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within) .pass-step-wrap:has(.pass-step.next) .pass-step>:is(em,.goal),
+  .pass-halo .pass-home .pass-journey:not(:hover):not(:focus-within):not(:has(.pass-step.next)) .pass-step-wrap:has(.pass-step.now) .pass-step>:is(em,.goal){
+    display:block;align-self:flex-start;margin-top:auto;font-size:10.5px;animation:jrMuncul .45s var(--akselerasi) both;
+  }
+}
+.pass-home .pass-step.next .goal{padding:3px 9px;font-size:10px}
+@keyframes jrMuncul{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .pass-halo .pass-home .pass-step-wrap{transition:none}
+  .pass-halo .pass-home .pass-step>*{animation:none!important}
+}
+.pass-halo .pass-home .pass-step-wrap:has(+ .pass-step-wrap .pass-step.next)>.pass-step::after{width:13px;height:13px;top:8px;right:8px}
+
+/* komunitas: dua lajur */
+.pass-halo .pass-home .pass-coms{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pass-home .pass-com{gap:8px;padding:4px 10px 4px 4px;font-size:12px}
+.pass-home .pass-com span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pass-home .pass-com img,.pass-home .pass-com-ini{width:26px;height:26px;font-size:10px;flex:none}
+.pass-home .pass-com.add svg{width:14px;height:14px;flex:none}
+
+/* projek */
+.pass-home .pass-proj-list{gap:8px}
+.pass-home .pass-proj-list>li{padding:10px 14px;border-radius:14px}
+.pass-home .pass-proj-list>li+li{padding-top:10px}
+.pass-home .pass-proj{gap:14px}
+.pass-home .pass-proj-body h3{font-size:14.5px}
+.pass-home .pass-proj-body p{font-size:12px;margin-top:3px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+.pass-home .pass-proj-meta{margin-top:6px;gap:8px}
+.pass-home .pass-tag,html.dark-theme .pass-home .pass-tag{padding:2px 9px;font-size:10.5px}
+.pass-home .pass-proj-meta time{font-size:11px}
+.pass-home .pass-faces img,.pass-home .pass-faces .more{width:26px;height:26px;font-size:10.5px}
+.pass-home .pass-outline{padding:5px 12px;font-size:11.5px}
+
+/* bagikan */
+.pass-home .pass-share-sub{margin:2px 0 10px;font-size:11.5px}
+.pass-home .pass-url{padding:3px 3px 3px 12px}
+.pass-home .pass-url input{font-size:11.5px}
+.pass-home .pass-url button{width:28px;height:28px}
+.pass-home .pass-url svg,.pass-home .pass-url button:hover svg{width:13px;height:13px}
+.pass-home .pass-share-row{grid-template-columns:repeat(4,34px);gap:6px;margin-top:8px}
+.pass-home .pass-share-row a,.pass-home .pass-share-row button{width:34px;height:34px}
+.pass-home .pass-share-row svg{width:14px;height:14px}
+
+/* poin */
+.pass-halo .pass-home .pass-pts{margin-top:0}
+.pass-halo .pass-home .pass-pts-num{font-size:36px}
+.pass-halo .pass-home .pass-pts-num svg{width:18px;height:18px}
+.pass-home .pass-pts-cap{font-size:10.5px;margin-top:2px}
+.pass-home .pass-delta,html.dark-theme .pass-home .pass-delta{padding:3px 9px;font-size:10.5px}
+.pass-home .pass-spark{margin-top:6px}
+.pass-home .pass-spark svg{height:38px}
+.pass-home .pass-months{font-size:9px;margin-top:4px}
+.pass-home .pass-analytics{margin-top:6px;font-size:11.5px}
+
+/* lencana: satu baris */
+.pass-halo .pass-home .pass-badges{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px 2px}
+.pass-home .pass-badge{gap:4px}
+.pass-home .pass-badge span{font-size:9.5px;line-height:1.2}
+.pass-home .pass-hex{width:34px;height:38px}
+.pass-home .pass-hex svg.ico{width:14px;height:14px}
+.pass-home .pass-badges-foot{margin-top:10px;padding-top:10px}
+.pass-home .cvb{padding:6px 8px;gap:8px;border-radius:12px}
+.pass-home .cvb-ico{width:26px;height:26px}
+.pass-home .cvb-txt b{font-size:12px}
+.pass-home .cvb-txt small{font-size:10px}
+
+/* sertifikat: baris ringkas, gambar kecil di kiri, status di bawah judul */
+.pass-halo .pass-home .pass-certs{grid-template-columns:minmax(0,1fr);gap:8px}
+.pass-halo .pass-home .pass-cert{
+  display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-areas:"g m" "g s";column-gap:10px;row-gap:4px;
+  align-items:center;padding:8px;border-radius:14px;
+}
+.pass-halo .pass-home .pass-cert .thumb{display:contents}
+.pass-halo .pass-home .pass-cert .thumb>:is(img,svg){grid-area:g;width:52px;height:52px;border-radius:10px;object-fit:cover;background:linear-gradient(160deg,#fff,#eceef4);padding:0}
+html.dark-theme .pass-halo .pass-home .pass-cert .thumb>:is(img,svg){background:linear-gradient(160deg,#1a1c24,#0d0e12)}
+.pass-halo .pass-home .pass-cert .thumb>svg{padding:15px}
+.pass-halo .pass-home .pass-cert .cert-chip{grid-area:s;position:static;justify-self:start;font-size:10px;padding:2px 8px}
+.pass-halo .pass-home .pass-cert .meta{grid-area:m;padding:0;align-self:end}
+.pass-home .pass-cert b{font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pass-home .pass-cert span{font-size:11px}
+.pass-home .pass-cert .meta span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* pita nilai */
+.pass-halo .pass-strip{margin-top:14px;padding:12px 18px;border-radius:16px}
+.pass-halo .pass-value b{font-size:12.5px}
+.pass-halo .pass-value p{font-size:11px;margin-top:2px}
+.pass-halo .pass-value svg{width:20px;height:20px}
+
+/* ===========================================================
+   Tab di dalam halaman (Journey, Komunitas)
+   =========================================================== */
+.ps-tabs{display:grid;gap:12px}
+.ps-tablist{
+  display:flex;gap:3px;width:max-content;max-width:100%;padding:4px;border-radius:100px;overflow-x:auto;scrollbar-width:none;
+  background:var(--h-isi);border:1px solid var(--h-isi-tepi);
+}
+.ps-tablist::-webkit-scrollbar{display:none}
+.ps-tablist [role="tab"]{
+  flex:none;height:34px;padding:0 15px;border:0;border-radius:100px;background:none;cursor:pointer;
+  font:inherit;font-size:13px;font-weight:500;color:var(--h-redam);transition:background .2s,color .2s;
+}
+.ps-tablist [role="tab"]:hover{color:var(--h-ink)}
+.ps-tablist [role="tab"].on{background:var(--h-ink);color:var(--h-balik);font-weight:600;box-shadow:0 12px 22px -14px rgba(10,11,15,.8)}
+.ps-tablist [role="tab"]:focus-visible{outline:2px solid var(--h-ink);outline-offset:2px}
+.ps-tabpanel{display:grid;gap:12px;min-width:0}
+.ps-tabpanel[hidden]{display:none}
+/* pemilih tahap di Panduan: pil lebih kecil */
+.jg-pilih .ps-tablist{margin-top:12px}
+.jg-pilih .ps-tablist [role="tab"]{height:30px;padding:0 12px;font-size:12px}
+/* satu tahap tampil sendiri, jadi garis penghubung linimasa tidak perlu */
+.pass-halo .jg-line.jg-satu{padding:0;margin:0}
+.pass-halo .jg-line.jg-satu>li{grid-template-columns:minmax(0,1fr)}
+.pass-halo .jg-line.jg-satu .jg-rail{display:none}
+
+/* ===========================================================
+   Halaman lain: ukuran ringkas
+   =========================================================== */
+.pass-halo .ps2,.pass-halo .pf{gap:12px}
+.pass-halo :is(.ps2-head h1,.pf-head h1){font-size:24px;letter-spacing:-.03em;line-height:1.1}
+.pass-halo .ps2-head,.pass-halo .pf-head{padding:0}
+.pass-halo :is(.ps2-lead,.pf-head p){font-size:13px;margin-top:4px}
+.pass-halo .ps2-kicker{font-size:9px}
+.pass-halo :is(.ps2-card,.pf-card){padding:16px 18px;border-radius:18px}
+.pass-halo :is(.jg-card,.cx-hero){border-radius:16px}
+.pass-halo .jg-card{padding:14px 16px}
+.pass-halo :is(.ps2-card-head h2,.pf-card-head h2){font-size:14px}
+.pass-halo :is(.ps2-sub,.pf-card-head p,.pf-sub){font-size:12px}
+.pass-halo :is(.jr-goal h3,.ps2-goal h3){font-size:17px}
+.pass-halo .jg-title h3{font-size:15px}
+.pass-halo .ps2-stat b{font-size:20px}
+.pass-halo :is(.ps2-stage,.ps2-comm,.ps2-cert,.ps2-stat,.jr-req,.jr-detail>li,.cl-box,.jg-grid section,.jg-prinsip li,.pf-note,.cert-rule,.ps2-note){border-radius:12px}
+.pass-halo .ps2-stage{padding:10px}
+.pass-halo .ui-btn{padding:8px 15px;font-size:12.5px}
+.pass-halo .ps2-btn-sm{padding:6px 12px;font-size:11.5px}
+.pass-halo .ui-input,.pass-halo .cn-select select{padding:8px 12px;border-radius:10px;font-size:13px}
+.pass-halo .ui-textarea{border-radius:12px}
+.pass-halo .ui-label{font-size:12px}
+.pass-halo .ui-empty{border-radius:16px}
+.pass-halo .ui-modal{border-radius:20px}
+.pass-halo .pf-savebar{padding:8px 14px}
+
+/* kisi dua kolom: Profil dan Pengaturan muat satu layar tanpa menyembunyikan isian
+   (isian di tab tersembunyi bisa menyembunyikan pesan galat, jadi bukan tab) */
+@media (min-width:1041px){
+  .pass-halo .pf:has(.pf-kisi){max-width:none}
+  .pass-halo .pf-kisi{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+  /* Profil per tab: Identitas = foto | tentang, Tautan dan CV satu kolom lebar */
+  .pass-halo .pf-kisi-profil :is(.pf-form,.pf-fieldset){display:contents}
+  .pass-halo .pf-kisi-profil.tab-identitas{grid-template-columns:minmax(0,5fr) minmax(0,7fr);grid-template-areas:"catatan catatan" "foto info" "simpan simpan"}
+  .pass-halo .pf-kisi-profil.tab-tautan{grid-template-columns:minmax(0,1fr);grid-template-areas:"catatan" "tautan" "simpan"}
+  .pass-halo .pf-kisi-profil.tab-cv{grid-template-columns:minmax(0,1fr);grid-template-areas:"catatan" "cv" "simpan"}
+  .pass-halo .pf-kisi-profil>.pf-note{grid-area:catatan}
+  .pass-halo .pf-kisi-profil section[aria-labelledby="pf-foto-h"]{grid-area:foto}
+  .pass-halo .pf-kisi-profil section[aria-labelledby="pf-info-h"]{grid-area:info}
+  .pass-halo .pf-kisi-profil #tautan{grid-area:tautan}
+  .pass-halo .pf-kisi-profil #cv{grid-area:cv}
+  .pass-halo .pf-kisi-profil .pf-savebar{grid-area:simpan;margin:0}
+  /* tautan sosial tiga lajur di layar lebar */
+  .pass-halo .pf-kisi-profil #tautan .pf-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* Pengaturan: Privasi yang paling panjang di kanan */
+  .pass-halo .pf-kisi-atur{grid-template-areas:"akun privasi" "tampil privasi" "bahaya privasi"}
+  .pass-halo .pf-kisi-atur>:nth-child(1){grid-area:akun}
+  .pass-halo .pf-kisi-atur>:nth-child(2){grid-area:tampil}
+  .pass-halo .pf-kisi-atur>:nth-child(3){grid-area:privasi}
+  .pass-halo .pf-kisi-atur>:nth-child(4){grid-area:bahaya}
+  /* Skills: isian di kiri, saran dari kanal di kanan */
+  .pass-halo .pf-card-skill{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:24px;align-items:start}
+  .pass-halo .pf-card-skill>.pf-card-head{grid-column:1/-1}
+  .pass-halo .pf-card-skill>.pf-sep{margin-top:0;padding-top:0;border-top:0}
+  .pass-halo .pf-card-lengkap .pf-check{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* Profil: kartu milik tab lain disembunyikan (berlaku di semua lebar layar) */
+.pass-halo .pf-kisi-profil [hidden]{display:none!important}
+.pass-halo .pf-kisi-profil:not(.tab-identitas) section[aria-labelledby="pf-foto-h"]{display:none}
+.pass-halo .pf-kisi-profil:not(.tab-cv) #cv{display:none}
+/* di tab CV bilah Simpan formulir profil hanya muncul bila ada perubahan yang belum disimpan */
+.pass-halo .pf-kisi-profil.tab-cv .pf-savebar:not(.is-dirty){display:none}
+.pass-halo .pf>.ps-tablist{margin-bottom:-2px}
+
+/* formulir ringkas */
+.pass-halo .pf-card{gap:12px}
+.pass-halo .pf-fields,.pass-halo .pf-grid{gap:10px}
+.pass-halo .pf-sep{padding-top:12px;gap:10px}
+.pass-halo .pf-card-head p{font-size:12px;margin-top:2px;line-height:1.45}
+.pass-halo .ui-field{gap:4px}
+.pass-halo .ui-hint{font-size:10.5px;line-height:1.4}
+.pass-halo .pf-avatar{gap:14px}
+.pass-halo .pf-avatar-box,.pass-halo .pf-avatar-img{width:72px;height:72px}
+.pass-halo .pf-check{gap:6px}
+.pass-halo .pf-dl{gap:10px}
+.pass-halo .pf-row{gap:12px}
+.pass-halo .pf-chips,.pass-halo .pf-seg{gap:5px}
+.pass-halo .pf-form{gap:12px}
+
+/* ---------- HP ---------- */
+@media (max-width:760px){
+  .pass-halo .pass-home .pass-card{padding:14px;border-radius:16px}
+  .pass-halo .pass-home .pass-hero{padding:16px 14px;border-radius:18px}
+  .pass-halo .pass-home .pass-coms{grid-template-columns:minmax(0,1fr)}
+  .pass-halo .pass-home .pass-certs{grid-template-columns:minmax(0,1fr)}
+  .pass-halo .pass-home .pass-badges{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}
+  .pass-halo :is(.ps2-head h1,.pf-head h1){font-size:21px}
+  .pass-halo :is(.ps2-card,.pf-card){padding:14px}
+  .pass-halo .pass-strip{padding:12px 14px}
+}
+
+/* Journey: panduan ringkas supaya satu tahap plus prinsipnya muat satu layar */
+.pass-halo .jg-prinsip{gap:8px}
+.pass-halo .jg-prinsip li{padding:10px 12px;gap:4px}
+.pass-halo .jg-prinsip small{font-size:11px;line-height:1.4}
+.pass-halo .jg-prinsip-ico{width:26px;height:26px}
+.pass-halo .jg-prinsip-ico svg{width:13px;height:13px}
+.pass-halo .jg-ico{width:36px;height:36px;border-radius:12px}
+.pass-halo .jg-about{font-size:12.5px;line-height:1.5}
+.pass-halo .jg-grid{gap:10px}
+.pass-halo .jg-grid section{padding:10px 12px}

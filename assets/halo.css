@@ -1,0 +1,193 @@
+/* Halo Putih untuk seluruh landing (prototype).
+   Lapisan di atas gaya yang ada, dimuat paling akhir. Isi dan susunan
+   tidak diubah: yang berganti huruf (DM Sans), cat (papan terang dengan
+   halo perak), kaca putih, tombol pil hitam, dan sudut membulat.
+   Pasangan gelapnya meminjam busur Night Arc. Hero ada di hero5.css. */
+
+:root{
+  --display:"DM Sans","Geist","Inter",system-ui,sans-serif;
+  --body:"DM Sans","Geist","Inter",system-ui,sans-serif;
+  --h-ink:#0a0b0f;
+  --h-balik:#fff;
+  --h-redam:rgba(10,11,15,.64);
+  --h-samar:rgba(10,11,15,.44);
+  --h-garis:rgba(10,11,15,.1);
+  --h-kaca:linear-gradient(135deg,rgba(255,255,255,.82),rgba(228,232,242,.52));
+  --h-tepi:rgba(255,255,255,.95);
+  --h-bayang:inset 0 1px 0 #fff,0 34px 50px -32px rgba(30,36,60,.5);
+  --h-isi:rgba(255,255,255,.7);
+  --h-isi-tepi:rgba(10,11,15,.08);
+  --h-hitam:radial-gradient(130% 130% at 82% -12%,rgba(255,255,255,.26),transparent 46%),linear-gradient(156deg,#373a45,#14151a 52%,#05060a);
+  --h-bayang-hitam:inset 0 1px 0 rgba(255,255,255,.22),0 60px 80px -40px rgba(10,12,20,.75),0 18px 28px -14px rgba(10,12,20,.5);
+  --h-mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --ink:#0a0b0f;
+  --line:rgba(10,11,15,.1);
+  --radius:28px;
+  --radius-sm:20px;
+}
+html.dark-theme{
+  --h-ink:#fff;
+  --h-balik:#05070a;
+  --h-redam:rgba(255,255,255,.68);
+  --h-samar:rgba(255,255,255,.44);
+  --h-garis:rgba(255,255,255,.14);
+  --h-kaca:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04));
+  --h-tepi:rgba(255,255,255,.2);
+  --h-bayang:inset 0 1px 0 rgba(255,255,255,.22),0 34px 50px -32px rgba(0,0,0,.85);
+  --h-isi:rgba(255,255,255,.06);
+  --h-isi-tepi:rgba(255,255,255,.1);
+  --ink:#fff;
+  --line:rgba(255,255,255,.14);
+}
+
+/* ---------- papan dan halo ---------- */
+body{font-family:var(--body)}
+main#top{position:relative;isolation:isolate}
+main#top::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1488' height='2600' viewBox='0 0 1488 2600' preserveAspectRatio='none'><defs><radialGradient id='a'><stop offset='0' stop-color='%23707894' stop-opacity='.34'/><stop offset='1' stop-color='%23707894' stop-opacity='0'/></radialGradient><radialGradient id='b'><stop offset='0' stop-color='%23ffffff' stop-opacity='1'/><stop offset='1' stop-color='%23ffffff' stop-opacity='0'/></radialGradient></defs><ellipse cx='1480' cy='620' rx='520' ry='440' fill='url(%23a)'/><ellipse cx='20' cy='1500' rx='540' ry='460' fill='url(%23a)'/><ellipse cx='1500' cy='2160' rx='520' ry='430' fill='url(%23a)'/><ellipse cx='260' cy='340' rx='560' ry='320' fill='url(%23b)'/></svg>") 0 0 / 100% 2600px repeat-y;
+}
+html.dark-theme main#top::before{
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1488' height='2600' viewBox='0 0 1488 2600' preserveAspectRatio='none'><defs><radialGradient id='a'><stop offset='0' stop-color='%23969ebe' stop-opacity='.26'/><stop offset='1' stop-color='%23969ebe' stop-opacity='0'/></radialGradient></defs><ellipse cx='1480' cy='620' rx='520' ry='440' fill='url(%23a)'/><ellipse cx='20' cy='1500' rx='540' ry='460' fill='url(%23a)'/><ellipse cx='1500' cy='2160' rx='520' ry='430' fill='url(%23a)'/></svg>") 0 0 / 100% 2600px repeat-y;
+}
+/* gradasi latar memudar di ujung bawah supaya tidak putus tajam di tepi main */
+main#top::before{-webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 900px),transparent 100%);mask-image:linear-gradient(180deg,#000 calc(100% - 900px),transparent 100%)}
+/* appearance.css memaksa tiap bagian ke warna latar polos; di sini dilepas supaya halo tembus */
+html main#top section:not(.summit):not(.hero),html main#top .dark:not(.summit){background:transparent!important}
+
+/* ===========================================================
+   Huruf: judul tebal dan rapat seperti hero, bukan Light 300
+   =========================================================== */
+.h-lg,.ab-utama h2,.fd-judul,.rd-teks,.about-quote p,.eco-sub,.prog-sub,.shead h2,.cta h2{
+  font-family:var(--display);font-weight:700;letter-spacing:-.04em;line-height:1.02;
+}
+.rd-teks{font-weight:600;letter-spacing:-.035em;line-height:1.1}
+.about-quote p{font-weight:600;letter-spacing:-.03em;line-height:1.25}
+.eco-sub,.prog-sub{font-weight:500;letter-spacing:-.025em}
+.h-md{font-weight:600;letter-spacing:-.025em}
+
+.lead{font-weight:400;font-size:15px;line-height:1.65;color:var(--h-redam)}
+.ab-utama p,.ab-sub p,.fd-daftar span{color:var(--h-redam)}
+b,strong{font-weight:600}
+.ab-sub b,.fd-daftar b,.val-cell b,.about-cell b{font-weight:700;letter-spacing:-.025em}
+.val-cell b{text-transform:none;font-size:19px;letter-spacing:-.03em}
+.btn{font-weight:600;font-size:14px;letter-spacing:0}
+.nav-links a{font-weight:500;font-size:13.5px;letter-spacing:0;color:var(--h-redam)}
+.nav-links a:hover{color:var(--h-ink)}
+.nav .btn{font-size:13.5px}
+.kicker{font-weight:600;color:var(--h-samar)}
+
+/* nomor bagian: bukan lagi angka raksasa berlubang, melainkan label kaca kecil */
+.snum,.shead .snum,.shead--right .snum{
+  position:static;display:inline-flex;align-items:center;margin:0 0 16px;padding:7px 13px;border-radius:100px;
+  font:500 11px/1 var(--h-mono);letter-spacing:.2em;color:var(--h-ink);
+  -webkit-text-stroke:0;transform:none;
+  background:var(--h-kaca);border:1px solid var(--h-tepi);box-shadow:var(--h-bayang);
+}
+
+.ab-label .snum{margin:0!important}
+
+/* ===========================================================
+   Kaca putih dan kartu hitam mengilap
+   =========================================================== */
+html main#top :is(.glass){
+  background:var(--h-kaca)!important;border:1px solid var(--h-tepi)!important;box-shadow:var(--h-bayang)!important;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--h-ink)!important;
+}
+html main#top :is(.glass){border-radius:28px}
+html main#top :is(.glass,.node-in,.origin-in)::before,html main#top :is(.glass,.node-in,.origin-in)::after{content:none!important}
+
+
+
+
+
+
+
+
+
+
+
+.get span{background:var(--h-isi);border-color:var(--h-isi-tepi);color:var(--h-redam)}
+
+.about-quote,.fd-banner,.vid-frame,.kl-form,.kl-card{
+  background:var(--h-hitam)!important;box-shadow:var(--h-bayang-hitam);border-radius:32px;
+}
+html.dark-theme .about-quote,html.dark-theme .fd-banner,html.dark-theme .vid-frame,html.dark-theme .kl-form,html.dark-theme .kl-card{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 1px rgba(255,255,255,.14),0 50px 70px -36px rgba(0,0,0,.9);
+}
+
+/* ---------- Tentang ---------- */
+.ab-blok{
+  border-radius:32px;background:var(--h-kaca);border:1px solid var(--h-tepi);box-shadow:var(--h-bayang);
+  padding:0 clamp(16px,2vw,28px);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+.ab-utama{padding-left:clamp(10px,1.4vw,20px);border-right-color:var(--h-garis)}
+.ab-sub li{border-color:var(--h-garis)}
+.ab-sub b{color:var(--h-ink)}
+
+/* ---------- Redefine ---------- */
+.rd-stats{
+  border:1px solid var(--h-tepi);border-radius:32px;background:var(--h-kaca);box-shadow:var(--h-bayang);
+  padding:0 clamp(14px,2vw,28px);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+.rd-st{border-left-color:var(--h-garis)}
+.rd-st:first-child{padding-left:clamp(10px,1.2vw,18px)}
+.rd-st b{font-weight:700;letter-spacing:-.05em}
+.rd-l{font-family:var(--h-mono);color:var(--h-samar)}
+
+/* ---------- Industri ---------- */
+
+
+/* ---------- Mitra ---------- */
+
+
+/* ---------- Ringkasan alur dan nilai ---------- */
+.val-cell b{color:var(--h-ink)}
+.val-cell p{color:var(--h-redam)}
+
+/* ===========================================================
+   Tahap 2: wadah kaca, papan Summit, CTA, kaki halaman
+   =========================================================== */
+.rd-st b{font-size:clamp(34px,4.3vw,64px)}
+
+/* tabel hairline jadi wadah kaca bersudut besar */
+html main#top .val-grid{
+  border:1px solid var(--h-tepi)!important;border-radius:32px;background:var(--h-kaca);box-shadow:var(--h-bayang);
+  padding:0 clamp(16px,2vw,28px);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow:hidden;
+}
+html main#top .val-cell{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none;border-radius:0}
+html main#top .val-cell:hover{background:var(--h-garis)!important}
+html main#top .val-cell + .val-cell{border-left:1px solid var(--h-garis)!important}
+
+/* Summit: papan hitam membulat dengan foto, bukan pita penuh layar */
+
+
+
+
+
+/* CTA: halo perak di belakang kalimat penutup, gema dari hero */
+.cta{position:relative;overflow:hidden;isolation:isolate}
+.cta::before{
+  content:"";position:absolute;left:50%;top:50%;width:min(1500px,150vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(circle closest-side at 50% 50%,#fff 0,#fff 50%,#eceef3 56%,#d3d7e2 61%,#aeb4c6 65%,#8b92aa 67.5%,#c9cedd 71%,rgba(214,218,230,.8) 77%,rgba(235,237,243,.5) 86%,rgba(255,255,255,0) 95%);
+  filter:blur(18px);opacity:.9;
+}
+html.dark-theme .cta::before{
+  background:radial-gradient(circle closest-side at 50% 50%,#000 0,#000 52%,#07080c 55%,#12141d 60%,#2a2e3e 64%,#555b72 67.5%,#7d849c 69.5%,#454b62 73%,rgba(48,54,78,.5) 79%,rgba(26,30,46,.22) 86%,rgba(0,0,0,0) 94%);
+}
+.cta h2{font-size:clamp(40px,6vw,88px);letter-spacing:-.045em}
+
+/* kaki halaman: kata merek raksasa terpotong di dasar */
+
+
+
+.foot-cols .fc b{font-family:var(--h-mono);font-weight:500;color:var(--h-samar)}
+.foot-cols .fc a{font-size:14px;color:var(--h-redam)}
+.foot-cols .fc a:hover{color:var(--h-ink)}
+.foot-bottom{border-top-color:var(--h-garis)}
+
+/* bilah atas: kaca putih yang sama */
+html .nav,html .nav.scrolled,html .nav.di-gelap{
+  background:var(--h-kaca)!important;border:1px solid var(--h-tepi)!important;box-shadow:var(--h-bayang)!important;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}

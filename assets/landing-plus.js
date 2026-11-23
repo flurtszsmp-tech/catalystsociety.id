@@ -287,6 +287,39 @@
       pass.addEventListener('pointerleave', function () { kartuP.style.transform = ''; });
     }
 
+    /* setiap kotak program bisa dibuka: dialog penjelasan singkat (isi dari Pitch Deck dan PRD) */
+    var dlg = document.getElementById('pgDialog');
+    if (dlg && dlg.showModal) {
+      var pemicu = null;
+      var isiDialog = function (k) {
+        var p = k.dataset.prog, no = k.querySelector('.pg-no'), cta = dlg.querySelector('.pgd-cta');
+        dlg.dataset.prog = p;
+        dlg.querySelector('.pgd-no').textContent = no ? no.textContent + ' / 05' : '';
+        dlg.querySelector('h3').textContent = k.querySelector('h3').textContent;
+        dlg.querySelector('.pgd-isi').textContent = t('pd.' + p + '.isi');
+        dlg.querySelector('.pgd-akses dd').textContent = t('pd.' + p + '.akses');
+        dlg.querySelector('.pgd-list').innerHTML = [1, 2, 3].map(function (n) { return '<li>' + esc(t('pd.' + p + '.' + n)) + '</li>'; }).join('');
+        cta.href = p === 'passport' ? '/catalyst-passport/' : '/login?mode=daftar';
+        cta.querySelector('span').textContent = t(p === 'passport' ? 'pd.passport.cta' : 'pd.mulai');
+      };
+      kartu.forEach(function (k) {
+        if (!k.dataset.prog) return;
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'pg-buka'; b.setAttribute('aria-haspopup', 'dialog');
+        b.innerHTML = '<span class="pg-plus" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></span>';
+        var label = function () { b.setAttribute('aria-label', t('pd.lihat', 'Lihat penjelasan') + ': ' + k.querySelector('h3').textContent); };
+        label(); document.addEventListener('bahasa-berubah', label);
+        b.addEventListener('click', function () { pemicu = b; isiDialog(k); dlg.showModal(); if (window.lenis && window.lenis.stop) window.lenis.stop(); });
+        k.appendChild(b);
+      });
+      dlg.querySelector('.pgd-tutup').addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });   /* klik di luar kotak */
+      dlg.addEventListener('close', function () { if (window.lenis && window.lenis.start) window.lenis.start(); if (pemicu) pemicu.focus({ preventScroll: true }); });
+      document.addEventListener('bahasa-berubah', function () {
+        if (dlg.open) { var k = document.querySelector('.pg-card[data-prog="' + dlg.dataset.prog + '"]'); if (k) isiDialog(k); }
+      });
+    }
+
     var ketik = document.querySelector('.pgv-type');
     if (ketik) {
       var kata = ['Product intern', 'Co-founder AI', 'Pre-seed investor', 'Mentor GTM'], ki = 0, ci = 0, hapus = false;
@@ -426,9 +459,72 @@
     }
     [].forEach.call(f.querySelectorAll('.kf-f select'), dropdown);
 
+    /* Pilihan bergelembung (jenis organisasi, jenis kolaborasi, fokus industri, kontak) diganti satu
+       tombol yang membuka daftar. Input asli tetap dipakai, jadi nilai, validasi, dan kartu model
+       kemitraan tidak berubah. Memilih Lainnya membuka kolom untuk mengetik sendiri. */
+    var ringkasan = [];
+    function pilihGrup(g) {
+      var chips = g.querySelector('.kf-chips'), in0 = chips && chips.querySelector('input');
+      if (!in0) return;
+      var nama = in0.name, ganda = in0.type === 'checkbox', id = 'kfp-' + nama;
+      var lab = g.querySelector('.kf-l');
+      if (lab && !lab.id) lab.id = id + '-l';
+      var wrap = document.createElement('div'); wrap.className = 'kf-dd kf-pil';
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'kf-dd-btn'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', id);
+      btn.innerHTML = '<span class="kf-dd-v" id="' + id + '-v"></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+      if (lab) btn.setAttribute('aria-labelledby', lab.id + ' ' + id + '-v');
+      chips.parentNode.insertBefore(wrap, chips);
+      wrap.appendChild(btn); wrap.appendChild(chips);
+      chips.id = id; chips.hidden = true; chips.classList.add('kf-pil-list'); chips.setAttribute('role', 'group');
+      if (lab) chips.setAttribute('aria-labelledby', lab.id);
+      var lain = chips.querySelector('input[value="Lainnya"]'), kolom = null;
+      if (lain) {
+        kolom = document.createElement('input');
+        /* batas panjang mengikuti kolom di database (org_type 60, contact_pref 40) dikurangi awalan "Lainnya: " */
+        kolom.type = 'text'; kolom.className = 'kf-lain'; kolom.name = nama + '_lain'; kolom.hidden = true;
+        kolom.maxLength = nama === 'org_type' ? 50 : nama === 'contact_pref' ? 30 : 60;
+        wrap.insertAdjacentElement('afterend', kolom);
+      }
+      function teksLain() { if (kolom) { kolom.placeholder = t('kf.lainisi', 'Tulis pilihan lain'); kolom.setAttribute('aria-label', kolom.placeholder); } }
+      function ringkas() {
+        var dip = [].slice.call(chips.querySelectorAll('input:checked')).map(function (x) { var s = x.nextElementSibling; return s ? s.textContent : x.value; });
+        btn.querySelector('.kf-dd-v').textContent = !dip.length ? t('kf.pilih', 'Pilih') : dip.length <= 2 ? dip.join(', ') : dip.length + ' ' + t('kf.dipilih', 'dipilih');
+        btn.classList.toggle('kosong', !dip.length);
+        if (kolom) kolom.hidden = !lain.checked;
+      }
+      function buka(b) {
+        chips.hidden = !b; btn.setAttribute('aria-expanded', String(b)); wrap.classList.toggle('buka', b);
+        if (b) (chips.querySelector('input:checked') || in0).focus({ preventScroll: true });
+      }
+      btn.addEventListener('click', function () { buka(chips.hidden); });
+      /* klik di daftar tidak boleh memindah fokus ke luar: tanpa ini focusout menutup daftar sebelum pilihan tercatat */
+      chips.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      chips.addEventListener('change', function (e) {
+        ringkas();
+        if (e.target === lain && lain.checked && kolom) setTimeout(function () { if (ganda) kolom.focus({ preventScroll: true }); });
+      });
+      /* pilihan tunggal: daftar tertutup setelah diklik atau ditekan Enter; panah tetap bisa berpindah */
+      chips.addEventListener('pointerup', function () {
+        if (!ganda) setTimeout(function () { buka(false); if (lain && lain.checked && kolom) kolom.focus({ preventScroll: true }); else btn.focus({ preventScroll: true }); }, 60);
+      });
+      wrap.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !chips.hidden) { e.preventDefault(); e.stopPropagation(); buka(false); btn.focus(); }
+        else if (e.key === 'Enter' && !chips.hidden && e.target !== btn) { e.preventDefault(); buka(false); btn.focus(); }
+      });
+      wrap.addEventListener('focusout', function (e) { if (!wrap.contains(e.relatedTarget)) buka(false); });
+      document.addEventListener('pointerdown', function (e) { if (!wrap.contains(e.target)) buka(false); });
+      document.addEventListener('bahasa-berubah', function () { setTimeout(function () { ringkas(); teksLain(); }); });
+      f.addEventListener('reset', function () { setTimeout(ringkas); });
+      ringkasan.push(ringkas);
+      teksLain(); ringkas();
+    }
+    [].forEach.call(f.querySelectorAll('.kf-g'), pilihGrup);
+
     /* Kartu model kemitraan memilih jenis kolaborasi di formulir. */
     var model = [].slice.call(document.querySelectorAll('.kl-model'));
     function sinkronModel() {
+      ringkasan.forEach(function (r) { r(); });
       model.forEach(function (m) {
         var cb = f.querySelector('input[name="kinds"][value="' + m.dataset.kind.replace(/"/g, '') + '"]');
         m.classList.toggle('on', !!(cb && cb.checked));
@@ -447,8 +543,10 @@
     sinkronModel();
 
     function nilai(n) { var el = f.elements[n]; return el && el.value ? el.value.trim() : ''; }
-    function pilihan(n) { return [].slice.call(f.querySelectorAll('input[name="' + n + '"]:checked')).map(function (x) { return x.value; }); }
-    function radio(n) { var x = f.querySelector('input[name="' + n + '"]:checked'); return x ? x.value : ''; }
+    /* "Lainnya" dikirim bersama teks yang diketik, mis. "Lainnya: Koperasi" */
+    function lainnya(n, v) { if (v !== 'Lainnya') return v; var el = f.elements[n + '_lain'], x = el && el.value.trim(); return x ? 'Lainnya: ' + x : v; }
+    function pilihan(n) { return [].slice.call(f.querySelectorAll('input[name="' + n + '"]:checked')).map(function (x) { return lainnya(n, x.value); }); }
+    function radio(n) { var x = f.querySelector('input[name="' + n + '"]:checked'); return x ? lainnya(n, x.value) : ''; }
 
     f.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -533,7 +631,15 @@
       var hasil = document.createDocumentFragment();
       [].slice.call(el.childNodes).forEach(function (n) {
         if (n.nodeType === 3) {
-          (n.textContent.match(POTONG) || []).forEach(function (t) {
+          var teks = n.textContent, depan = /^[.,;:!?、。，]+/.exec(teks), sebelum = hasil.lastChild;
+          /* tanda baca yang menempel pada frasa kunci tidak boleh terpisah ke baris baru */
+          if (depan && sebelum && sebelum.nodeType === 1) {
+            var bungkus = document.createElement('span'); bungkus.className = 'rd-nb';
+            hasil.replaceChild(bungkus, sebelum); bungkus.appendChild(sebelum);
+            var titik = document.createElement('span'); titik.className = 'rw'; titik.textContent = depan[0]; bungkus.appendChild(titik);
+            teks = teks.slice(depan[0].length);
+          }
+          (teks.match(POTONG) || []).forEach(function (t) {
             if (/^\s+$/.test(t)) { hasil.appendChild(document.createTextNode(t)); return; }
             var sp = document.createElement('span'); sp.className = 'rw'; sp.textContent = t; hasil.appendChild(sp);
           });
@@ -563,6 +669,117 @@
   }
 
 
-  function mulai() { pipeline(); program(); kolaborasi(); footer(); redefine(); }
+  /* ------------------------------------------------------------
+     6. Introducing: titik tiga membuka penjelasan panjang
+     ------------------------------------------------------------ */
+  function selengkapnya() {
+    var tombol = document.getElementById('ecoLebih'), isi = document.getElementById('ecoDesc');
+    if (tombol && isi) tombol.addEventListener('click', function () {
+      var buka = tombol.getAttribute('aria-expanded') !== 'true';
+      tombol.setAttribute('aria-expanded', buka);
+      isi.classList.toggle('buka', buka);
+    });
+    /* kolaborasi: paragraf pembuka dua baris, tombol membuka sisanya */
+    var kl = document.getElementById('klLebih'), lead = document.getElementById('klLead');
+    if (kl && lead) kl.addEventListener('click', function () {
+      var buka = kl.getAttribute('aria-expanded') !== 'true';
+      kl.setAttribute('aria-expanded', buka);
+      lead.classList.toggle('ringkas', !buka);
+    });
+  }
+
+
+  /* ------------------------------------------------------------
+     7. Industri (desain v2): satu sektor terbuka, sisanya kartu tegak;
+        sektor terbuka menampilkan jumlah dan logo komunitasnya.
+     ------------------------------------------------------------ */
+  function industri() {
+    var rail = document.getElementById('indRail');
+    if (!rail || !rail.querySelector('.ind-tombol')) return;
+    var kartu = [].slice.call(rail.querySelectorAll('.ind-card'));
+    var KANAL = ['ai_technology', 'business', 'investments', 'builders', 'social_impact'];
+    function buka(i, fokus) {
+      kartu.forEach(function (k, n) {
+        var on = n === i, b = k.querySelector('.ind-tombol');
+        k.classList.toggle('aktif', on);
+        b.setAttribute('aria-expanded', on ? 'true' : 'false');
+        k.querySelector('.ind-detail').setAttribute('aria-hidden', on ? 'false' : 'true');
+        [].forEach.call(k.querySelectorAll('.ind-detail a'), function (a) { a.tabIndex = on ? 0 : -1; });
+        if (on && fokus) b.focus({ preventScroll: true });
+      });
+    }
+    kartu.forEach(function (k, i) {
+      var b = k.querySelector('.ind-tombol');
+      b.addEventListener('click', function () { buka(i); });
+      b.addEventListener('keydown', function (e) {
+        var arah = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (!arah) return;
+        e.preventDefault();
+        buka((i + arah + kartu.length) % kartu.length, true);
+      });
+    });
+    function komunitas() {
+      var data = window.CATALYST_KOMUNITAS || [];
+      kartu.forEach(function (k, i) {
+        var milik = data.filter(function (d) { return d.kanal === KANAL[i]; }), wadah = k.querySelector('.ind-kom');
+        if (!milik.length) { wadah.hidden = true; return; }
+        wadah.hidden = false;
+        wadah.querySelector('.ind-kom-n').textContent = milik.length;
+        wadah.querySelector('.ind-kom-l').innerHTML = t('v2.ekosistem.komunitas', 'komunitas di sektor ini');
+        wadah.querySelector('.ind-kom-logo').innerHTML = milik.slice(0, 6).map(function (d) {
+          var href = d.slug ? '?k=' + d.slug : '#community';
+          return '<a class="ind-logo" href="' + esc(href) + '" title="' + esc(d.nama) + '"' + (d.slug ? ' data-k="' + esc(d.slug) + '"' : '') + '>' +
+            '<img src="assets/communities/' + esc(d.logo) + '" alt="' + esc(d.nama) + '" loading="lazy" decoding="async" width="40" height="40"></a>';
+        }).join('') + (milik.length > 6 ? '<span class="ind-logo lebih">+' + (milik.length - 6) + '</span>' : '');
+        k.querySelector('.ind-semua-l').innerHTML = t('v2.ekosistem.semua', 'Lihat semua komunitas');
+      });
+      var aktif = kartu.findIndex(function (k) { return k.classList.contains('aktif'); });
+      buka(aktif < 0 ? 0 : aktif);
+    }
+    /* logo membuka detail komunitas lewat alur yang sama dengan kartu di #community */
+    rail.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a.ind-logo[data-k]');
+      if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      history.pushState({ k: a.dataset.k }, '', '?k=' + a.dataset.k);
+      dispatchEvent(new PopStateEvent('popstate', { state: { k: a.dataset.k } }));
+    });
+    komunitas();
+    document.addEventListener('bahasa-berubah', function () { setTimeout(komunitas, 0); });
+  }
+
+
+  /* ------------------------------------------------------------
+     8. Tombol kapsul hero: pil hitam bergeser ke pilihan yang disorot
+        atau difokus, lalu tetap di sana setelah kursor pergi.
+     ------------------------------------------------------------ */
+  function kapsul() {
+    var kap = document.querySelector('.kap'), pil = kap && kap.querySelector('.kap-pil');
+    if (!kap || !pil) return;
+    var tautan = [].slice.call(kap.querySelectorAll('a')), aktif = tautan[0];
+    function taruh(a) {
+      aktif = a;
+      kap.style.setProperty('--x', a.offsetLeft + 'px');
+      kap.style.setProperty('--y', a.offsetTop + 'px');
+      kap.style.setProperty('--w', a.offsetWidth + 'px');
+      kap.style.setProperty('--h', a.offsetHeight + 'px');
+      tautan.forEach(function (x) { x.classList.toggle('on', x === a); });
+    }
+    tautan.forEach(function (a) {
+      a.addEventListener('pointerenter', function () { taruh(a); });
+      a.addEventListener('focus', function () { taruh(a); });
+    });
+    /* posisi awal tanpa animasi, lalu animasi dinyalakan */
+    pil.style.transition = 'none';
+    taruh(aktif);
+    kap.classList.add('kap-hidup');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { pil.style.transition = ''; }); });
+    addEventListener('resize', function () { taruh(aktif); });
+    document.addEventListener('bahasa-berubah', function () { setTimeout(function () { taruh(aktif); }, 0); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { taruh(aktif); });
+  }
+
+
+  function mulai() { pipeline(); program(); kolaborasi(); footer(); redefine(); selengkapnya(); industri(); kapsul(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mulai); else mulai();
 })();

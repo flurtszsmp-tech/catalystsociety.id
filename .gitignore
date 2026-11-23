@@ -9,3 +9,7 @@ platform/.next
 platform/out
 arsip/platform-lama/.next
 .wrangler
+
+.dev.vars*
+!.dev.vars.example
+!.env.example

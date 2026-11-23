@@ -101,7 +101,7 @@ export const Sidebar = forwardRef<HTMLElement, Props>(function Sidebar({ open, o
           <li key={it.href}>
             <Link href={it.href} className={on ? 'on' : undefined} aria-current={on ? 'page' : undefined} onClick={onNavigate}>
               <Icon name={it.icon} />
-              {it.label}
+              <span className="lbl">{it.label}</span>
             </Link>
           </li>
         );
@@ -145,13 +145,13 @@ export const Sidebar = forwardRef<HTMLElement, Props>(function Sidebar({ open, o
                 onClick={onNavigate}
               >
                 <Icon name="settings" />
-                Settings
+                <span className="lbl">Settings</span>
               </Link>
             </li>
             <li>
               <button type="button" onClick={onFeedback}>
                 <Icon name="chat" />
-                Feedback
+                <span className="lbl">Feedback</span>
               </button>
             </li>
             <li>
@@ -160,7 +160,7 @@ export const Sidebar = forwardRef<HTMLElement, Props>(function Sidebar({ open, o
                   biasa, bukan Link, karena beranda berada di luar aplikasi Next. */}
               <a href="/" onClick={onNavigate}>
                 <Icon name="back" />
-                Back
+                <span className="lbl">Back</span>
               </a>
             </li>
           </ul>

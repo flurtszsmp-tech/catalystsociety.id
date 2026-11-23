@@ -7,7 +7,8 @@ import type { PointEvent } from '@/lib/types';
 import { DataTable } from './DataTable';
 import { niceTicks, useWidth } from './scale';
 
-const H = 200;
+// Tinggi grafik dikecilkan supaya halaman Analitik muat satu layar laptop.
+const H = 150;
 const M = { top: 14, right: 12, bottom: 26, left: 40 };
 const DAY = 86_400_000;
 

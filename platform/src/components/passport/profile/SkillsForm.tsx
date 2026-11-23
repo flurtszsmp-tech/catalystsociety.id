@@ -130,7 +130,7 @@ export function SkillsForm({ profile }: { profile: Profile }) {
       {/* fieldset disabled mengunci semua isian selama penyimpanan, supaya
           ketikan baru tidak tertimpa hasil dari server. */}
       <fieldset className="pf-fieldset" disabled={busy}>
-        <section className="pf-card" aria-labelledby="pf-lengkap-h">
+        <section className="pf-card pf-card-lengkap" aria-labelledby="pf-lengkap-h">
           <div className="pf-card-head">
             <div>
               <h2 id="pf-lengkap-h">{sudahLengkap ? 'Profil Anda sudah lengkap' : 'Lengkapi profil, dapat poin'}</h2>
@@ -158,7 +158,7 @@ export function SkillsForm({ profile }: { profile: Profile }) {
           </ul>
         </section>
 
-        <section className="pf-card" aria-labelledby="pf-skill-h">
+        <section className="pf-card pf-card-skill" aria-labelledby="pf-skill-h">
           <div className="pf-card-head">
             <div>
               <h2 id="pf-skill-h">Keahlian & peran</h2>
