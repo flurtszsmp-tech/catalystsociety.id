@@ -112,6 +112,17 @@
   .hint{font-size:11px;color:var(--gray);margin-top:0;max-height:0;opacity:0;overflow:hidden;
     transition:max-height .38s var(--ease),opacity .28s var(--ease),margin-top .38s var(--ease)}
   .hint.show{max-height:40px;opacity:1;margin-top:6px}
+  /* syarat kata sandi (sama dengan aturan Supabase): tercentang saat diketik, tetap tampil di HP */
+  .syarat{margin-top:0;max-height:0;opacity:0;overflow:hidden;
+    transition:max-height .38s var(--ease),opacity .28s var(--ease),margin-top .38s var(--ease)}
+  .syarat.show{max-height:72px;opacity:1;margin-top:8px}
+  .syarat ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 14px}
+  .syarat li{display:flex;align-items:center;gap:6px;font-size:11.5px;line-height:1.3;color:var(--gray);transition:color .2s}
+  .syarat li::before{content:"";flex:none;width:13px;height:13px;box-sizing:border-box;border-radius:50%;border:1.5px solid #c4c8cf;
+    transition:background-color .2s,border-color .2s}
+  .syarat li.ok{color:var(--black)}
+  .syarat li.ok::before{border-color:var(--black);background:var(--black) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7.5'/></svg>") center/9px no-repeat}
+  .syarat p{margin:5px 0 0;font-size:11px;line-height:1.4;color:var(--gray)}
   /* tautan kecil di bawah kata sandi: lupa kata sandi, masuk lewat link email */
   .aksi-kecil{display:flex;justify-content:space-between;gap:12px;margin:-4px 0 6px;font-size:12px}
   .aksi-kecil[hidden]{display:none}
@@ -366,7 +377,7 @@ setTimeout(function(){
       <form id="form" novalidate>
         <div class="field anim" id="fNama">
           <label for="nama" data-i18n="lg.nama">Nama lengkap</label>
-          <input id="nama" type="text" autocomplete="name" placeholder="Bagas Dwi Putra">
+          <input id="nama" type="text" autocomplete="name" placeholder="Masukkan nama lengkap" data-i18n-ph="lg.namaPh">
         </div>
 
         <div class="field anim" id="fChannel">
@@ -401,13 +412,20 @@ setTimeout(function(){
 
         <div class="field anim show" id="fEmail">
           <label for="email" data-i18n="lg.email">Email</label>
-          <input id="email" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="nama@email.com" required>
+          <input id="email" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Masukkan alamat email" data-i18n-ph="lg.emailPh" required>
         </div>
 
         <div class="field anim show" id="fSandi">
           <label for="sandi" data-i18n="lg.sandi">Kata sandi</label>
-          <input id="sandi" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter" data-i18n-ph="lg.sandiPh" required>
-          <p class="hint" id="hintSandi" data-i18n="lg.hint">Gunakan minimal 6 karakter.</p>
+          <input id="sandi" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" data-i18n-ph="lg.sandiPh" aria-describedby="hintSandi" required>
+          <div class="syarat" id="hintSandi">
+            <ul>
+              <li data-s="panjang"><span data-i18n="lg.sPanjang">Minimal 6 karakter</span></li>
+              <li data-s="huruf"><span data-i18n="lg.sHuruf">Ada huruf</span></li>
+              <li data-s="angka"><span data-i18n="lg.sAngka">Ada angka</span></li>
+            </ul>
+            <p data-i18n="lg.sUmum">Hindari kata sandi umum seperti 123456 atau password123.</p>
+          </div>
         </div>
 
         <div class="aksi-kecil" id="aksiMasuk" hidden>
@@ -458,6 +476,31 @@ setTimeout(function(){
     pesan.innerHTML = teks;
   }
 
+  /* Syarat kata sandi baru, sama dengan aturan Auth Supabase project ini: minimal 6 karakter,
+     ada huruf dan angka. Kata sandi umum yang pernah bocor ditolak server (pesan lg.errSandiUmum). */
+  var SYARAT = {
+    panjang: function(s){ return s.length >= 6; },
+    huruf:   function(s){ return /[a-z]/i.test(s); },
+    angka:   function(s){ return /[0-9]/.test(s); }
+  };
+  var LABEL_SYARAT = { panjang: 'lg.sPanjang', huruf: 'lg.sHuruf', angka: 'lg.sAngka' };
+  function kurangSandi(s){ return Object.keys(SYARAT).filter(function(k){ return !SYARAT[k](s); }); }
+  function pesanKurang(kurang){
+    return T('lg.sandiKurang', { d: kurang.map(function(k){ return T(LABEL_SYARAT[k]).toLowerCase(); }).join(', ') });
+  }
+  function tandaiSandi(){
+    var s = document.getElementById('sandi').value;
+    document.querySelectorAll('#hintSandi li').forEach(function(li){ li.classList.toggle('ok', SYARAT[li.dataset.s](s)); });
+  }
+  document.getElementById('sandi').addEventListener('input', tandaiSandi);
+  /* galat kata sandi lemah dari Supabase diterjemahkan jadi pesan yang jelas */
+  function pesanSandiLemah(err, m){
+    if(!err || !(err.code === 'weak_password' || /password should|known to be weak/i.test(m))) return null;
+    var alasan = err.reasons || [];
+    if(alasan.indexOf('length') >= 0 || alasan.indexOf('characters') >= 0 || /at least|one character/i.test(m) && !/known to be weak/i.test(m)) return T('lg.errSandiLemah');
+    return T('lg.errSandiUmum');
+  }
+
   /* Supabase belum diisi: halaman berjalan sebagai demo dengan satu akun contoh */
   var DEMO = !CATALYST.siap;
   function pesanDemo(){
@@ -504,6 +547,10 @@ setTimeout(function(){
     document.getElementById('fChannel').classList.toggle('show', daftar);
     document.getElementById('hintSandi').classList.toggle('show', daftar || m === 'sandiBaru');
     document.getElementById('sandi').setAttribute('autocomplete', daftar || m === 'sandiBaru' ? 'new-password' : 'current-password');
+    var phSandi = daftar || m === 'sandiBaru' ? 'lg.sandiPhBaru' : 'lg.sandiPh';
+    document.getElementById('sandi').setAttribute('data-i18n-ph', phSandi);
+    document.getElementById('sandi').setAttribute('placeholder', T(phSandi));
+    tandaiSandi();
     if(DEMO) pesanDemo(); else pesan.className = 'msg';
 
     /* teks ditukar saat tak terlihat supaya tidak terlihat berkedip */
@@ -641,7 +688,7 @@ setTimeout(function(){
 
     if(!DEMO && (mode === 'lupa' || mode === 'link' || mode === 'sandiBaru')){
       if(mode !== 'sandiBaru' && email.indexOf('@') < 0){ tampilPesan(T('lg.emailValid'), 'err'); return; }
-      if(mode === 'sandiBaru' && sandi.length < 6){ tampilPesan(T('lg.sandiMin'), 'err'); return; }
+      if(mode === 'sandiBaru' && kurangSandi(sandi).length){ tampilPesan(pesanKurang(kurangSandi(sandi)), 'err'); return; }
       kirim.disabled = true;
       document.getElementById('labelKirim').textContent = T('lg.proses');
       try{
@@ -665,6 +712,7 @@ setTimeout(function(){
         if(/signups not allowed|user not found/i.test(m2)) m2 = T('lg.errBelumDaftar');
         if(/rate limit|too many|security purposes/i.test(m2)) m2 = T('lg.errBatas');
         if(/should be different/i.test(m2)) m2 = T('lg.errSandiSama');
+        m2 = pesanSandiLemah(err, m2) || m2;
         tampilPesan(m2, 'err');
       } finally {
         kirim.disabled = false;
@@ -687,8 +735,8 @@ setTimeout(function(){
 
     if(email.indexOf('@') < 0){ tampilPesan(T('lg.emailValid'), 'err'); return; }
     if(mode === 'daftar'){
-      if(sandi.length < 6){ tampilPesan(T('lg.sandiMin'), 'err'); return; }
       if(!nama){ tampilPesan(T('lg.namaWajib'), 'err'); return; }
+      if(kurangSandi(sandi).length){ tampilPesan(pesanKurang(kurangSandi(sandi)), 'err'); return; }
     }
 
     kirim.disabled = true;
@@ -717,6 +765,7 @@ setTimeout(function(){
       if(/invalid login credentials/i.test(m)) m = T('lg.errKredensial');
       if(/already registered/i.test(m))        m = T('lg.errTerdaftar');
       if(/email not confirmed/i.test(m))       m = T('lg.errKonfirmasi');
+      if(mode === 'daftar') m = pesanSandiLemah(err, m) || m;
       tampilPesan(m, 'err');
     } finally {
       kirim.disabled = false;

@@ -186,6 +186,9 @@ html main#top .kl-lebih{margin:10px 0 6px}
 /* ---------- Hero opsi A: panggung simetris, kata Catalyst jadi latar abu ---------- */
 /* satuan hero ikut tinggi layar juga, supaya di laptop pendek kartu tidak menabrak tombol */
 @media (min-width:900px){.hero.h5{--u:min(calc(100vw / 1488),calc(100svh / 950),1.35px)}}
+/* hero selalu memenuhi layar pertama: dulu dibatasi --u * 900 sehingga tersisa celah di bawah (47px di 1440x900) */
+@media (min-width:900px){.hero.h5{height:max(660px,100vh);height:max(660px,100svh)}}
+@media (max-width:899px){.hero.h5{min-height:100vh;min-height:100svh}}
 .hero.h5 .h5-merek{color:#c9cdd5}
 html.dark-theme .hero.h5 .h5-merek{color:#2a2d35;text-shadow:none!important}
 .hero.h5 .h5-merek{bottom:calc(var(--u) * -34)}

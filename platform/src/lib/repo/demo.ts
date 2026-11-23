@@ -553,7 +553,8 @@ export class DemoRepo implements PassportRepo {
 
   // ---------- akun ----------
   async updatePassword(newPassword: string) {
-    if (newPassword.length < 8) throw new RepoError('Kata sandi minimal 8 karakter.');
+    if (newPassword.length < 6) throw new RepoError('Kata sandi minimal 6 karakter.');
+    if (!/[a-z]/i.test(newPassword) || !/[0-9]/.test(newPassword)) throw new RepoError('Kata sandi harus berisi huruf dan angka.');
     // Mode demo tidak punya akun sungguhan; tidak ada yang disimpan.
   }
 

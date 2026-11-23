@@ -29,7 +29,7 @@ function PasswordForm({ email }: { email: string | null }) {
     e.preventDefault();
     if (busy) return;
     setErr(null);
-    const a = pw.length < 8 ? 'Kata sandi minimal 8 karakter.' : null;
+    const a = sandiKurang(pw);
     const b = !a && pw !== pw2 ? 'Konfirmasi tidak sama dengan kata sandi baru.' : null;
     setPwErr(a);
     setPw2Err(b);
@@ -60,10 +60,10 @@ function PasswordForm({ email }: { email: string | null }) {
           value={pw}
           onChange={(e) => {
             setPw(e.target.value);
-            if (pwErr && e.target.value.length >= 8) setPwErr(null);
+            if (pwErr && !sandiKurang(e.target.value)) setPwErr(null);
           }}
           maxLength={72}
-          hint="Minimal 8 karakter."
+          hint="Minimal 6 karakter, ada huruf dan angka. Hindari kata sandi umum seperti 123456."
           error={pwErr}
         />
         <TextField
@@ -87,6 +87,13 @@ function PasswordForm({ email }: { email: string | null }) {
       </div>
     </form>
   );
+}
+
+/** Aturan kata sandi sama dengan Auth Supabase dan halaman daftar: minimal 6 karakter, ada huruf dan angka. */
+function sandiKurang(pw: string): string | null {
+  if (pw.length < 6) return 'Kata sandi minimal 6 karakter.';
+  if (!/[a-z]/i.test(pw) || !/[0-9]/.test(pw)) return 'Kata sandi harus berisi huruf dan angka.';
+  return null;
 }
 
 export function AccountCard({ profile }: { profile: Profile }) {

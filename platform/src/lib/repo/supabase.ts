@@ -808,11 +808,13 @@ export class SupabaseRepo implements PassportRepo {
 
   // ---------- akun ----------
   async updatePassword(newPassword: string): Promise<void> {
-    if (newPassword.length < 8) throw new RepoError('Kata sandi minimal 8 karakter.');
+    if (newPassword.length < 6) throw new RepoError('Kata sandi minimal 6 karakter.');
+    if (!/[a-z]/i.test(newPassword) || !/[0-9]/.test(newPassword)) throw new RepoError('Kata sandi harus berisi huruf dan angka.');
     const { error } = await this.db.auth.updateUser({ password: newPassword });
     if (error) {
       if (/same/i.test(error.message)) throw new RepoError('Kata sandi baru harus berbeda dari yang lama.', error);
-      if (/weak|short|characters/i.test(error.message)) throw new RepoError('Kata sandi terlalu lemah. Pakai minimal 8 karakter campuran.', error);
+      if (/known to be weak|pwned/i.test(error.message)) throw new RepoError('Kata sandi ini terlalu umum dan mudah ditebak. Coba gabungan huruf dan angka yang lain.', error);
+      if (/weak|short|characters/i.test(error.message)) throw new RepoError('Kata sandi minimal 6 karakter dan harus berisi huruf serta angka.', error);
       fail(error, 'Gagal mengganti kata sandi.');
     }
   }
