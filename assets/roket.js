@@ -1,8 +1,5 @@
 /* Roket "Apa yang Anda dapatkan?".
-   Satu siklus 14 detik mengatur semuanya supaya geraknya saling menyambung:
-     0.08  pintu terbuka          0.12  astronot keluar
-     0.22  melayang dan melambai  0.38  berputar di udara      0.48  hilang keseimbangan
-     0.53  kembali masuk          0.62  pintu dibanting, roket bergetar
+   Roket terus melayang. Satu siklus 14 detik mengatur apinya:
      0.72  api mulai sekarat dan tersendat, roket turun pelan
      0.885 api menyala lagi dengan semburan dan percikan, roket terdorong naik
    Delapan poin mengorbit roket pada dua lintasan dan melambat saat disentuh.
@@ -16,9 +13,6 @@
   var roket = root.querySelector('.rk-roket');
   var api = root.querySelector('.rk-api'), kilat = root.querySelector('.rk-api-kilat');
   var percik = [].slice.call(root.querySelectorAll('.rk-percik'));
-  var pintu = root.querySelector('.rk-pintu');
-  var astro = root.querySelector('.rk-astro');
-  var bag = { tubuh: astro.querySelector('.a-tubuh'), kepala: astro.querySelector('.a-kepala'), kanan: astro.querySelector('.a-lambai'), kiri: astro.querySelector('.a-kiri') };
   var lint = root.querySelectorAll('.rk-lintasan ellipse');
   var titik = [].slice.call(root.querySelectorAll('.rk-titik'));
   var papan = document.getElementById('ecoDetail');
@@ -34,9 +28,7 @@
   function jepit(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function antara(p, a, b) { return jepit((p - a) / (b - a)); }
   function keluarKubik(x) { return 1 - Math.pow(1 - x, 3); }
-  function masukKubik(x) { return x * x * x; }
   function halusKubik(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-  function keluarBalik(x) { var c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); }
 
   /* ---------- geometri ---------- */
   var W = 0, H = 0, cx = 0, cy = 0, rh = 0, aL = 0, bL = 0, aD = 0, bD = 0, ukuranTitik = [];
@@ -114,22 +106,11 @@
     api.style.setProperty('--kedip', kedip.toFixed(3));
     kilat.style.opacity = p >= .885 && p < .93 ? (1 - antara(p, .885, .93)).toFixed(3) : '0';
 
-    /* roket: melayang, turun saat api sekarat, bergetar saat pintu dibanting */
+    /* roket: melayang, turun saat api sekarat */
     var dy = Math.sin(waktu / 4700 * 2 * Math.PI) * 6 + turun, dx = Math.sin(waktu / 6100 * 2 * Math.PI) * 3;
-    if (p >= .62 && p < .665) { var g = 1 - antara(p, .62, .665); dx += (Math.random() - .5) * 3 * g; dy += (Math.random() - .5) * 3 * g; }
     var miring = 14 + Math.sin(waktu / 6100 * 2 * Math.PI) * 1.2 + putar;
     roket.style.transform = 'translate3d(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px,0) rotate(' + miring.toFixed(2) + 'deg)';
 
-    /* pintu */
-    var sp = 0;
-    if (p >= .08 && p < .13) sp = -72 * keluarBalik(antara(p, .08, .13));
-    else if (p >= .13 && p < .62) sp = -72;
-    else if (p >= .62 && p < .645) sp = -72 * (1 - masukKubik(antara(p, .62, .645)));
-    else if (p >= .645 && p < .67) sp = -12 * Math.sin(Math.PI * antara(p, .645, .67));
-    pintu.style.setProperty('--pintu', sp.toFixed(1) + 'deg');
-
-    /* astronot */
-    astronot(p);
     pLama = p;
     if (!hp.matches) {
       if (!ditahan || laju > .001) {
@@ -139,45 +120,6 @@
       }
       letakOrbit();
     }
-  }
-
-  function astronot(p) {
-    if (p < .12 || p >= .62) { astro.style.opacity = '0'; return; }
-    var rr = ruang.getBoundingClientRect(), rp = pintu.getBoundingClientRect();
-    var x0 = rp.left - rr.left + rp.width / 2, y0 = rp.top - rr.top + rp.height / 2;
-    var aw = rh * .2, ah = aw * 150 / 120;   /* lebar astronot di CSS = 0.2 x tinggi roket */
-    var P1x = x0 + rh * .42, P1y = y0 - rh * .3, P2x = x0 + rh * .6, P2y = y0 - rh * .46;
-    var x = x0, y = y0, s = 1, o = 1, rot = 0, tubuh = 0, kepala = 0, kanan = 162, kiri = 14, u;
-    if (p < .22) {
-      u = antara(p, .12, .22); var e = keluarKubik(u);
-      x = x0 + (P1x - x0) * e; y = y0 + (P1y - y0) * e - Math.sin(Math.PI * e) * rh * .08;
-      s = .3 + .7 * e; o = Math.min(1, u * 4); rot = -12 * (1 - e); kanan = 162 - 120 * e;
-    } else if (p < .38) {
-      u = antara(p, .22, .38);
-      x = P1x + Math.sin(2 * Math.PI * u * 1.5) * rh * .035; y = P1y + Math.cos(2 * Math.PI * u * 1.2) * rh * .028;
-      kanan = 34 + 26 * Math.sin(2 * Math.PI * u * 4);
-      kiri = u < .45 ? 14 : -58 - 24 * Math.sin(2 * Math.PI * u * 4 + 1.2);
-      kepala = 8 * Math.sin(2 * Math.PI * u * 2); tubuh = 5 * Math.sin(2 * Math.PI * u);
-    } else if (p < .48) {
-      u = antara(p, .38, .48); var h = halusKubik(u), busur = Math.sin(Math.PI * h);
-      x = P1x + (P2x - P1x) * busur; y = P1y + (P2y - P1y) * busur;
-      rot = 360 * h; kanan = 120; kiri = -100;
-    } else if (p < .53) {
-      u = antara(p, .48, .53); var tarik = Math.sin(Math.PI * u) * .3;
-      x = P1x + (x0 - P1x) * tarik; y = P1y + (y0 - P1y) * tarik;
-      kanan = 70 * Math.sin(2 * Math.PI * u * 6); kiri = -60 - 50 * Math.sin(2 * Math.PI * u * 6 + 1);
-      tubuh = 18 * Math.sin(2 * Math.PI * u * 3); kepala = -10 * Math.sin(2 * Math.PI * u * 3);
-    } else {
-      u = antara(p, .53, .62); var m = masukKubik(u);
-      x = P1x + (x0 - P1x) * m; y = P1y + (y0 - P1y) * m;
-      s = 1 - .7 * m; o = u > .8 ? (1 - u) / .2 : 1; rot = 10 * m; kanan = 160; kiri = 14;
-    }
-    astro.style.opacity = o.toFixed(3);
-    astro.style.transform = 'translate3d(' + (x - aw * .5).toFixed(1) + 'px,' + (y - ah * .8).toFixed(1) + 'px,0) rotate(' + rot.toFixed(1) + 'deg) scale(' + s.toFixed(3) + ')';
-    bag.tubuh.style.transform = 'rotate(' + tubuh.toFixed(1) + 'deg)';
-    bag.kepala.style.transform = 'rotate(' + kepala.toFixed(1) + 'deg)';
-    bag.kanan.style.transform = 'rotate(' + kanan.toFixed(1) + 'deg)';
-    bag.kiri.style.transform = 'rotate(' + kiri.toFixed(1) + 'deg)';
   }
 
   /* ---------- loop: hanya saat terlihat dan tab aktif ---------- */

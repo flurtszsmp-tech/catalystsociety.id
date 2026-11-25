@@ -2,8 +2,7 @@
    Section Introducing, lalu "Apa yang Anda dapatkan?": roket di luar angkasa.
    Roket (gambar potongan transparan, tanpa api) miring ke kanan dan terus melayang.
    Api dibuat dari lapisan gradasi supaya bisa berkedip, sekarat, lalu menyala lagi.
-   Astronot keluar dari pintu dengan tali pengaman, melayang, melambai, berputar,
-   ditarik tali, lalu masuk dan pintu ditutup. Delapan poin mengorbit roket;
+   Delapan poin mengorbit roket;
    klik satu titik membuka papan di kanan dan roket tetap terlihat.
    Semua gerak diatur roket.js dalam satu siklus 14 detik, hanya saat panel terlihat.
    =========================================================== */
@@ -105,24 +104,17 @@ html.dark-theme .rk{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 50px 90px
   background:radial-gradient(closest-side,rgba(220,230,255,.85),rgba(150,170,255,.25) 50%,transparent);filter:blur(10px);mix-blend-mode:screen}
 .rk-percik{width:5px;height:5px;margin-left:-2.5px;background:#fff;opacity:0;box-shadow:0 0 8px rgba(200,214,255,.9)}
 
-/* pintu: lubang, daun pintu (sudut buka diatur roket.js lewat --pintu) */
-.rk-pintu{--pintu:0deg;position:absolute;z-index:3;left:41.5%;top:46.4%;width:25%;height:20.2%;perspective:260px}
+/* pintu tertutup di badan roket */
+.rk-pintu{position:absolute;z-index:3;left:41.5%;top:46.4%;width:25%;height:20.2%}
 .rk-pintu::before{content:"";position:absolute;inset:-7% -9%;border-radius:46%/40%;
   background:linear-gradient(140deg,#30323a,#0c0d10 60%,#040405);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 1px rgba(255,255,255,.07),0 6px 14px rgba(0,0,0,.6)}
 .rk-lubang{position:absolute;inset:0;border-radius:46%/40%;
   background:radial-gradient(70% 60% at 50% 32%,rgba(214,224,255,.75),rgba(92,104,146,.42) 48%,#050608 82%);box-shadow:inset 0 5px 10px rgba(0,0,0,.85)}
-.rk-daun{position:absolute;inset:0;border-radius:46%/40%;transform-origin:0 50%;transform:rotateY(var(--pintu));
+.rk-daun{position:absolute;inset:0;border-radius:46%/40%;
   background:linear-gradient(118deg,#34363e,#121318 46%,#060608);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.26),inset 0 0 0 1px rgba(255,255,255,.08),inset -6px -8px 14px rgba(0,0,0,.6)}
 .rk-daun::after{content:"";position:absolute;right:12%;top:42%;width:9%;height:16%;border-radius:4px;background:linear-gradient(#5a5d68,#1b1c22);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
 
-/* astronot, posisinya dihitung roket.js setiap bingkai */
-.rk-astro{position:absolute;left:0;top:0;z-index:7;width:calc(var(--rk-h) * .2);overflow:visible;opacity:0;pointer-events:none;transform-origin:50% 80%;will-change:transform,opacity}
-.rk-astro :is(.a-tubuh,.a-kepala,.a-lambai,.a-kiri){transform-box:view-box}
-.rk-astro .a-tubuh{transform-origin:60px 120px}
-.rk-astro .a-kepala{transform-origin:60px 78px}
-.rk-astro .a-lambai{transform-origin:86px 90px}
-.rk-astro .a-kiri{transform-origin:34px 90px}
 
 /* titik orbit sebagai planet kecil: ukuran dan corak berbeda supaya tiap poin punya rupa sendiri;
    nama selalu tampil, ringkasan isinya muncul saat disorot atau aktif (tidak menambah lebar, jadi tidak bertumpuk).
@@ -223,9 +215,9 @@ html body main#top .rk .rk-papan{-webkit-backdrop-filter:blur(10px) saturate(1.3
   .rk-titik .rk-label small{position:static;display:block;margin-top:3px;opacity:1;transform:none;white-space:normal;font-size:11.5px}
 }
 
-/* gerak dikurangi: roket diam, api tetap, astronot tidak keluar, orbit tidak berputar */
+/* gerak dikurangi: roket diam, api tetap, orbit tidak berputar */
 @media (prefers-reduced-motion:reduce){
-  .rk-garis,.rk-astro{display:none}
+  .rk-garis{display:none}
   .rk-bintang::before{animation:none!important}
   .rk-isi,.rk-papan{transition-duration:.01s!important}
 }

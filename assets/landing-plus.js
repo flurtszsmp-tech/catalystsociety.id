@@ -729,7 +729,7 @@
         wadah.querySelector('.ind-kom-logo').innerHTML = milik.slice(0, 6).map(function (d) {
           var href = d.slug ? '?k=' + d.slug : '#community';
           return '<a class="ind-logo" href="' + esc(href) + '" title="' + esc(d.nama) + '"' + (d.slug ? ' data-k="' + esc(d.slug) + '"' : '') + '>' +
-            '<img src="assets/communities/' + esc(d.logo) + '" alt="' + esc(d.nama) + '" loading="lazy" decoding="async" width="40" height="40"></a>';
+            '<img src="komunitas/logo/' + esc(d.logo) + '" alt="' + esc(d.nama) + '" loading="lazy" decoding="async" width="40" height="40"></a>';
         }).join('') + (milik.length > 6 ? '<span class="ind-logo lebih">+' + (milik.length - 6) + '</span>' : '');
         k.querySelector('.ind-semua-l').innerHTML = t('v2.ekosistem.semua', 'Lihat semua komunitas');
       });

@@ -35,7 +35,7 @@ window.CATALYST_I18N = {
     'get.10':'Memamerkan Proyek',
 
     /* community */
-    'com.kicker':'19+ Komunitas Kolaborasi',
+    'com.kicker':'{jml}+ Komunitas Kolaborasi',
     'com.judul':'Satu pintu ke seluruh komunitas.',
     'com.lead':'Komunitas tetap berdiri sendiri. Catalyst hanya menjadi jembatan yang menghubungkan semuanya, tersebar di lima channel industri.',
     'com.semua':'Semua', 'com.gabung':'Gabung', 'com.segera':'Segera',
@@ -257,7 +257,7 @@ window.CATALYST_I18N = {
     'get.10':'Showcasing a Project',
 
     /* community */
-    'com.kicker':'19+ Partner Communities',
+    'com.kicker':'{jml}+ Partner Communities',
     'com.judul':'One door to every community.',
     'com.lead':'Communities stay independent. Catalyst is simply the bridge that connects them all, spread across five industry channels.',
     'com.semua':'All', 'com.gabung':'Join', 'com.segera':'Soon',
@@ -467,7 +467,7 @@ window.CATALYST_I18N = {
     'get.10':'展示项目',
 
     /* community */
-    'com.kicker':'19+ 合作社群',
+    'com.kicker':'{jml}+ 合作社群',
     'com.judul':'一扇门，通向所有社群。',
     'com.lead':'社群各自独立运作。Catalyst 只是把它们连接起来的桥梁，覆盖五大行业频道。',
     'com.semua':'全部', 'com.gabung':'加入', 'com.segera':'即将开放',
@@ -667,7 +667,8 @@ window.CATALYST_I18N = {
     var k = kamus[kode] || kamus.id;
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var teks = k[el.dataset.i18n];
-      if (teks != null) el.innerHTML = teks;
+      /* {jml} = jumlah komunitas sah di komunitas/daftar.js (lihat communities.js) */
+      if (teks != null) el.innerHTML = String(teks).replace(/\{jml\}/g, (window.CATALYST_KOMUNITAS || window.CATALYST_DAFTAR_KOMUNITAS || []).length || 19);
     });
     document.documentElement.lang = kode === 'zh' ? 'zh-CN' : kode;
     document.querySelectorAll('[data-lang]').forEach(function (b) {

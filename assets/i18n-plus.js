@@ -119,7 +119,7 @@
     /* revisi 14 Nov: Program lima kotak yang bisa dibuka, Summit di bagian sendiri */
     's4.kicker': ['Lima program utama', 'Five core programs', '五个核心项目'],
     'hero.buat': ['Buat Passport kamu', 'Create your Passport', '创建你的 Passport'],
-    'hero.jelajah': ['Lihat 19 komunitas', 'Browse 19 communities', '浏览 19 个社群'],
+    'hero.jelajah': ['Lihat {jml} komunitas', 'Browse {jml} communities', '浏览 {jml} 个社群'],
     'hero.sert': ['Sertifikat masuk ke Passport kamu', 'Certificate added to your Passport', '证书已存入你的 Passport'],
     's4.judul': ['Lima program. Satu jalan menuju Summit.', 'Five programs. One path to the Summit.', '五个项目，一条通往 Summit 的路。'],
     'pd.lihat': ['Lihat penjelasan', 'See details', '查看说明'],

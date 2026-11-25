@@ -19,6 +19,7 @@ function tulis(dst, isi) { mkdirSync(dirname(dst), { recursive: true }); writeFi
 async function proses(dir) {
   for (const nama of readdirSync(dir)) {
     if (dir === '.' && SKIP.has(nama)) continue;
+    if (nama === 'README.md') continue;   // panduan (mis. komunitas/README.md) tidak ikut tayang
     const src = join(dir, nama);
     // nx/ = ekspor Next.js (Passport), dipasang langsung di akar situs: nx/passport/ -> /passport/
     const bag = src.split(/[\\/]/);
@@ -36,7 +37,7 @@ async function proses(dir) {
       tulis(dst, transformSync(mentah.toString('utf8'), { loader: 'css', minify: true, legalComments: 'none' }).code);
     } else if (ext === '.html') {
       // penanda versi dari isi berkas: browser langsung mengambil CSS dan JS baru setiap deploy
-      const html = mentah.toString('utf8').replace(/(src|href)="(assets\/[^"?#]+\.(?:css|js))"/g, (m, attr, berkas) => {
+      const html = mentah.toString('utf8').replace(/(src|href)="((?:assets|komunitas)\/[^"?#]+\.(?:css|js))"/g, (m, attr, berkas) => {
         try { return attr + '="' + berkas + '?v=' + createHash('md5').update(readFileSync(berkas)).digest('hex').slice(0, 8) + '"'; }
         catch (e) { return m; }
       });
